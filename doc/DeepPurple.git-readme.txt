@@ -1,0 +1,26 @@
+Basics / getting started
+Install git from the official git website:
+https://git-scm.com/downloads
+
+clone from github:
+$ git clone https://github.com/atki7828/DeepPurple
+
+
+git workflow
+We will be using branches for working, then pushing stable changes upstream via pull requests.
+The Master branch will be for stable/tested versions of the game; do not work on master directly.
+Bleeding is our development branch.  Only push changes to bleeding after communicating your changes with the rest of the team.
+Create a new branch whenever you are working on some feature.
+
+To create and switch to a new branch:
+$ git checkout -b (newBranchName)
+
+When you want to submit the changes and updates you have made, use the following commands:
+$ git add .
+$ git commit -m "message about the changes you've made"
+$ git push -u origin (branchName)
+
+To move your change upstream (branch > bleeding > Master), head to https://github.com/atki7828/DeepPurple, select the branch you're working on, and click the New Pull Request button.
+Under 'base' select the branch you wish to merge into (most likely Bleeding), and under 'compare' select the branch you're working on.
+Write a short message detailing the changes you have made, and click Create pull request.
+After confirming all changes with the group, we will decide whether to merge.
