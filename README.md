@@ -1,6 +1,6 @@
 # Deep Purple
 
-[NAME TBD] is a game developed by Deep Purple at the University of Idaho for CS 383 Software Engineering. [NAME TBD] is a procedurally generated topdown view dungeon crawler based where the player is abducted by aliens and must survive multiple levels of strange and absurd tests.
+Galactic Gladiator is a game developed by Deep Purple at the University of Idaho for CS 383 Software Engineering. Galactic Gladiator is a procedurally generated topdown view dungeon crawler based where the player is abducted by aliens and must survive multiple levels of strange and absurd tests.
 
 ## Prerequisites
 
