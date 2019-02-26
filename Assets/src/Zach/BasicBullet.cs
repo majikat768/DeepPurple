@@ -19,7 +19,6 @@ public class BasicBullet : MonoBehaviour
             damageSource.baseDamage = 1;
             damageSource.damageType = DamageType.PROJECTILE;
             attackable.takeDamage(damageSource);
-            Debug.Log("Hit");
         }
         Destroy(gameObject);
     }
