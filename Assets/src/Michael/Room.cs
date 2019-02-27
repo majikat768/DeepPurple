@@ -1,42 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Room 
 {
-    //Block and Ground are just Unity objects- cube and plane.  might change this later
+    public GameObject room;
+    private Vector3 Zero;
+    protected GameObject Wall = Resources.Load<GameObject>("Wall");
+    protected GameObject Floor = Resources.Load<GameObject>("Floor");
+    protected GameObject Block = Resources.Load<GameObject>("Block");
+    protected int size;
 
-    public Room(Vector3 Zero, RoomGenerator.RoomType rt)
+    public Room(Vector3 Zero)
     {
-        Debug.Log(rt);
-        this.Init(Zero);
-    }
-    public void Init(Vector3 Zero)
-    {
-        //get zero coordinates of object:
+        this.Zero = Zero;
+        size = RoomGenerator.size;
+
+        room = new GameObject("Room");
         // instantiate plane for floor; set to correct size (default plane size is 10 units)
-        GameObject g = GameObject.Instantiate(RoomGenerator.Ground, new Vector3(RoomGenerator.size / 2 + Zero.x, 0, RoomGenerator.size / 2 + Zero.z), Quaternion.identity);
-        g.transform.localScale = new Vector3(RoomGenerator.size / 10.0f, 1, RoomGenerator.size / 10.0f);
+        GameObject f = GameObject.Instantiate(Floor, new Vector3(size / 2 + Zero.x, 0, size / 2 + Zero.z), Quaternion.identity,room.transform);
+        f.name = "Floor";
+        f.transform.localScale = new Vector3(size / 10.0f, 1, size / 10.0f);
 
+        GameObject walls = getWalls();
+
+    }
+
+    private GameObject getWalls()
+    {
         //build walls 
-        GameObject walls = new GameObject("walls");
-        GameObject NorthWall = GameObject.Instantiate(RoomGenerator.Wall, new Vector3(Zero.x + RoomGenerator.size / 2, 0.5f, Zero.z + RoomGenerator.size), Quaternion.identity);
-        NorthWall.transform.parent = walls.transform;
-        GameObject EastWall = GameObject.Instantiate(RoomGenerator.Wall, new Vector3(Zero.x + RoomGenerator.size, 0.5f, Zero.z + RoomGenerator.size/2), Quaternion.Euler(new Vector3(0,90.0f,0)));
-        EastWall.transform.parent = walls.transform;
-        GameObject SouthWall = GameObject.Instantiate(RoomGenerator.Wall, new Vector3(Zero.x + RoomGenerator.size / 2, 0.5f, Zero.z), Quaternion.identity);
-        SouthWall.transform.parent = walls.transform;
-        GameObject WestWall = GameObject.Instantiate(RoomGenerator.Wall, new Vector3(Zero.x, 0.5f, Zero.z + RoomGenerator.size/2), Quaternion.Euler(new Vector3(0,90.0f,0)));
-        WestWall.transform.parent = walls.transform;
-
-        // here I'm just putting blocks in random places to make it look more interesting.
-        // I'll probably place instances of Kyle's Items class in the future instead
-        GameObject items = new GameObject("items");
-        for(int i = 0; i < RoomGenerator.size; i++)
+        GameObject walls = new GameObject("Walls");
+        walls.transform.parent = room.transform;
+        GameObject n, s, e, w;
+        for (int i = 0; i < size; i++)
         {
-            GameObject b = GameObject.Instantiate(RoomGenerator.Block, new Vector3(Zero.x + Random.Range(1, RoomGenerator.size - 1) +0.5f, 0.5f, Zero.z + Random.Range(1, RoomGenerator.size - 1) + 0.5f), Quaternion.identity);
-            b.transform.parent = items.transform;
+            if (i != size / 2)    // doors.
+            {
+                // North
+                n = GameObject.Instantiate(Wall, new Vector3(Zero.x + i + 0.5f, 1.0f, Zero.z + size), Quaternion.identity);
+                n.transform.parent = walls.transform;
+                // South
+                s = GameObject.Instantiate(Wall, new Vector3(Zero.x + i + 0.5f, 1.0f, Zero.z), Quaternion.identity);
+                s.transform.parent = walls.transform;
+                // East
+                e = GameObject.Instantiate(Wall, new Vector3(Zero.x + size, 1.0f, Zero.z + i + 0.5f), Quaternion.Euler(0, 90.0f, 0));
+                e.transform.parent = walls.transform;
+                // West
+                w = GameObject.Instantiate(Wall, new Vector3(Zero.x, 1.0f, Zero.z + i + 0.5f), Quaternion.Euler(0, 90.0f, 0));
+                w.transform.parent = walls.transform;
+            }
         }
-
+        return walls;
     }
 }

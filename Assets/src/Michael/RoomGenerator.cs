@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /*
- * using blocks (cube object) to build walls.
- * also placing blocks randomly, for now to make level appearance more interesting...
- * in the future they'll be replaced with items, aliens, and maybe blocks still too I don't know.
+ * This generates several different room types, which have different contents and layouts.
+ * 
  * ----
+ * 
  * input size variable in editor to set room size (default = 16)
  * this script, attached to an empty object, builds a room with that object's coordinates as (0,0,0).
  * 
  
  * TODO:
- * * add room connections, e.g. doors.....
+ * * add room connections, e.g. doors.....right now just an empty space at the middle of the wall
  * * Or find fancier way to provide room connections for Level Generator
  * * add player / items / enemy, once they're available
  * * make floors and walls look prettier.
@@ -22,30 +20,31 @@ using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
-    public Room room;
-    public GameObject BlockPrefab;
-    public GameObject GroundPrefab;
-    public GameObject WallPrefab;
-    public static GameObject Block;
-    public static GameObject Ground;
-    public static GameObject Wall;
-    public static GameObject Player;
-    public static int size = 16;
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat };
-    public RoomType rt;
 
-    // Start is called before the first frame update
+    public Room room;
+    public RoomType rt;
+    public static int size = 16;
+
+    // I don't think my script will be attached to any object, so I probably won't 
+    // use Start(), but it's useful for testing
     void Start()
     {
-        rt = RoomType.Puzzle;
-        Block = BlockPrefab;
-        Ground = GroundPrefab;
-        Wall = WallPrefab;
-        GetRoom(this.transform.position);
+        room = Get(transform.position,rt);
     }
 
-    void GetRoom(Vector3 Zero)
+    Room Get(Vector3 Zero, RoomType rt)
     {
-        room = new Room(Zero,rt);
+        switch(rt)
+        {
+            case RoomType.Start:
+                return new StartRoom(Zero);
+            case RoomType.Combat:
+                return new CombatRoom(Zero);
+            case RoomType.Treasure:
+                return new TreasureRoom(Zero);
+            default:
+                return new Room(Zero);
+        }
     }
 }

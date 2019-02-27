@@ -141,12 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockPrefab: {fileID: 9078122607379687596, guid: d47ecab6aa81ce24395577a615b801c1,
-    type: 3}
-  GroundPrefab: {fileID: 6749807674830758384, guid: 28fe0952415b5dc4a97da4acdd0ba5fd,
-    type: 3}
-  WallPrefab: {fileID: 7165752836785072143, guid: 90ec4026b06ea294fb883119bc7dbe7c,
-    type: 3}
   rt: 0
 --- !u!4 &341014172
 Transform:
@@ -260,13 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockPrefab: {fileID: 9078122607379687596, guid: d47ecab6aa81ce24395577a615b801c1,
-    type: 3}
-  GroundPrefab: {fileID: 6749807674830758384, guid: 28fe0952415b5dc4a97da4acdd0ba5fd,
-    type: 3}
-  WallPrefab: {fileID: 7165752836785072143, guid: 90ec4026b06ea294fb883119bc7dbe7c,
-    type: 3}
-  rt: 0
+  rt: 2
 --- !u!4 &1314129212
 Transform:
   m_ObjectHideFlags: 0
@@ -392,13 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockPrefab: {fileID: 9078122607379687596, guid: d47ecab6aa81ce24395577a615b801c1,
-    type: 3}
-  GroundPrefab: {fileID: 6749807674830758384, guid: 28fe0952415b5dc4a97da4acdd0ba5fd,
-    type: 3}
-  WallPrefab: {fileID: 7165752836785072143, guid: 90ec4026b06ea294fb883119bc7dbe7c,
-    type: 3}
-  rt: 0
+  rt: 4
 --- !u!4 &1978036156
 Transform:
   m_ObjectHideFlags: 0
