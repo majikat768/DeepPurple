@@ -30,6 +30,7 @@ public class BasicEnemy : MonoBehaviour, IAttackable
         if(distPlayer <= moveMax && distPlayer >= moveMin)
         {
             transform.LookAt(playerPos);
+            transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
         }
 
