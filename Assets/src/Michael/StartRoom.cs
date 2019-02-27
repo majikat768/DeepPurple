@@ -11,6 +11,7 @@ public class StartRoom : Room
         GameObject Player = GameObject.Instantiate(Block, new Vector3(size/2, 0.5f, 1.0f), Quaternion.identity, room.transform);
         Player.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
         Player.transform.parent = room.transform;
+        Player.tag = "Player";
         Debug.Log("start");
     }
 
