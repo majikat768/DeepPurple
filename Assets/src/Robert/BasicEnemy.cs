@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BasicEnemy : MonoBehaviour, IAttackable
 {
-    private GameObject player;
+    private GameObject player = null;
     public int health = 100;
 
     //Max distance an enemy will begin moving torward player
@@ -24,11 +24,16 @@ public class BasicEnemy : MonoBehaviour, IAttackable
     // Update is called once per frame
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+        }
         Vector3 playerPos = player.transform.position;
         float distPlayer = Vector3.Distance(transform.position, playerPos);
 
         if(distPlayer <= moveMax && distPlayer >= moveMin)
         {
+            Debug.Log("Doing move");
             transform.LookAt(playerPos);
             transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             transform.position += transform.forward * moveSpeed * Time.deltaTime;

@@ -16,7 +16,7 @@ public class BasicBullet : MonoBehaviour
         if (attackable != null)
         {
             DamageSource damageSource = new DamageSource();
-            damageSource.baseDamage = 1;
+            damageSource.baseDamage = 25;
             damageSource.damageType = DamageType.PROJECTILE;
             attackable.takeDamage(damageSource);
         }

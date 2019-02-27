@@ -33,7 +33,7 @@ public class RoomGenerator : MonoBehaviour
         room = Get(transform.position,rt);
     }
 
-    Room Get(Vector3 Zero, RoomType rt)
+    public static Room Get(Vector3 Zero, RoomType rt)
     {
         switch(rt)
         {
