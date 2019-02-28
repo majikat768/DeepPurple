@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 
+
+/**
+ * Room class represents a single generic room in a level. Room is instantiated by the Room Generator class.
+ * Each RoomType has its own subclass such as CombatRoom or TreasureRoom. The constructors of the subclass
+ * define additional unique behaviors for each room type.
+ * 
+ */
 public class Room 
 {
     public GameObject room;
