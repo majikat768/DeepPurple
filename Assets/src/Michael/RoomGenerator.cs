@@ -28,7 +28,7 @@ public class RoomGenerator : MonoBehaviour
 
     public Room room;
     public RoomType rt;
-    private static Vector3 size = new Vector3(16.0f,1.0f,16.0f);
+    private static Vector3 size = new Vector3(16.0f,4.0f,16.0f);
 
     // I don't think my script will be attached to any object, so I probably won't 
     // use Start(), but it's useful for testing
@@ -71,8 +71,10 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (d1 != d2 && d1.transform.position == d2.transform.position)
                 {
-                    foreach (Transform wall in d1.transform) { GameObject.Destroy(wall.gameObject); }
-                    foreach (Transform wall in d2.transform) { GameObject.Destroy(wall.gameObject); }
+                    d1.AddComponent<OpenDoor>();
+                    d1.GetComponent<Renderer>().material.SetColor("_Color",new Color(0.8f,0.4f,0.0f,1.0f));
+                    d2.AddComponent<OpenDoor>();
+                    d2.GetComponent<Renderer>().material.SetColor("_Color",new Color(0.8f,0.4f,0.0f,1.0f));
                 }
             }
 
@@ -83,4 +85,5 @@ public class RoomGenerator : MonoBehaviour
     public static void SetSize(float x, float y, float z) {
         size = new Vector3(x,y,z);
     }
+
 }

@@ -2,7 +2,7 @@
 
 public class CombatRoom : Room
 {
-    public int numEnemies = 4;
+    public int numEnemies = 2;
 
     public CombatRoom(Vector3 Zero) : base(Zero)
     {
@@ -16,6 +16,9 @@ public class CombatRoom : Room
             GameObject e = GameObject.Instantiate(Block, SpawnPoint, Quaternion.identity,enemies.transform);
             e.AddComponent<BasicEnemy>();
             e.GetComponent<Renderer>().material.SetColor("_Color",Color.red);
+            BasicEnemy eScript = e.GetComponent<BasicEnemy>();
+            eScript.moveMax = 7;
+            eScript.moveMin = 3;
         }
     }
 }

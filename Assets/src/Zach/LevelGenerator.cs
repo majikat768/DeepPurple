@@ -15,9 +15,9 @@ public class LevelGenerator : MonoBehaviour
             {
                 r = RoomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Combat);
                 r.Generate();
-                RoomGenerator.BuildDoors();
             }
         }
+        RoomGenerator.BuildDoors();
     }
 
     public void generateLevel()

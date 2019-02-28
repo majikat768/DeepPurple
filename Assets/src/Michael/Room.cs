@@ -4,10 +4,10 @@ public class Room
 {
     public GameObject room;
     private Vector3 Zero;
-    protected GameObject Wall = Resources.Load<GameObject>("Wall");
-    protected GameObject Floor = Resources.Load<GameObject>("Floor");
-    protected GameObject Block = Resources.Load<GameObject>("Block");
-    protected GameObject PlayerBall = Resources.Load<GameObject>("RollerBall");
+    protected GameObject Wall = Resources.Load<GameObject>("Michael/Wall");
+    protected GameObject Floor = Resources.Load<GameObject>("Michael/Floor");
+    protected GameObject Block = Resources.Load<GameObject>("Michael/Block");
+    protected GameObject PlayerBall = Resources.Load<GameObject>("Oshan/RollerBall");
     protected Vector3 size = RoomGenerator.GetSize();
 
     public Room(Vector3 Zero)
@@ -41,18 +41,18 @@ public class Room
         GameObject n, s, e, w;
         for(int i = 0; i < size.x; i++) {
             // North
-            n = GameObject.Instantiate(Wall, new Vector3(Zero.x + i + 0.5f, size.y, Zero.z + size.z), Quaternion.identity);
+            n = GameObject.Instantiate(Wall, new Vector3(Zero.x + i + 0.5f, size.y/2, Zero.z + size.z), Quaternion.identity);
             n.transform.parent = NorthWall.transform;
-            n.transform.localScale = new Vector3(1.0f,size.y,1.0f);
+            n.transform.localScale = new Vector3(1.0f,size.y,0.1f);
             if(i == size.x/2 || i == size.x/2-1)
             {
                 n.name = "Door";
                 RoomGenerator.DoorList.Add(n);
             }
             // South
-            s = GameObject.Instantiate(Wall, new Vector3(Zero.x + i + 0.5f, size.y, Zero.z), Quaternion.identity);
+            s = GameObject.Instantiate(Wall, new Vector3(Zero.x + i + 0.5f, size.y/2, Zero.z), Quaternion.identity);
             s.transform.parent = SouthWall.transform;
-            s.transform.localScale = new Vector3(1.0f,size.y,1.0f);
+            s.transform.localScale = new Vector3(1.0f,size.y,0.1f);
             if(i == size.x/2 || i == size.x/2-1)
             {
                 s.name = "Door";
@@ -63,18 +63,18 @@ public class Room
         for(int i = 0; i < size.z; i++)
         {
             //East
-            e = GameObject.Instantiate(Wall, new Vector3(Zero.x+size.x, size.y, Zero.z + i + 0.5f), Quaternion.Euler(0,90.0f,0));
+            e = GameObject.Instantiate(Wall, new Vector3(Zero.x+size.x, size.y/2, Zero.z + i + 0.5f), Quaternion.Euler(0,90.0f,0));
             e.transform.parent = EastWall.transform;
-            e.transform.localScale = new Vector3(1.0f,size.y,1.0f);
+            e.transform.localScale = new Vector3(1.0f,size.y,0.1f);
             if(i == size.z/2 || i == size.z/2-1)
             {
                 e.name = "Door";
                 RoomGenerator.DoorList.Add(e);
             }
             // West
-            w = GameObject.Instantiate(Wall, new Vector3(Zero.x,size.y,Zero.z + i + 0.5f),Quaternion.Euler(0,90.0f,0));
+            w = GameObject.Instantiate(Wall, new Vector3(Zero.x,size.y/2,Zero.z + i + 0.5f),Quaternion.Euler(0,90.0f,0));
             w.transform.parent = WestWall.transform;
-            w.transform.localScale = new Vector3(1.0f,size.y,1.0f);
+            w.transform.localScale = new Vector3(1.0f,size.y,0.1f);
             if(i == size.z/2 || i == size.z/2-1)
             {
                 w.name = "Door";
