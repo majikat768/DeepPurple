@@ -8,9 +8,9 @@ public class BasicEnemy : MonoBehaviour, IAttackable
     public int health = 100;
 
     //Max distance an enemy will begin moving torward player
-    public int moveMax = 100;
+    public int moveMax = 5;
     //Min distance to player and enemy will get
-    public int moveMin = 10;
+    public int moveMin = 1;
 
     //movement speed of enemy
     public int moveSpeed = 4;
@@ -33,7 +33,6 @@ public class BasicEnemy : MonoBehaviour, IAttackable
 
         if(distPlayer <= moveMax && distPlayer >= moveMin)
         {
-            Debug.Log("Moving");
             transform.LookAt(playerPos);
             transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
