@@ -8,11 +8,14 @@ public class LevelGenerator : MonoBehaviour
 
     public void Start()
     {
+        Room r;
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 5; j++)
             {
-                RoomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Combat);
+                r = RoomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Combat);
+                r.Generate();
+                RoomGenerator.BuildDoors();
             }
         }
     }

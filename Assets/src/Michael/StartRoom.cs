@@ -8,10 +8,12 @@ public class StartRoom : Room
         // Player player = new Player();
         // Here, player represented by purple block
         // 
-        GameObject Player = GameObject.Instantiate(Block, new Vector3(size/2, 0.5f, 1.0f), Quaternion.identity, room.transform);
+        Vector3 SpawnPoint = new Vector3(size.x/2,0.5f,1.0f);
+        GameObject Player = GameObject.Instantiate(Block, SpawnPoint, Quaternion.identity, room.transform);
         Player.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
         Player.transform.parent = room.transform;
         Player.tag = "Player";
+        Player.AddComponent<MainPlayerMovement>();
         Debug.Log("start");
     }
 

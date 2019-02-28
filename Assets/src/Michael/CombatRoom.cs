@@ -12,9 +12,9 @@ public class CombatRoom : Room
         enemies.transform.parent = room.transform;
         for(int i = 0; i < numEnemies; i++)
         {
-            GameObject e = GameObject.Instantiate(Block, new Vector3(Zero.x + Random.Range(1, size - 1), 0.5f, Zero.z+Random.Range(1, size - 1)), Quaternion.identity,enemies.transform);
+            Vector3 SpawnPoint = new Vector3(Zero.x + Random.Range(1,size.x-1),0.5f,Zero.z + Random.Range(1,size.z-1));
+            GameObject e = GameObject.Instantiate(Block, SpawnPoint, Quaternion.identity,enemies.transform);
             e.AddComponent<BasicEnemy>();
-            e.AddComponent<Rigidbody>();
             e.GetComponent<Renderer>().material.SetColor("_Color",Color.red);
         }
     }
