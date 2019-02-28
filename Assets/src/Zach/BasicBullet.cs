@@ -5,6 +5,12 @@ using UnityEngine;
 public class BasicBullet : MonoBehaviour
 {
     public GameObject launcher;
+    public float maxLifeSpan = 2.0f;
+
+    private void Start()
+    {
+        Destroy(gameObject, maxLifeSpan);
+    }
 
     private void OnTriggerEnter(Collider collider)
     {
