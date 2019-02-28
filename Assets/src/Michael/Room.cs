@@ -7,6 +7,7 @@ public class Room
     protected GameObject Wall = Resources.Load<GameObject>("Wall");
     protected GameObject Floor = Resources.Load<GameObject>("Floor");
     protected GameObject Block = Resources.Load<GameObject>("Block");
+    protected GameObject PlayerBall = Resources.Load<GameObject>("RollerBall");
     protected Vector3 size = RoomGenerator.GetSize();
 
     public Room(Vector3 Zero)
