@@ -16,6 +16,5 @@ public class CombatRoom : Room
             e.AddComponent<BasicEnemy>();
             e.GetComponent<Renderer>().material.SetColor("_Color",Color.red);
         }
-        Debug.Log("Combat");
     }
 }
