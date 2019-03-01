@@ -25,8 +25,8 @@ public class PlayerController : MonoBehaviour, IAttackable
     {
         Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, transform.position, transform.rotation);
         bulletClone.GetComponent<BasicBullet>().launcher = gameObject;
-        bulletClone.transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        bulletClone.velocity = transform.forward * 20;
+        bulletClone.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        bulletClone.velocity = Camera.main.transform.forward * 25;
     }
 
     public void takeDamage(DamageSource damageSource)
