@@ -51,7 +51,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 0
+    m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 9
@@ -146,7 +146,7 @@ Behaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 176211191}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &176211194
 Camera:
   m_ObjectHideFlags: 0
@@ -163,7 +163,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -10
+  near clip plane: -50
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d23cda61979b438ae1a5a2413e7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 2
+  height: 4
   zOffset: 0
 --- !u!1 &770712763
 GameObject:
@@ -254,7 +254,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
@@ -301,7 +301,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b541265219debd04b83226f700a2e4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableRooms: []
 --- !u!4 &800110175
 Transform:
   m_ObjectHideFlags: 0
