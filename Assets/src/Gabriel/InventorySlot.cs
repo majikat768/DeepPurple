@@ -35,6 +35,9 @@ public class InventorySlot : MonoBehaviour {
 
 	public void OnRemoveButton()
 	{
+		GameObject playerCharacter = GameObject.Find("RollerBall");
+		Transform player = playerCharacter.transform;
+		Instantiate(item.model.transform, new Vector3(player.position.x + 1,player.position.y,player.position.z + 1), player.rotation);
 		Inventory.instance.Remove(item);
 	}
 
