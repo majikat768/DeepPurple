@@ -118,7 +118,7 @@ public class Room
 
     public void GetInnerWalls(Transform start, int depth)
     {
-        if (depth > 3) return;
+        if (depth > 2) return;
         Vector3 direction = start.rotation.eulerAngles;
         direction = new Vector3(direction.x, direction.y + 90.0f, direction.z);
         Vector3 end = new Vector3(0,0,0);
