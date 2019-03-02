@@ -7,7 +7,7 @@ public class OpenDoor : MonoBehaviour {
 
     private Vector3 OpenPosition; 
     private Vector3 ClosePosition;
-    private float moveSpeed = 2;
+    private float moveSpeed = 3;
     private int motionSensor = 4;
     private GameObject Player;
 	// Use this for initialization

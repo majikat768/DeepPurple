@@ -73,8 +73,6 @@ public class RoomGenerator : MonoBehaviour
                 {
                     d1.AddComponent<OpenDoor>();
                     d1.GetComponent<Renderer>().material.SetColor("_Color",new Color(0.8f,0.4f,0.0f,1.0f));
-                    d2.AddComponent<OpenDoor>();
-                    d2.GetComponent<Renderer>().material.SetColor("_Color",new Color(0.8f,0.4f,0.0f,1.0f));
                 }
             }
 
