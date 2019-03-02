@@ -23,13 +23,15 @@ public class Inventory : MonoBehaviour {
 	public delegate void OnItemChanged();
 	public OnItemChanged OnItemChangedCallBack;
 
-	public int space = 25;
+	//inventory variables
+	int space = 25;
+	public int money = 0;
 
 	public List<Item> items = new List<Item>();
 
 	public bool Add(Item item)
 	{
-		if(!item.isDefaultItem)
+		if(!item.isCurrency)
 		{
 			if(items.Count >= space)
 			{
@@ -37,6 +39,14 @@ public class Inventory : MonoBehaviour {
 				return false;
 			}
 			items.Add(item);
+			if (OnItemChangedCallBack != null)
+			{
+				OnItemChangedCallBack.Invoke();
+			}
+		}
+		else
+		{
+			money++;
 			if (OnItemChangedCallBack != null)
 			{
 				OnItemChangedCallBack.Invoke();

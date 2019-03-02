@@ -9,9 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2ae88da651e449d590f9ba72a095d98, type: 3}
-  m_Name: TestItem
+  m_Name: Currency
   m_EditorClassIdentifier: 
-  name: Collectable
+  name: Currency
   icon: {fileID: 0}
-  isDefaultItem: 0
-  model: {fileID: 1336792186313560, guid: aa94f491a96a543e091609d8083f12d4, type: 2}
+  isCurrency: 1
+  model: {fileID: 1648760683655026, guid: 9686184b272934518a4effd7672b03f0, type: 2}

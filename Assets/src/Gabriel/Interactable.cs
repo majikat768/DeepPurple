@@ -7,8 +7,6 @@ public class Interactable : MonoBehaviour {
 	
 	Transform player;
 
-	bool hasInteracted = false;
-
 	// virtual means function can be overwritten from other subclasses
 	public virtual void Interact()
 	{
@@ -19,14 +17,10 @@ public class Interactable : MonoBehaviour {
 
 	void Update()
 	{
-		if(hasInteracted == false)
+		float distance = Vector3.Distance(player.position, transform.position);
+		if(distance <= radius)
 		{
-			float distance = Vector3.Distance(player.position, transform.position);
-			if(distance <= radius)
-			{
-				hasInteracted = true;
-				Interact();
-			}
+			Interact();
 		}
 	}
 

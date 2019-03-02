@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class InventoryUI : MonoBehaviour {
 
 	public Transform itemsParent;
+	public TextMeshProUGUI textMoney;
 
 	Inventory inventory;
 	public GameObject inventoryUI;
@@ -38,5 +40,6 @@ public class InventoryUI : MonoBehaviour {
 				slots[i].ClearSlot();
 			}
 		}
+		textMoney.text = inventory.money.ToString();
 	}
 }
