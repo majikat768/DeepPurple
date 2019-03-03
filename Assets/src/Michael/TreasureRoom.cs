@@ -9,7 +9,7 @@ public class TreasureRoom : Room
     private GameObject Interactable = Resources.Load<GameObject>("Gabriel/Items/Interactable");
     private GameObject Currency = Resources.Load<GameObject>("Gabriel/Items/CurrencyItem");
 
-    public TreasureRoom(Vector3 Zero) : base(Zero)
+    public TreasureRoom(Vector3 Zero,GameObject r) : base(Zero,r)
     {
         // Item i = new Item();
         items = new GameObject("Items");

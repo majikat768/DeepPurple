@@ -3,7 +3,7 @@
 public class StartRoom : Room
 {
     public GameObject Player;
-    public StartRoom(Vector3 Zero) : base(Zero)
+    public StartRoom(Vector3 Zero,GameObject r) : base(Zero,r)
     {
         // the Start Room will have the player character spawn in it.
         // Player player = new Player();

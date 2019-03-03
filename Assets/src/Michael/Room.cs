@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class Room 
 {
@@ -9,7 +10,7 @@ public class Room
     protected GameObject Block = Resources.Load<GameObject>("Michael/Block");
     protected GameObject PlayerBall = Resources.Load<GameObject>("Oshan/RollerBall");
     protected GameObject FirstPerson = Resources.Load<GameObject>("Oshan/Player");
-    protected Vector3 size = RoomGenerator.GetSize();
+    protected Vector3 size;
 
     GameObject walls;
     GameObject NorthWall;
@@ -18,9 +19,12 @@ public class Room
     GameObject WestWall;
     GameObject InnerWalls;
 
-    public Room(Vector3 Zero)
+    public GameObject Floor;
+
+    public Room(Vector3 Zero,GameObject r)
     {
-        room = new GameObject("Room");
+        this.room = r;
+        this.size = r.GetComponent<RoomGenerator>().GetSize();
         walls = new GameObject("Walls");
         walls.transform.parent = room.transform;
         NorthWall = new GameObject("NorthWall");
@@ -35,17 +39,16 @@ public class Room
         InnerWalls.transform.parent = walls.transform;
         this.Zero = Zero;
 
-        // instantiate plane for floor; set to correct size (default plane size is 10 units)
-
+        this.Generate();
     }
     public void Generate() {
-        GameObject f = GameObject.Instantiate(
+        Floor = GameObject.Instantiate(
             Plane, 
             new Vector3(size.x / 2 + Zero.x, 0, size.z / 2 + Zero.z), 
             Quaternion.identity,
             room.transform);
-        f.name = "Floor";
-        f.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
+        Floor.name = "Floor";
+        Floor.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
 
         GameObject c = GameObject.Instantiate(
             Plane, 
@@ -56,8 +59,11 @@ public class Room
         c.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.0f, 1.0f, 1.0f, 1.0f));
         c.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
         GameObject walls = GetWalls();
-        Transform s = walls.transform.GetChild(Random.Range(0, walls.transform.childCount - 1));
-        s = s.GetChild(Random.Range(1, s.childCount - 2));
+        Transform start = walls.transform.GetChild(Random.Range(0, walls.transform.childCount - 1));
+        Transform s = start.GetChild(Random.Range(2, start.childCount - 3));
+        while(s.name == "Door")
+            s = start.GetChild(Random.Range(2, start.childCount - 3));
+
         GetInnerWalls(s,0);
 
     }
@@ -99,7 +105,7 @@ public class Room
     {
         float direction = Mathf.Atan2(z2 - z1, x2 - x1);
         float distance = Vector3.Distance(new Vector3(x1, 0.0f, z1), new Vector3(x2, 0.0f, z2));
-        Vector3 eulerAngle = new Vector3(0, direction*180.0f/Mathf.PI, 0);
+        Vector3 eulerAngle = new Vector3(0, direction*Mathf.Rad2Deg, 0);
         for(float i = 0.5f; i < distance; i += 1)
         {
             Vector3 location = new Vector3(x1 + Mathf.Cos(direction) * i, size.y / 2, z1 + Mathf.Sin(direction) * i);
@@ -107,18 +113,19 @@ public class Room
             GameObject w = GameObject.Instantiate(Wall, location, Quaternion.Euler(eulerAngle), parent);
             w.transform.localScale = new Vector3(1.0f, size.y, 0.1f);
 
-            if(Mathf.Floor(i) == distance/2 || Mathf.Floor(i) == distance/2-1)
+            if (Mathf.Floor(i) == distance / 2 || Mathf.Floor(i) == distance / 2 - 1)
             {
                 w.name = "Door";
                 RoomGenerator.DoorList.Add(w);
             }
+            RoomGenerator.WallList.Add(w);
         }
 
     }
 
     public void GetInnerWalls(Transform start, int depth)
     {
-        if (depth > 2) return;
+        if (depth > 1) return;
         Vector3 direction = start.rotation.eulerAngles;
         direction = new Vector3(direction.x, direction.y + 90.0f, direction.z);
         Vector3 end = new Vector3(0,0,0);
@@ -143,6 +150,7 @@ public class Room
         }
 
         float distance = Vector3.Distance(new Vector3(start.position.x, 0.0f, start.position.z), new Vector3(end.x, 0.0f, end.z));
+        if (distance < 4) return;
         for (float i = 0.5f; i < distance; i += 1)
         {
             if (i < distance * 0.33 || i > distance * 0.66)
@@ -156,7 +164,7 @@ public class Room
             }
         }
 
-        GetInnerWalls(InnerWalls.transform.GetChild(Random.Range(1, InnerWalls.transform.childCount - 2)),depth+1);
+        GetInnerWalls(InnerWalls.transform.GetChild(Random.Range(2, InnerWalls.transform.childCount - 3)),depth+1);
 
     }
     public void SetSize(float x, float y, float z) {

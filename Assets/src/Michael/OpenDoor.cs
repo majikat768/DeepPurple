@@ -13,7 +13,7 @@ public class OpenDoor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Player = GameObject.FindWithTag("Player");
-        OpenPosition = this.transform.position + new Vector3(0.0f,RoomGenerator.GetSize().y,0.0f);
+        OpenPosition = this.transform.position + new Vector3(0.0f,this.transform.localScale.y,0.0f);
         ClosePosition = this.transform.position;
 		
 	}

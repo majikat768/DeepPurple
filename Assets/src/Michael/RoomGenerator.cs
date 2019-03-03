@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.AI;
 
 /*
  * This generates several different room types, which have different contents and layouts.
@@ -23,40 +24,57 @@ public class RoomGenerator : MonoBehaviour
 {
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat };
     public static List<Room> RoomList = new List<Room>();
-    public static List<GameObject> DoorList = new List<GameObject>();
     public static List<GameObject> WallList = new List<GameObject>();
+    public static List<GameObject> DoorList = new List<GameObject>();
 
-    public Room room;
     public RoomType rt;
-    private static Vector3 size = new Vector3(16.0f,4.0f,16.0f);
+    [SerializeField]
+    private Vector3 size = new Vector3(16.0f,4.0f,16.0f);
+    public bool standalone = false;
 
     // I don't think my script will be attached to any object, so I probably won't 
     // use Start(), but it's useful for testing
     void Start()
     {
-        room = Get(transform.position,rt);
+        if (standalone)
+        {
+            Get(this.transform.position, rt);
+            BuildDoors();
+            BakeNavMesh();
+        }
+        /*room = Get(transform.position,rt);
         // don't need to call setSize.  if you don't it's default 16x16
         room.SetSize(size.x,size.y,size.z); 
         room.Generate();
         BuildDoors();
+        */
     }
 
-    public static Room Get(Vector3 Zero, RoomType rt)
+    public Room Get(Vector3 Zero, RoomType rt)
     {
+        this.rt = rt;
         Room r;
         switch(rt)
         {
             case RoomType.Start:
-                r = new StartRoom(Zero);
+                r = new StartRoom(Zero,this.gameObject);
+                this.name = "Start Room";
                 break;
             case RoomType.Combat:
-                r = new CombatRoom(Zero);
+                r = new CombatRoom(Zero,this.gameObject);
+                this.name = "Fight Room";
                 break;
             case RoomType.Treasure:
-                r = new TreasureRoom(Zero);
+                r = new TreasureRoom(Zero,this.gameObject);
+                this.name = "Treasure Room";
+                break;
+            case RoomType.Boss:
+                r = new BossRoom(Zero,this.gameObject);
+                this.name = "Boss Room";
                 break;
             default:
-                r = new Room(Zero);
+                r = new Room(Zero,this.gameObject);
+                this.name = "Room";
                 break;
         }
         RoomList.Add(r);
@@ -65,23 +83,34 @@ public class RoomGenerator : MonoBehaviour
 
     public static void BuildDoors()
     {
-        foreach(GameObject d1 in DoorList)
+        foreach (GameObject d in DoorList)
         {
-            foreach(GameObject d2 in DoorList)
+            foreach (GameObject w in WallList)
             {
-                if (d1 != d2 && d1.transform.position == d2.transform.position)
+                if (d != w && d.transform.position == w.transform.position)
                 {
-                    d1.AddComponent<OpenDoor>();
-                    d1.GetComponent<Renderer>().material.SetColor("_Color",new Color(0.8f,0.4f,0.0f,1.0f));
+                    d.AddComponent<OpenDoor>();
+                    d.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.8f, 0.4f, 0.0f, 1.0f));
+                    w.AddComponent<OpenDoor>();
+                    w.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.8f, 0.4f, 0.0f, 1.0f));
+                    w.name = "Door";
                 }
             }
 
         }
     }
 
-    public static Vector3 GetSize() { return size; }
-    public static void SetSize(float x, float y, float z) {
-        size = new Vector3(x,y,z);
+    public static void BakeNavMesh()
+    {
+        Debug.Log("baking");
+        NavMeshBuilder.BuildNavMesh();
+        Debug.Log("done");
+    }
+
+
+    public Vector3 GetSize() { return this.size; }
+    public void SetSize(float x, float y, float z) {
+        this.size = new Vector3(x,y,z);
     }
 
 }

@@ -4,7 +4,7 @@ public class CombatRoom : Room
 {
     public int numEnemies = 2;
 
-    public CombatRoom(Vector3 Zero) : base(Zero)
+    public CombatRoom(Vector3 Zero,GameObject r) : base(Zero,r)
     {
         // the Combat Room will have enemies spawn.
         // red blocks
