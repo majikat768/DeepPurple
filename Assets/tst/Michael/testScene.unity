@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 4
-  size: {x: 16, y: 4, z: 16}
+  size: {x: 16, y: 4, z: 12}
   standalone: 1
 --- !u!4 &186880541
 Transform:
@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 3
-  size: {x: 16, y: 4, z: 16}
+  size: {x: 16, y: 4, z: 20}
   standalone: 1
 --- !u!4 &995219049
 Transform:
@@ -1380,7 +1380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 2
-  size: {x: 16, y: 4, z: 16}
+  size: {x: 24, y: 4, z: 16}
   standalone: 1
 --- !u!4 &1866962121
 Transform:
