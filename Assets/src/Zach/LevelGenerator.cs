@@ -16,6 +16,9 @@ public class LevelGenerator : MonoBehaviour
 
     public void generateLevel(Generator generator)
     {
+        GameObject levelGen = new GameObject();
+        levelGen.AddComponent<RoomGenerator>();
+        RoomGenerator roomGenerator = levelGen.GetComponent<RoomGenerator>();
         switch (generator)
         {
             case Generator.SQUARE:
@@ -26,18 +29,17 @@ public class LevelGenerator : MonoBehaviour
                         Room r;
                         if (i == j && j == 0)
                         {
-                            r = RoomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Start);
+                            r = roomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Start);
                         }
                         else if (i == j && j == 4)
                         {
-                            r = RoomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Boss);
+                            r = roomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Boss);
                         }
                         else
                         {
 
-                            r = RoomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RandomRoomType());
+                            r = roomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RandomRoomType());
                         }
-                        r.Generate();
                     }
                 }
                 break;
@@ -47,17 +49,16 @@ public class LevelGenerator : MonoBehaviour
                     Room r;
                     if (i == 0)
                     {
-                        r = RoomGenerator.Get(new Vector3(16 * i, 0, 0), RoomGenerator.RoomType.Start);
+                        r = roomGenerator.Get(new Vector3(16 * i, 0, 0), RoomGenerator.RoomType.Start);
                     }
                     else if (i == 24)
                     {
-                        r = RoomGenerator.Get(new Vector3(16 * i, 0, 0), RoomGenerator.RoomType.Boss);
+                        r = roomGenerator.Get(new Vector3(16 * i, 0, 0), RoomGenerator.RoomType.Boss);
                     }
                     else
                     {
-                        r = RoomGenerator.Get(new Vector3(16 * i, 0, 0), RandomRoomType());
+                        r = roomGenerator.Get(new Vector3(16 * i, 0, 0), RandomRoomType());
                     }
-                    r.Generate();
                 }
                 break;
             case Generator.RANDOM:
@@ -102,21 +103,21 @@ public class LevelGenerator : MonoBehaviour
                     Room r;
                     if (vector2Int.x == 0 && vector2Int.y == 0)
                     {
-                        r = RoomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
+                        r = roomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
                     }
                     else if (i == offsets.Count - 1)
                     {
-                        r = RoomGenerator.Get(new Vector3(16 * vector2Int.x, 0, 16 * vector2Int.y), RoomGenerator.RoomType.Boss);
+                        r = roomGenerator.Get(new Vector3(16 * vector2Int.x, 0, 16 * vector2Int.y), RoomGenerator.RoomType.Boss);
                     }
                     else
                     {
-                        r = RoomGenerator.Get(new Vector3(16 * vector2Int.x, 0, 16 * vector2Int.y), RandomRoomType());
+                        r = roomGenerator.Get(new Vector3(16 * vector2Int.x, 0, 16 * vector2Int.y), RandomRoomType());
                     }
-                    r.Generate();
                 }
                 break;
         }
         RoomGenerator.BuildDoors();
+        RoomGenerator.BakeNavMesh();
     }
 
     public RoomGenerator.RoomType RandomRoomType()
