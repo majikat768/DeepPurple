@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.AI;
+using UnityEngine.AI;
 
 /*
  * This generates several different room types, which have different contents and layouts.
@@ -18,7 +19,7 @@ using UnityEditor.AI;
  * * make floors and walls look prettier.
  * * .....
  * 
- */ 
+ */
 
 public class RoomGenerator : MonoBehaviour
 {
@@ -89,9 +90,14 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (d != w && d.transform.position == w.transform.position)
                 {
-                    d.AddComponent<OpenDoor>();
+                    if(!d.GetComponent<OpenDoor>())
+                        d.AddComponent<OpenDoor>();
                     d.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.8f, 0.4f, 0.0f, 1.0f));
-                    w.AddComponent<OpenDoor>();
+                    GameObject.Destroy(d.GetComponent<NavMeshObstacle>());
+                    d.isStatic = false;
+                    if(!w.GetComponent<OpenDoor>())
+                        w.AddComponent<OpenDoor>();
+                    GameObject.Destroy(w.GetComponent<NavMeshObstacle>());
                     w.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.8f, 0.4f, 0.0f, 1.0f));
                     w.name = "Door";
                 }
@@ -103,7 +109,7 @@ public class RoomGenerator : MonoBehaviour
     public static void BakeNavMesh()
     {
         Debug.Log("baking");
-        NavMeshBuilder.BuildNavMesh();
+        UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
         Debug.Log("done");
     }
 
