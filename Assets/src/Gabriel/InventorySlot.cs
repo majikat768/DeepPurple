@@ -37,7 +37,7 @@ public class InventorySlot : MonoBehaviour {
 	{
 		GameObject playerCharacter = GameObject.Find("RollerBall");
 		Transform player = playerCharacter.transform;
-		Rigidbody clone = Instantiate(item.model.GetComponent<Rigidbody>(), new Vector3(player.position.x,player.position.y + 2f,player.position.z), player.rotation);
+		Rigidbody clone = Instantiate(item.model.GetComponent<Rigidbody>(), new Vector3(player.position.x,player.position.y + 2.5f,player.position.z), player.rotation);
 		clone.velocity = Camera.main.transform.forward * 15;
 		Inventory.instance.Remove(item);
 	}

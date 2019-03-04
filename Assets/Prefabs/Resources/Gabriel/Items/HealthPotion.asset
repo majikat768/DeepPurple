@@ -9,9 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2ae88da651e449d590f9ba72a095d98, type: 3}
-  m_Name: TestItem
+  m_Name: HealthPotion
   m_EditorClassIdentifier: 
-  name: Collectable
-  icon: {fileID: 0}
+  name: HealthPotion
+  icon: {fileID: 21300000, guid: 3d1d462efb4fc4ea7a69d076d9d3a0a2, type: 3}
   isCurrency: 0
-  model: {fileID: 1336792186313560, guid: aa94f491a96a543e091609d8083f12d4, type: 2}
+  model: {fileID: 1929431653389016, guid: 02f9716bb328e4bcb95d8f9dc7082113, type: 2}
