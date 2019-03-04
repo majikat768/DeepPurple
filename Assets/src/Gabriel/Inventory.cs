@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour {
 	public OnItemChanged OnItemChangedCallBack;
 
 	//inventory variables
-	int space = 25;
+	int space = 35;
 	public int money = 0;
 
 	public List<Item> items = new List<Item>();
