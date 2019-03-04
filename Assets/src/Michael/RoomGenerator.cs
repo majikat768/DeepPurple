@@ -27,14 +27,16 @@ public class RoomGenerator : MonoBehaviour
     public static List<Room> RoomList = new List<Room>();
     public static List<GameObject> WallList = new List<GameObject>();
     public static List<GameObject> DoorList = new List<GameObject>();
+    public List<GameObject> MyDoors = new List<GameObject>();
+    public static List<GameObject> EnemyList = new List<GameObject>();
 
     public RoomType rt;
+    public Room r;
+
     [SerializeField]
     private Vector3 size = new Vector3(16.0f,4.0f,16.0f);
     public bool standalone = false;
 
-    // I don't think my script will be attached to any object, so I probably won't 
-    // use Start(), but it's useful for testing
     void Start()
     {
         if (standalone)
@@ -54,28 +56,46 @@ public class RoomGenerator : MonoBehaviour
     public Room Get(Vector3 Zero, RoomType rt)
     {
         this.rt = rt;
-        Room r;
+        GameObject newroom = new GameObject();
+        newroom.AddComponent<RoomGenerator>();
         switch(rt)
         {
             case RoomType.Start:
-                r = new StartRoom(Zero,this.gameObject);
-                this.name = "Start Room";
+                //r = new StartRoom(Zero,this.gameObject);
+                r = new StartRoom(Zero,newroom);
+                //this.name = "Start Room";
+                newroom.name = "Start Room";
                 break;
             case RoomType.Combat:
-                r = new CombatRoom(Zero,this.gameObject);
-                this.name = "Fight Room";
+                //r = new CombatRoom(Zero,this.gameObject);
+                r = new CombatRoom(Zero,newroom);
+                //this.name = "Fight Room";
+                newroom.name = "Fight Room";
                 break;
             case RoomType.Treasure:
-                r = new TreasureRoom(Zero,this.gameObject);
-                this.name = "Treasure Room";
+                //r = new TreasureRoom(Zero,this.gameObject);
+                r = new TreasureRoom(Zero,newroom);
+                //this.name = "Treasure Room";
+                newroom.name = "Treasure Room";
                 break;
             case RoomType.Boss:
-                r = new BossRoom(Zero,this.gameObject);
-                this.name = "Boss Room";
+                //r = new BossRoom(Zero,this.gameObject);
+                r = new BossRoom(Zero,newroom);
+                //this.name = "Boss Room";
+                newroom.name = "Boss Room";
+                break;
+            case RoomType.Puzzle:
+                //r = new PuzzleRoom(Zero,this.gameObject);
+                r = new PuzzleRoom(Zero,newroom);
+                newroom.AddComponent<PuzzleOne>().SetBounds(Zero,size);
+                //this.name = "Puzzle Room";
+                newroom.name = "Puzzle Room";
                 break;
             default:
-                r = new Room(Zero,this.gameObject);
-                this.name = "Room";
+                //r = new Room(Zero,this.gameObject);
+                r = new Room(Zero,newroom);
+                //this.name = "Room";
+                newroom.name = "Room";
                 break;
         }
         RoomList.Add(r);

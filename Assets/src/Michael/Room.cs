@@ -22,7 +22,7 @@ public class Room
 
     public Room(Vector3 Zero,GameObject r)
     {
-        this.room = r;
+        room = r;
         this.size = r.GetComponent<RoomGenerator>().GetSize();
         walls = new GameObject("Walls");
         walls.transform.parent = room.transform;
@@ -60,7 +60,6 @@ public class Room
         GetWalls();
         int rand = Random.Range(0, walls.transform.childCount - 1);
         GameObject startwall = walls.transform.GetChild(rand).gameObject;
-        Debug.Log(startwall.name);
         Transform start = startwall.transform.GetChild((int)Random.Range(startwall.transform.childCount * 0.4f, startwall.transform.childCount * 0.6f)).transform;
         while(start.name == "Door")
             start = startwall.transform.GetChild((int)Random.Range(startwall.transform.childCount * 0.4f, startwall.transform.childCount * 0.6f)).transform;
