@@ -3,109 +3,140 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Room 
+public class Room : MonoBehaviour
 {
-    public GameObject room;
-    private Vector3 Zero;
-    protected GameObject Wall = Resources.Load<GameObject>("Michael/Wall");
-    protected GameObject Block = Resources.Load<GameObject>("Michael/Block");
-    protected Vector3 size;
+    private Bounds RoomBounds;
+    public List<GameObject> DoorList;
+    public List<GameObject> WallList; 
+    protected GameObject Wall = RoomGenerator.Wall;
+    protected GameObject Door = RoomGenerator.Door;
+    protected GameObject Block = RoomGenerator.Block;
+    protected GameObject Player;
+    [SerializeField]    protected Vector3 Zero;
+    [SerializeField]    protected Vector3 size = new Vector3(16.0f, 4.0f, 16.0f);
 
     GameObject walls;
-    GameObject NorthWall;
-    GameObject SouthWall;
-    GameObject EastWall;
-    GameObject WestWall;
-    GameObject InnerWalls;
+    GameObject Floor;
+    GameObject Ceiling;
 
-    public GameObject Floor;
-
-    public Room(Vector3 Zero,GameObject r)
+    public void Awake()
     {
-        room = r;
-        this.size = r.GetComponent<RoomGenerator>().GetSize();
+        DoorList = new List<GameObject>();
+        WallList = new List<GameObject>();
+        Player = GameObject.FindWithTag("Player");
         walls = new GameObject("Walls");
-        walls.transform.parent = room.transform;
-        NorthWall = new GameObject("NorthWall");
-        NorthWall.transform.parent = walls.transform;
-        SouthWall = new GameObject("SouthWall");
-        SouthWall.transform.parent = walls.transform;
-        EastWall = new GameObject("EastWall");
-        EastWall.transform.parent = walls.transform;
-        WestWall = new GameObject("WestWall");
-        WestWall.transform.parent = walls.transform;
-        InnerWalls = new GameObject("InnerWalls");
-        InnerWalls.transform.parent = walls.transform;
-        this.Zero = Zero;
-
-        this.Generate();
+        walls.transform.parent = this.gameObject.transform;
     }
-    public void Generate() {
+    public void Start()
+    {
+    }
+
+
+    public void Init() {
+        this.RoomBounds = new Bounds(new Vector3(Zero.x + size.x / 2, Zero.y + size.y / 2, Zero.z + size.z / 2), size);
         Floor = GameObject.Instantiate(
             Resources.Load<GameObject>("Michael/Plane"),
             new Vector3(size.x / 2 + Zero.x, 0, size.z / 2 + Zero.z), 
             Quaternion.identity,
-            room.transform);
+            this.transform);
         Floor.name = "Floor";
         Floor.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
 
-        GameObject c = GameObject.Instantiate(
+        Ceiling = GameObject.Instantiate(
             Resources.Load<GameObject>("Michael/Plane"),
             new Vector3(size.x / 2 + Zero.x, size.y, size.z / 2 + Zero.z), 
             Quaternion.Euler(180.0f, 0, 0), 
-            room.transform);
-        c.name = "Ceiling";
-        c.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.0f, 1.0f, 1.0f, 1.0f));
-        c.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
+            this.transform);
+        Ceiling.name = "Ceiling";
+        //c.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.0f, 1.0f, 1.0f, 1.0f));
+        Light light = Ceiling.AddComponent<Light>();
+        light.range = 20;
+        light.intensity = 1;
+        light.lightmapBakeType = LightmapBakeType.Baked;
+        Ceiling.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
         GetWalls();
+
         int rand = Random.Range(0, walls.transform.childCount - 1);
-        GameObject startwall = walls.transform.GetChild(rand).gameObject;
-        Transform start = startwall.transform.GetChild((int)Random.Range(startwall.transform.childCount * 0.4f, startwall.transform.childCount * 0.6f)).transform;
-        while(start.name == "Door")
-            start = startwall.transform.GetChild((int)Random.Range(startwall.transform.childCount * 0.4f, startwall.transform.childCount * 0.6f)).transform;
+        Transform start = walls.transform.GetChild(rand);
+        while (start.name == "Door")
+            start = walls.transform.GetChild((int)Random.Range(0, walls.transform.childCount - 1));
         GetInnerWalls(start,0);
 
     }
+
+
+    public void SetLighting(Color c)
+    {
+        Light l = Ceiling.GetComponent<Light>();
+        l.color = c; 
+    }
+
+    public bool InRoom(GameObject Player)
+    {
+        if (!Player) return false;
+        if (RoomBounds.Contains(
+            Player.transform.position))
+            return true;
+        return false;
+    }
     private GameObject GetWalls()
     {
+        WallList = new List<GameObject>();
+        DoorList = new List<GameObject>();
+        GameObject n, s, e, w;
         //build walls 
         //North:
         for(int i = 0; i < size.x; i++)
         {
-            GameObject n = GameObject.Instantiate(Wall, new Vector3(Zero.x + i+0.5f, size.y / 2, Zero.z + size.z), Quaternion.Euler(0,180.0f,0), NorthWall.transform);
-            n.transform.localScale = new Vector3(n.transform.localScale.x, size.y, n.transform.localScale.z);
-            n.name = "NorthWall";
-        //South
-            GameObject s = GameObject.Instantiate(Wall, new Vector3(Zero.x + i+0.5f, size.y / 2, Zero.z), Quaternion.identity, SouthWall.transform);
-            s.transform.localScale = new Vector3(s.transform.localScale.x, size.y, s.transform.localScale.z);
-            s.name = "SouthWall";
-            if(i >= size.x/2-1 && i <= size.x/2+1)
+            if (i >= size.x / 2 - 1 && i <= size.x / 2 + 1)
             {
+                n = GameObject.Instantiate(Door, new Vector3(Zero.x + i + 0.5f, size.y / 2, Zero.z + size.z), Quaternion.Euler(0, 180.0f, 0), walls.transform);
+                n.transform.localScale = new Vector3(n.transform.localScale.x, size.y, n.transform.localScale.z);
+                s = GameObject.Instantiate(Door, new Vector3(Zero.x + i + 0.5f, size.y / 2, Zero.z), Quaternion.Euler(0, 180.0f, 0), walls.transform);
+                s.transform.localScale = new Vector3(s.transform.localScale.x, size.y, s.transform.localScale.z);
                 s.name = n.name = "Door";
-                RoomGenerator.DoorList.Add(s);
-                RoomGenerator.DoorList.Add(n);
+                DoorList.Add(s);
+                DoorList.Add(n);
             }
-            RoomGenerator.WallList.Add(n);
-            RoomGenerator.WallList.Add(s);
+            else
+            {
+                n = GameObject.Instantiate(Wall, new Vector3(Zero.x + i + 0.5f, size.y / 2, Zero.z + size.z), Quaternion.Euler(0, 180.0f, 0), walls.transform);
+                n.transform.localScale = new Vector3(n.transform.localScale.x, size.y, n.transform.localScale.z);
+                n.name = "NorthWall";
+                //South
+                s = GameObject.Instantiate(Wall, new Vector3(Zero.x + i + 0.5f, size.y / 2, Zero.z), Quaternion.identity, walls.transform);
+                s.transform.localScale = new Vector3(s.transform.localScale.x, size.y, s.transform.localScale.z);
+                s.name = "SouthWall";
+            }
+
+                WallList.Add(n);
+                WallList.Add(s);
         }
         //East
         for(int i = 0; i < size.z; i++)
         {
-            GameObject e = GameObject.Instantiate(Wall, new Vector3(Zero.x + size.x, size.y / 2, Zero.z+i+0.5f), Quaternion.Euler(0,90.0f,0), EastWall.transform);
-            e.transform.localScale = new Vector3(e.transform.localScale.x, size.y, e.transform.localScale.z);
-            e.name = "EastWall";
-        //West
-            GameObject w = GameObject.Instantiate(Wall, new Vector3(Zero.x, size.y / 2, Zero.z+i+0.5f), Quaternion.Euler(0,-90.0f,0), WestWall.transform);
-            w.transform.localScale = new Vector3(w.transform.localScale.x, size.y, w.transform.localScale.z);
-            w.name = "WestWall";
-            if(i >= size.z/2-1 && i <= size.z/2+1)
+            if (i >= size.z / 2 - 1 && i <= size.z / 2 + 1)
             {
+                w = GameObject.Instantiate(Door, new Vector3(Zero.x, size.y / 2, Zero.z + i + 0.5f), Quaternion.Euler(0, 90.0f, 0), walls.transform);
+                w.transform.localScale = new Vector3(w.transform.localScale.x, size.y, w.transform.localScale.z);
+                e = GameObject.Instantiate(Door, new Vector3(Zero.x + size.x, size.y / 2, Zero.z + i + 0.5f), Quaternion.Euler(0, 90.0f, 0), walls.transform);
+                e.transform.localScale = new Vector3(e.transform.localScale.x, size.y, e.transform.localScale.z);
                 w.name = e.name = "Door";
-                RoomGenerator.DoorList.Add(e);
-                RoomGenerator.DoorList.Add(w);
+                DoorList.Add(e);
+                DoorList.Add(w);
             }
-            RoomGenerator.WallList.Add(e);
-            RoomGenerator.WallList.Add(w);
+            else
+            {
+                e = GameObject.Instantiate(Wall, new Vector3(Zero.x + size.x, size.y / 2, Zero.z + i + 0.5f), Quaternion.Euler(0, 90.0f, 0), walls.transform);
+                e.transform.localScale = new Vector3(e.transform.localScale.x, size.y, e.transform.localScale.z);
+                e.name = "EastWall";
+                //West
+                w = GameObject.Instantiate(Wall, new Vector3(Zero.x, size.y / 2, Zero.z + i + 0.5f), Quaternion.Euler(0, -90.0f, 0), walls.transform);
+                w.transform.localScale = new Vector3(w.transform.localScale.x, size.y, w.transform.localScale.z);
+                w.name = "WestWall";
+            }
+                WallList.Add(e);
+                WallList.Add(w);
         }
         return walls;
     }
@@ -160,4 +191,9 @@ public class Room
     }
 
     public Vector2 GetSize() { return size; }
+
+    public void SetZero(Vector3 Zero) {
+        this.Zero = Zero;
+        this.transform.position = Zero;
+    }
 }

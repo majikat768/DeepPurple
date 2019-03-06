@@ -28,7 +28,8 @@ public class Interactable : MonoBehaviour {
 
 	void Start()
 	{
-		GameObject playerCharacter = GameObject.Find("RollerBall");
+        //GameObject playerCharacter = GameObject.Find("RollerBall");
+        GameObject playerCharacter = GameObject.FindWithTag("Player");
 		player = playerCharacter.transform;
 	}
 

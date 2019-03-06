@@ -11,7 +11,7 @@ public class OpenDoor : MonoBehaviour {
     private int motionSensor = 4;
     private GameObject Player;
     private bool isOpen = false;
-    private bool isLocked = false;
+    private bool isLocked = true;
 
 	void Start () {
         Player = GameObject.FindWithTag("Player");

@@ -3,13 +3,15 @@
 public class CombatRoom : Room
 {
     public int numEnemies = 2;
+    public GameObject enemies; 
 
-    public CombatRoom(Vector3 Zero,GameObject r) : base(Zero,r)
+    public new void Start()
     {
+        enemies = new GameObject("enemies");
         // the Combat Room will have enemies spawn.
         // red blocks
-        GameObject enemies = new GameObject("enemies");
-        enemies.transform.parent = room.transform;
+
+        enemies.transform.parent = this.transform;
         for(int i = 0; i < numEnemies; i++)
         {
             Vector3 SpawnPoint = new Vector3(Zero.x + Random.Range(1,size.x-1),0.5f,Zero.z + Random.Range(1,size.z-1));

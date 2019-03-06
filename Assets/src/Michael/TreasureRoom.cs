@@ -2,19 +2,23 @@
 
 public class TreasureRoom : Room
 {
-    private int numItems = 6;
-    private int numGold = 8;
+    private readonly int numItems = 6;
+    private readonly int numGold = 8;
     GameObject items;
 
-    private GameObject Interactable = Resources.Load<GameObject>("Gabriel/Items/Interactable");
-    private GameObject Currency = Resources.Load<GameObject>("Gabriel/Items/CurrencyItem");
+    private GameObject Interactable;
+    private GameObject Currency; 
 
-    public TreasureRoom(Vector3 Zero,GameObject r) : base(Zero,r)
+    public void Start()
     {
+        Interactable = Resources.Load<GameObject>("Gabriel/Items/Interactable");
+        Currency = Resources.Load<GameObject>("Gabriel/Items/CurrencyItem");
+
+
         // Item i = new Item();
         items = new GameObject("Items");
         Vector3 SpawnPoint;
-        items.transform.parent = room.transform;
+        items.transform.parent = this.transform;
 
         for (int i = 0; i < numItems; i++)
         {
