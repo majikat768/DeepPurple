@@ -14,4 +14,4 @@ MonoBehaviour:
   name: HealthPotion
   icon: {fileID: 21300000, guid: 3d1d462efb4fc4ea7a69d076d9d3a0a2, type: 3}
   isCurrency: 0
-  model: {fileID: 1929431653389016, guid: 02f9716bb328e4bcb95d8f9dc7082113, type: 2}
+  model: {fileID: 1759743547545802, guid: c78b224ab8f5d45849d270c691f33e40, type: 2}

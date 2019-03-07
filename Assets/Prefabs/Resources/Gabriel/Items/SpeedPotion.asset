@@ -9,9 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2ae88da651e449d590f9ba72a095d98, type: 3}
-  m_Name: TestItem
+  m_Name: SpeedPotion
   m_EditorClassIdentifier: 
-  name: Collectable
-  icon: {fileID: 0}
-  isDefaultItem: 0
-  model: {fileID: 1336792186313560, guid: aa94f491a96a543e091609d8083f12d4, type: 2}
+  name: Speed Potion
+  icon: {fileID: 21300000, guid: 3fd7ca4ba16f14f0b971a27a804277c7, type: 3}
+  model: {fileID: 1068740009129870, guid: 7db162292b6e244e186a4282e13a023a, type: 2}
+  isCurrency: 0
+  isWeapon: 0
+  isConsumable: 1
+  damage: 0
