@@ -11,7 +11,7 @@ public class LevelGenerator : MonoBehaviour
 
     public void Start()
     {
-        generateLevel(Generator.LINEAR);
+        generateLevel(Generator.RANDOM);
     }
 
     public void generateLevel(Generator generator)
@@ -57,10 +57,9 @@ public class LevelGenerator : MonoBehaviour
                     }
                     else
                     {
-                        r = roomGenerator.Get(new Vector3(16 * i, 0, (int)Random.Range(-6,6)), RandomRoomType());
+                        r = roomGenerator.Get(new Vector3(16 * i, 0,0), RandomRoomType());
                         r.SetSize(new Vector3(16.0f,4.0f,Random.Range(8,24)));
                     }
-                    r.Init();
                 }
                 break;
             case Generator.RANDOM:
