@@ -30,7 +30,7 @@ public class PuzzleRoom : Room
                 Debug.Log("locking doors");
                 foreach (GameObject d in R.DoorList)
                     d.GetComponent<OpenDoor>().Lock();
-                R.SetLighting(Color.red);
+                //R.SetLighting(Color.red);
             }
             solved = gameObject.GetComponent<PuzzleOne>().isSolved();
 
@@ -40,7 +40,7 @@ public class PuzzleRoom : Room
             locked = false;
             foreach (GameObject d in R.DoorList)
                 d.GetComponent<OpenDoor>().Unlock();
-            R.SetLighting(Color.white);
+            //R.SetLighting(Color.white);
             
         }
     }

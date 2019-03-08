@@ -17,7 +17,7 @@ public class Room : MonoBehaviour
     public GameObject Walls;
     public GameObject Floor;
     public GameObject Ceiling;
-    public GameObject NorthWall, SouthWall,EastWall, WestWall;
+    //public GameObject NorthWall, SouthWall,EastWall, WestWall;
 
     public void Awake()
     {
@@ -51,44 +51,42 @@ public class Room : MonoBehaviour
         //c.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.0f, 1.0f, 1.0f, 1.0f));
         Light light = Ceiling.AddComponent<Light>();
         light.range = 20;
-        light.intensity = 2;
+        light.intensity = 1;
         Ceiling.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
-        NorthWall = new GameObject("NorthWall");
-        NorthWall.transform.position = new Vector3(Zero.x+size.x/2,size.y/2,Zero.z+size.z);
-        NorthWall.AddComponent<BoxCollider>().size = new Vector3(size.x,size.y,Wall.transform.localScale.z);
-        NorthWall.transform.parent = Walls.transform;
-        SouthWall = new GameObject("SouthWall");
-        SouthWall.transform.position = new Vector3(Zero.x+size.x/2,size.y/2,Zero.z);
-        SouthWall.AddComponent<BoxCollider>().size = new Vector3(size.x,size.y,Wall.transform.localScale.z);
-        SouthWall.transform.parent = Walls.transform;
-        WestWall = new GameObject("WestWall");
-        WestWall.transform.position = new Vector3(Zero.x,size.y/2,Zero.z+size.z/2);
-        WestWall.AddComponent<BoxCollider>().size = new Vector3(Wall.transform.localScale.z,size.y,size.z);
-        WestWall.transform.parent = Walls.transform;
-        EastWall = new GameObject("EastWall");
-        EastWall.transform.position = new Vector3(Zero.x+size.x,size.y/2,Zero.z+size.z/2);
-        EastWall.AddComponent<BoxCollider>().size = new Vector3(Wall.transform.localScale.z,size.y,size.z);
-        EastWall.transform.parent = Walls.transform;
+
+        // Box Collider tells me when player enters or exits a room.
+        gameObject.AddComponent<BoxCollider>().size = size;
+        this.GetComponent<BoxCollider>().center = Zero+size/2;
+        this.GetComponent<BoxCollider>().isTrigger = true;
 
         Debug.Log(size);
 
     }
 
 
-    public void SetLighting(Color c)
+    public void SetLighting(Color c, float intensity = 0)
     {
         Ceiling.GetComponent<Light>().color = c; 
+        Ceiling.GetComponent<Light>().intensity = intensity;
     }
 
     public bool InRoom(GameObject Player)
     {
         if (!Player) return false;
+
         if (RoomBounds.Contains(Player.transform.position))
             return true;
         return false;
     }
 
+    private void OnTriggerEnter(Collider player) {
+        this.SetLighting(Color.white,2);
+    }
+    private void OnTriggerExit(Collider player) {
+        this.SetLighting(Color.white,0);
+    }
 
+    /*
     public List<float> Doorway(GameObject wall) {
         List<float> xs = new List<float>();
         foreach(Transform w in wall.transform) {
@@ -100,7 +98,7 @@ public class Room : MonoBehaviour
             }
         }
         return xs;
-    }
+    } */
 
     public void BuildWalls()
     {
@@ -113,8 +111,6 @@ public class Room : MonoBehaviour
         for(int i = 0; i < size.x; i++)
         {
             GameObject n, s;
-            Transform nd = NorthWall.transform.Find("Door");
-            Transform sd = SouthWall.transform.Find("Door");
             bool doorHere = false;
             foreach(Collider o in Physics.OverlapBox(new Vector3(Zero.x+i+0.5f,size.y/2,Zero.z+size.z-Wall.transform.localScale.z/2),new Vector3(Wall.transform.localScale.x/4,size.y/2,Wall.transform.localScale.z/2))) {
                 if(o.name == "Door")    doorHere = true;
@@ -127,7 +123,7 @@ public class Room : MonoBehaviour
                             size.y / 2, 
                             Zero.z + size.z - Wall.transform.localScale.z/2),
                         Quaternion.Euler(0, 180.0f, 0), 
-                        NorthWall.transform);
+                        Walls.transform);
                 n.transform.localScale = new Vector3(n.transform.localScale.x, size.y, n.transform.localScale.z);
                 n.name = "NorthWall";
             }
@@ -144,7 +140,7 @@ public class Room : MonoBehaviour
                         size.y / 2, 
                         Zero.z + Wall.transform.localScale.z/2), 
                     Quaternion.identity, 
-                    SouthWall.transform);
+                    Walls.transform);
             s.transform.localScale = new Vector3(s.transform.localScale.x, size.y, s.transform.localScale.z);
             s.name = "SouthWall";
 
@@ -157,7 +153,6 @@ public class Room : MonoBehaviour
             foreach(Collider o in Physics.OverlapBox(new Vector3(Zero.x+size.x-Wall.transform.localScale.z/2,size.y/2,Zero.z+i+0.5f),new Vector3(Wall.transform.localScale.x/4,size.y/2,Wall.transform.localScale.z/4))) {
                 if(o.name == "Door")    doorHere = true;
             }
-            Transform ed = EastWall.transform.Find("Door");
             if(!doorHere) {
                 e = GameObject.Instantiate(
                         Wall, 
@@ -166,7 +161,7 @@ public class Room : MonoBehaviour
                             size.y / 2, 
                             Zero.z + i + 0.5f), 
                         Quaternion.Euler(0, 90.0f, 0), 
-                        EastWall.transform);
+                        Walls.transform);
                 e.transform.localScale = new Vector3(e.transform.localScale.x, size.y, e.transform.localScale.z);
                 e.name = "EastWall";
 
@@ -176,7 +171,6 @@ public class Room : MonoBehaviour
             foreach(Collider o in Physics.OverlapBox(new Vector3(Zero.x-Wall.transform.localScale.z/2,size.y/2,Zero.z+i+0.5f),new Vector3(Wall.transform.localScale.x/4,size.y/2,Wall.transform.localScale.z/4))) {
                 if(o.name == "Door")    doorHere = true;
             }
-            Transform wd = WestWall.transform.Find("Door");
             if(!doorHere) {
                 w = GameObject.Instantiate(
                         Wall, 
@@ -185,19 +179,17 @@ public class Room : MonoBehaviour
                             size.y / 2, 
                             Zero.z + i + 0.5f), 
                         Quaternion.Euler(0, -90.0f, 0), 
-                        WestWall.transform);
+                        Walls.transform);
                 w.transform.localScale = new Vector3(w.transform.localScale.x, size.y, w.transform.localScale.z);
                 w.name = "WestWall";
             }
         }
-        int rand = Random.Range(0, Walls.transform.childCount - 1);
+        int rand = Random.Range(2, Walls.transform.childCount - 3);
         Transform start = Walls.transform.GetChild(rand);
-        Transform u = start.GetChild(Random.Range(3,start.childCount-4));
-        while (u.name == "Door")
-            u = start.GetChild(Random.Range(2,start.childCount-3));
-        GetInnerWalls(u,0);
+        while(start.name == "Door")
+            start = Walls.transform.GetChild(rand);
+        GetInnerWalls(start,0);
     }
-
     public void GetInnerWalls(Transform start, int depth)
     {
         if (depth > 1) return;
@@ -214,6 +206,7 @@ public class Room : MonoBehaviour
                 end = new Vector3(start.position.x, 0.0f, Zero.z + size.z+0.5f);
                 break;
             case 180:
+            case -180:
                 end = new Vector3(Zero.x, 0.0f, start.position.z);
                 break;
             case -90:
@@ -228,7 +221,7 @@ public class Room : MonoBehaviour
         if (distance < 4) return;
         for (float i = 0.5f; i < distance; i += 1)
         {
-            if (i < distance * 0.35f || i > distance * 0.65f)
+            if (i < distance*0.35f || i > distance * 0.65f)
             {
                 float newX = start.position.x + Mathf.Cos(direction.y * Mathf.Deg2Rad) * i + Mathf.Sin(direction.y * Mathf.Deg2Rad) * 0.5f;
                 float newZ = start.position.z + Mathf.Sin(direction.y * Mathf.Deg2Rad) * i + Mathf.Cos(direction.y * Mathf.Deg2Rad) * 0.5f;
@@ -241,7 +234,7 @@ public class Room : MonoBehaviour
             }
         }
 
-        GetInnerWalls(temp[(int)Random.Range(temp.Count*0.2f, temp.Count*0.8f)].transform,depth+1);
+        GetInnerWalls(temp[(int)Random.Range(temp.Count*0.35f, temp.Count*0.65f)].transform,depth+1);
 
     }
     public void SetSize(Vector3 size) {

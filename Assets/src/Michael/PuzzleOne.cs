@@ -24,7 +24,7 @@ public class PuzzleOne : MonoBehaviour {
 	}
 
 	void Update () {
-        if (!solved)
+        if (!solved && inventory != null)
         {
            if (inventory.items.Count > 0)
             {
