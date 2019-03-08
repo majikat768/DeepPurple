@@ -85,6 +85,14 @@ public class RoomGenerator : MonoBehaviour
                 newroom.name = "Room";
                 break;
         }
+        
+        // I'll comment out the lines below, 
+        // then in LevelGenerator you can add in something like: 
+        //  r = GetComponent<RoomGenerator>().Get(Zero,rt);
+        //  r.SetSize(vector3 dimensions);
+        //  ...other room attributes to be added later....
+        //  r.Init();
+        //  the output should be something like the scene in my tst/ folder.
         r.SetZero(Zero);
         r.SetSize(size);
         r.Init();
@@ -109,7 +117,7 @@ public class RoomGenerator : MonoBehaviour
                     Room NorthRoom = o.transform.parent.parent.gameObject.GetComponent<Room>();
                     Room SouthRoom = n.transform.parent.parent.gameObject.GetComponent<Room>();
 
-                    float Doorx = (Mathf.Max(NorthRoom.WestWall.transform.position.x,SouthRoom.WestWall.transform.position.x) 
+                    float Doorx = (int)(Mathf.Max(NorthRoom.WestWall.transform.position.x,SouthRoom.WestWall.transform.position.x) 
                             + Mathf.Min(NorthRoom.EastWall.transform.position.x,SouthRoom.EastWall.transform.position.x))/2.0f + 0.5f;
 
                     d = GameObject.Instantiate(
@@ -140,8 +148,8 @@ public class RoomGenerator : MonoBehaviour
                     Room WestRoom = o.transform.parent.parent.gameObject.GetComponent<Room>();
                     Room EastRoom = w.transform.parent.parent.gameObject.GetComponent<Room>();
 
-                    float Doorz = (Mathf.Max(WestRoom.SouthWall.transform.position.z,EastRoom.SouthWall.transform.position.z) 
-                            + Mathf.Min(WestRoom.NorthWall.transform.position.z,EastRoom.NorthWall.transform.position.z))/2.0f + 0.5f;
+                    float Doorz = (int)((Mathf.Max(WestRoom.SouthWall.transform.position.z,EastRoom.SouthWall.transform.position.z) 
+                            + Mathf.Min(WestRoom.NorthWall.transform.position.z,EastRoom.NorthWall.transform.position.z))/2.0f) + 0.5f;
 
                     d = GameObject.Instantiate(
                             Door, 
