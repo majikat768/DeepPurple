@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +11,7 @@ public class OpenDoor : MonoBehaviour {
     private int motionSensor = 4;
     private GameObject Player;
     private bool isOpen = false;
-    private bool isLocked = true;
+    private bool isLocked = false;
 
 	void Start () {
         Player = GameObject.FindWithTag("Player");

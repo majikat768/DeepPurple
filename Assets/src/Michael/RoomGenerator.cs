@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.AI;
 using UnityEngine.AI;
@@ -27,6 +27,7 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField]
     private Vector3 Zero;
     public bool standalone = false;
+    public bool final = false;
 
     void Awake()
     {
@@ -35,10 +36,12 @@ public class RoomGenerator : MonoBehaviour
         Block = Resources.Load<GameObject>("Michael/Block");
         Floor = Resources.Load<GameObject>("Michael/Plane");
         Ceiling = Resources.Load<GameObject>("Michael/Plane");
+    }
+    void Start() {
 
-        if (standalone)
+        if(standalone)  Get(this.transform.position, rt);
+        if (final)
         {
-            Get(this.transform.position, rt);
             BuildDoors();
             BakeNavMesh();
         }
@@ -83,6 +86,7 @@ public class RoomGenerator : MonoBehaviour
                 break;
         }
         r.SetZero(Zero);
+        r.SetSize(size);
         r.Init();
         RoomList.Add(r);
         return r;
@@ -90,25 +94,81 @@ public class RoomGenerator : MonoBehaviour
 
     public static void BuildDoors()
     {
+        // each wall is an empty object with a collider.
+        // this function checks each wall collider for another collider close by,
+        // indicating it's next to another room.
+        // it finds where the room edges overlap, puts a Doorway there, and removes the empty wall collider.
+        // finally it calls the BuildWalls function, which puts up walls between all the doors.
+        // I'm adding doors to two different rooms, so i have to do DoorList.Add on the correct room...fix this
+        GameObject d;
         foreach(Room r in RoomList)
         {
-            foreach(GameObject d in r.DoorList)
-            {
-                foreach(Collider o in Physics.OverlapBox(d.transform.position,d.transform.localScale))
-                {
-                    if(o.name == "Door" && !r.DoorList.Contains(o.gameObject))
-                    {
-                        Debug.Log("door found");
-                        d.GetComponent<OpenDoor>().Unlock();
-                        o.gameObject.GetComponent<OpenDoor>().Unlock();
-                        break;
-                    }
+            Transform n = r.transform.Find("Walls/NorthWall");
+            foreach(Collider o in Physics.OverlapBox(n.position,n.GetComponent<BoxCollider>().size/3)) {
+                if(o.name == "SouthWall") {
+                    Room NorthRoom = o.transform.parent.parent.gameObject.GetComponent<Room>();
+                    Room SouthRoom = n.transform.parent.parent.gameObject.GetComponent<Room>();
 
+                    float Doorx = (Mathf.Max(NorthRoom.WestWall.transform.position.x,SouthRoom.WestWall.transform.position.x) 
+                            + Mathf.Min(NorthRoom.EastWall.transform.position.x,SouthRoom.EastWall.transform.position.x))/2.0f + 0.5f;
+
+                    d = GameObject.Instantiate(
+                            Door,
+                            new Vector3(Doorx,NorthRoom.size.y/2,NorthRoom.Zero.z),
+                            Quaternion.identity,
+                            NorthRoom.SouthWall.transform);
+                    d.transform.localScale = new Vector3(Door.transform.localScale.x,NorthRoom.size.y,Door.transform.localScale.z);
+                    d.name = "Door";
+                    r.DoorList.Add(d);
+                    d = GameObject.Instantiate(
+                            Door,
+                            new Vector3(Doorx,NorthRoom.size.y/2,NorthRoom.Zero.z),
+                            Quaternion.identity,
+                            SouthRoom.NorthWall.transform);
+                    d.transform.localScale = new Vector3(Door.transform.localScale.x,SouthRoom.size.y,Door.transform.localScale.z);
+                    d.name = "Door";
+                    r.DoorList.Add(d);
 
                 }
+                Destroy(o.GetComponent<BoxCollider>());
+                Destroy(n.GetComponent<BoxCollider>());
+
+            }
+            Transform w = r.transform.Find("Walls/WestWall");
+            foreach(Collider o in Physics.OverlapBox(w.position,w.GetComponent<BoxCollider>().size/3)) {
+                if(o.name == "EastWall") {
+                    Room WestRoom = o.transform.parent.parent.gameObject.GetComponent<Room>();
+                    Room EastRoom = w.transform.parent.parent.gameObject.GetComponent<Room>();
+
+                    float Doorz = (Mathf.Max(WestRoom.SouthWall.transform.position.z,EastRoom.SouthWall.transform.position.z) 
+                            + Mathf.Min(WestRoom.NorthWall.transform.position.z,EastRoom.NorthWall.transform.position.z))/2.0f + 0.5f;
+
+                    d = GameObject.Instantiate(
+                            Door, 
+                            new Vector3(EastRoom.Zero.x,WestRoom.size.y/2,Doorz),
+                            Quaternion.Euler(0,90.0f,0),
+                            WestRoom.EastWall.transform);
+                    d.transform.localScale = new Vector3(Door.transform.localScale.x,WestRoom.size.y,Door.transform.localScale.z);
+                    d.name = "Door";
+                    r.DoorList.Add(d);
+                    d = GameObject.Instantiate(
+                            Door, 
+                            new Vector3(EastRoom.Zero.x,WestRoom.size.y/2,Doorz),
+                            Quaternion.Euler(0,90.0f,0),
+                            EastRoom.WestWall.transform);
+                    d.transform.localScale = new Vector3(Door.transform.localScale.x,EastRoom.size.y,Door.transform.localScale.z);
+                    d.name = "Door";
+                    r.DoorList.Add(d);
+                }
+                Destroy(o.GetComponent<BoxCollider>());
+                Destroy(w.GetComponent<BoxCollider>());
             }
 
         }
+        foreach(Room r in RoomList) {
+            r.BuildWalls();
+        }
+
     }
 
     public static void BakeNavMesh()

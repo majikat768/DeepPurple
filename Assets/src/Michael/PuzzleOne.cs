@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class PuzzleOne : MonoBehaviour {
 
@@ -18,7 +18,7 @@ public class PuzzleOne : MonoBehaviour {
     public void Init(Vector3 Zero, Vector3 size)
     { 
         GameObject key = GameObject.Instantiate(
-            Resources.Load<GameObject>("Gabriel/Items/Interactable"),
+            Resources.Load<GameObject>("Gabriel/Items/GameObjects/Interactable"),
             Zero+size/2,Quaternion.identity,this.transform);
 		
 	}

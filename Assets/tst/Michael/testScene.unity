@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38074008, b: 0.35872707, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -145,6 +145,7 @@ MonoBehaviour:
   size: {x: 16, y: 4, z: 12}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
+  final: 0
 --- !u!4 &186880541
 Transform:
   m_ObjectHideFlags: 0
@@ -152,7 +153,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 186880539}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 0, z: 32}
+  m_LocalPosition: {x: 16, y: 0, z: 36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -190,6 +191,7 @@ MonoBehaviour:
   size: {x: 16, y: 4, z: 16}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
+  final: 0
 --- !u!4 &341014172
 Transform:
   m_ObjectHideFlags: 0
@@ -1175,6 +1177,7 @@ MonoBehaviour:
   size: {x: 16, y: 4, z: 16}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
+  final: 0
 --- !u!4 &745875550
 Transform:
   m_ObjectHideFlags: 0
@@ -1245,7 +1248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &870038856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1262,6 +1265,7 @@ MonoBehaviour:
   size: {x: 16, y: 4, z: 16}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
+  final: 0
 --- !u!4 &870038857
 Transform:
   m_ObjectHideFlags: 0
@@ -1304,9 +1308,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 3
   r: {fileID: 0}
-  size: {x: 16, y: 4, z: 20}
+  size: {x: 48, y: 4, z: 20}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
+  final: 0
 --- !u!4 &995219049
 Transform:
   m_ObjectHideFlags: 0
@@ -1391,9 +1396,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 2
   r: {fileID: 0}
-  size: {x: 24, y: 4, z: 16}
+  size: {x: 24, y: 4, z: 36}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
+  final: 0
 --- !u!4 &1866962121
 Transform:
   m_ObjectHideFlags: 0
@@ -1401,7 +1407,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1866962119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32, y: 0, z: 16}
+  m_LocalPosition: {x: 48, y: 0, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1452,7 +1458,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 16
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1503,15 +1509,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1572,6 +1578,7 @@ MonoBehaviour:
   size: {x: 16, y: 4, z: 16}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
+  final: 1
 --- !u!4 &1929334710
 Transform:
   m_ObjectHideFlags: 0
@@ -1579,7 +1586,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1929334708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32, y: 0, z: 32}
+  m_LocalPosition: {x: 32, y: 0, z: 36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

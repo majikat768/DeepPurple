@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class TreasureRoom : Room
 {
@@ -11,8 +11,8 @@ public class TreasureRoom : Room
 
     public void Start()
     {
-        Interactable = Resources.Load<GameObject>("Gabriel/Items/Interactable");
-        Currency = Resources.Load<GameObject>("Gabriel/Items/CurrencyItem");
+        Interactable = Resources.Load<GameObject>("Gabriel/Items/GameObjects/Interactable");
+        Currency = Resources.Load<GameObject>("Gabriel/Items/GameObjects/CurrencyItem");
 
 
         // Item i = new Item();

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class StartRoom : Room
 {
@@ -11,7 +11,7 @@ public class StartRoom : Room
         // 
         Vector3 SpawnPoint = new Vector3(size.x / 2, 1.0f, size.z / 2);
         Player = GameObject.FindWithTag("Player");
-        Player.transform.position = SpawnPoint;
+        //Player.transform.position = SpawnPoint;
         /*
             Player = Object.Instantiate(FirstPerson, SpawnPoint, Quaternion.identity, room.transform);
         else

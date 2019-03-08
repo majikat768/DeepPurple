@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,7 +26,6 @@ public class PuzzleRoom : Room
         {
             if (this.GetComponent<Room>().InRoom(Player) && !locked)
             {
-            Debug.Log(solved);
                 locked = true;
                 Debug.Log("locking doors");
                 foreach (GameObject d in R.DoorList)
