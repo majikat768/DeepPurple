@@ -8,6 +8,7 @@ using UnityEngine.AI;
 
 public class RoomGenerator : MonoBehaviour
 {
+
     // Declare all the object references I'll be using; gets passed down to Room class
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat };
     public static List<Room> RoomList = new List<Room>();
@@ -102,11 +103,12 @@ public class RoomGenerator : MonoBehaviour
 
     public static void BuildDoors()
     {
-        // each wall is an empty object with a collider.
+        //checks each Room's box collider for nearby box colliders attached to other rooms,
+        //finds overlapping wall sections and puts Door objects there
         // this function checks each wall collider for another collider close by,
         // indicating it's next to another room.
         // it finds where the room edges overlap, puts a Doorway there, and removes the empty wall collider.
-        // finally it calls the BuildWalls function, which puts up walls between all the doors.
+        // finally it calls the BuildWall function, which puts up walls between all the doors.
         // I'm adding doors to two different rooms, so i have to do DoorList.Add on the correct room...fix this
         GameObject d;
         Debug.Log(RoomList.Count);
@@ -127,9 +129,11 @@ public class RoomGenerator : MonoBehaviour
                             float DoorX = (WestOverlapEdge+EastOverlapEdge)/2.0f+0.5f;
                             float DoorZ = roomCollider.center.z+roomCollider.size.z/2;
                             d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.identity,room.transform);
+                            d.transform.localScale = new Vector3(d.transform.localScale.x, room.size.y, d.transform.localScale.z);
                             d.name = "Door";
                             room.DoorList.Add(d);
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.identity,o.transform);
+                            d = GameObject.Instantiate(Door,new Vector3(DoorX,o.GetComponent<Room>().size.y/2,DoorZ),Quaternion.identity,o.transform);
+                            d.transform.localScale = new Vector3(d.transform.localScale.x, o.GetComponent<Room>().size.y, d.transform.localScale.z);
                             d.name = "Door";
                             o.GetComponent<Room>().DoorList.Add(d);
                         }
@@ -146,9 +150,11 @@ public class RoomGenerator : MonoBehaviour
                             float DoorX = roomCollider.center.x-roomCollider.size.x/2;
 
                             d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.Euler(0,90.0f,0),room.transform);
+                            d.transform.localScale = new Vector3(d.transform.localScale.x, room.size.y, d.transform.localScale.z);
                             d.name = "Door";
                             room.DoorList.Add(d);
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.Euler(0,90.0f,0),o.transform);
+                            d = GameObject.Instantiate(Door,new Vector3(DoorX,o.GetComponent<Room>().size.y/2,DoorZ),Quaternion.Euler(0,90.0f,0),o.transform);
+                            d.transform.localScale = new Vector3(d.transform.localScale.x, o.GetComponent<Room>().size.y, d.transform.localScale.z);
                             d.name = "Door";
                             o.GetComponent<Room>().DoorList.Add(d);
                         }
@@ -158,8 +164,9 @@ public class RoomGenerator : MonoBehaviour
             }
 
         }
+
         foreach(Room r in RoomList) {
-            r.BuildWalls();
+            r.GetWalls();
         }
 
     }

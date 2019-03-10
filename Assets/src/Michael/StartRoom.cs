@@ -11,6 +11,7 @@ public class StartRoom : Room
         // 
         Vector3 SpawnPoint = new Vector3(size.x / 2, 1.0f, size.z / 2);
         Player = GameObject.FindWithTag("Player");
+        this.Ceiling.GetComponent<Light>().intensity = 2;
         //Player.transform.position = SpawnPoint;
         /*
             Player = Object.Instantiate(FirstPerson, SpawnPoint, Quaternion.identity, room.transform);

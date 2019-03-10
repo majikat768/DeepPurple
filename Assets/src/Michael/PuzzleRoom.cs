@@ -20,27 +20,30 @@ public class PuzzleRoom : Room
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject == Player)
+        {
+            locked = true;
+            foreach (GameObject d in R.DoorList)
+                d.GetComponent<OpenDoor>().Lock();
+            R.SetLighting(Color.red,1);
+        }
+    }
     public void Update()
     {
-        if (!solved)
+        if (locked && !solved)
         {
-            if (this.GetComponent<Room>().InRoom(Player) && !locked)
-            {
-                locked = true;
-                Debug.Log("locking doors");
-                foreach (GameObject d in R.DoorList)
-                    d.GetComponent<OpenDoor>().Lock();
-                //R.SetLighting(Color.red);
-            }
             solved = gameObject.GetComponent<PuzzleOne>().isSolved();
 
         }
+
         if (solved && locked)
         {
             locked = false;
             foreach (GameObject d in R.DoorList)
                 d.GetComponent<OpenDoor>().Unlock();
-            //R.SetLighting(Color.white);
+            R.SetLighting(Color.white,1);
             
         }
     }
