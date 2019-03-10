@@ -65,6 +65,7 @@ public class RoomGenerator : MonoBehaviour
                 break;
             case RoomType.Combat:
                 r = newroom.AddComponent<CombatRoom>();
+                newroom.AddComponent<EnemyManager>();
                 newroom.name = "Fight Room";
                 break;
             case RoomType.Treasure:
