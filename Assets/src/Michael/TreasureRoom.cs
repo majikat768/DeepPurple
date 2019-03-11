@@ -40,6 +40,5 @@ public class TreasureRoom : Room
             GameObject currency = Object.Instantiate(Currency,SpawnPoint,Quaternion.identity,items.transform);
         }
 
-        Debug.Log("Treasure");
     }
 }

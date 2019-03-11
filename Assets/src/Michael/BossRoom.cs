@@ -6,7 +6,6 @@ public class BossRoom : Room
 
     public new void Start()
     {
-        Debug.Log("BOSS");
         // the Boss Room will one reeaal big enemy spawn.
         // red blocks
         Vector3 SpawnPoint = new Vector3(Zero.x + Random.Range(1, size.x - 1), 0.5f, Zero.z + Random.Range(1, size.z - 1));

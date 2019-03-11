@@ -11,6 +11,8 @@ public class RoomGenerator : MonoBehaviour
 
     // Declare all the object references I'll be using; gets passed down to Room class
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat };
+    public static int WallLayer;
+    public static int WallMask;
     public static List<Room> RoomList = new List<Room>();
     public static List<GameObject> EnemyList = new List<GameObject>();
     public static GameObject Wall;
@@ -32,6 +34,8 @@ public class RoomGenerator : MonoBehaviour
 
     void Awake()
     {
+        WallLayer = 8;
+        WallMask = 1 << WallLayer;
         Wall = Resources.Load<GameObject>("Michael/Wall");
         Door = Resources.Load<GameObject>("Michael/Door");
         Block = Resources.Load<GameObject>("Michael/Block");
@@ -111,17 +115,14 @@ public class RoomGenerator : MonoBehaviour
         // finally it calls the BuildWall function, which puts up walls between all the doors.
         // I'm adding doors to two different rooms, so i have to do DoorList.Add on the correct room...fix this
         GameObject d;
-        Debug.Log(RoomList.Count);
         foreach(Room room in RoomList)
         {
-            Debug.Log("Room " + room.name);
             BoxCollider roomCollider = room.GetComponent<BoxCollider>();
             foreach(Collider o in Physics.OverlapBox(roomCollider.center,roomCollider.size/2)) {
                 if(o.GetComponent<Room>() && o != roomCollider) {
                     // detect if roomCollider is touching o on o's north, south, east, or west side.
                     // r south of o
                     if(o.bounds.center.z - o.bounds.size.z/2 >= roomCollider.center.z + roomCollider.size.z/2) {
-                        Debug.Log(roomCollider.name + " south of " + o.name);
                         //find X location of doorway from south side of o to north side of r.
                         float WestOverlapEdge = Mathf.Max(roomCollider.center.x-roomCollider.size.x/2,o.bounds.center.x-o.bounds.size.x/2);
                         float EastOverlapEdge = Mathf.Min(roomCollider.center.x+roomCollider.size.x/2,o.bounds.center.x+o.bounds.size.x/2);
@@ -141,7 +142,6 @@ public class RoomGenerator : MonoBehaviour
                     /* else if(o.bounds.center.z + o.bounds.size.z/2 <= roomCollider.center.z-roomCollider.size.z/2)
                         Debug.Log(roomCollider.name + " north of " + o.name); */
                     else if(o.bounds.center.x + o.bounds.size.x/2 <= roomCollider.center.x - roomCollider.size.x/2) {
-                        Debug.Log(roomCollider.name + " east of " + o.name);
                         
                         float SouthOverlapEdge = Mathf.Max(roomCollider.center.z-roomCollider.size.z/2,o.bounds.center.z-o.bounds.size.z/2);
                         float NorthOverlapEdge = Mathf.Min(roomCollider.center.z+roomCollider.size.z/2,o.bounds.center.z+o.bounds.size.z/2);
@@ -173,9 +173,7 @@ public class RoomGenerator : MonoBehaviour
 
     public static void BakeNavMesh()
     {
-        Debug.Log("baking");
         UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
-        Debug.Log("done");
     }
 
 
