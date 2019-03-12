@@ -34,7 +34,7 @@ public class OpenDoor : MonoBehaviour {
         isOpen = false;
         float dx,dz;
         if(!isLocked) {
-            foreach(GameObject e in RoomGenerator.EnemyList) {
+            foreach(GameObject e in EnemyManager.EnemyList) {
                 Vector3 ePos = e.transform.position;
                 dx = Math.Abs(ePos.x-transform.position.x);
                 dz = Math.Abs(ePos.z-transform.position.z);

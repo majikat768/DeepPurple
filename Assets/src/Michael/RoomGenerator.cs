@@ -65,7 +65,7 @@ public class RoomGenerator : MonoBehaviour
                 break;
             case RoomType.Combat:
                 r = newroom.AddComponent<CombatRoom>();
-                newroom.AddComponent<EnemyManager>();
+                //newroom.AddComponent<EnemyManager>();
                 newroom.name = "Fight Room";
                 break;
             case RoomType.Treasure:
@@ -88,7 +88,7 @@ public class RoomGenerator : MonoBehaviour
         }
         
         // I'll comment out the lines below, 
-        // then in LevelGenerator you can add in something like: 
+        // then in LevelGenerator we can add in something like: 
         //  r = GetComponent<RoomGenerator>().Get(Zero,rt);
         //  r.SetSize(vector3 dimensions);
         //  ...other room attributes to be added later....
