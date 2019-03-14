@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Actions))]
 public class BasicEnemy : MonoBehaviour, IAttackable
 {
 
@@ -18,13 +19,19 @@ public class BasicEnemy : MonoBehaviour, IAttackable
 
     //stores the actions class for animations
     private Actions action;
+
     void awake()
     {
-        Debug.Log("Hello");
-        action = GetComponent<Actions>();
+
     }
     void Start()
     {
+        Debug.Log("Hello");
+        action = GetComponent<Actions>();
+        if(action == null)
+        {
+            Debug.Log("Action component was not attached");
+        }
         player = GameObject.FindWithTag("Player");
     }
 
