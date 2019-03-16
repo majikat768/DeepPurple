@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 4
   r: {fileID: 0}
-  size: {x: 16, y: 4, z: 12}
+  size: {x: 16, y: 3, z: 12}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
   final: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 0
   r: {fileID: 0}
-  size: {x: 16, y: 4, z: 16}
+  size: {x: 16, y: 3, z: 16}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
   final: 0
@@ -1178,7 +1178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 2
   r: {fileID: 0}
-  size: {x: 16, y: 4, z: 16}
+  size: {x: 16, y: 3, z: 16}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
   final: 0
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 3
   r: {fileID: 0}
-  size: {x: 48, y: 4, z: 20}
+  size: {x: 48, y: 3, z: 20}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
   final: 0
@@ -1362,7 +1362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 4
   r: {fileID: 0}
-  size: {x: 24, y: 4, z: 12}
+  size: {x: 24, y: 3, z: 12}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
   final: 0
@@ -1408,7 +1408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 2
   r: {fileID: 0}
-  size: {x: 24, y: 4, z: 36}
+  size: {x: 24, y: 3, z: 36}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
   final: 0
@@ -1551,6 +1551,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 149790, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
   m_IsPrefabParent: 0
@@ -1583,7 +1587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rt: 1
   r: {fileID: 0}
-  size: {x: 16, y: 4, z: 16}
+  size: {x: 16, y: 3, z: 16}
   Zero: {x: 0, y: 0, z: 0}
   standalone: 1
   final: 1

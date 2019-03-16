@@ -12,22 +12,24 @@ public class OpenDoor : MonoBehaviour {
     private GameObject Player;
     private bool isOpen = false;
     private bool isLocked = false;
-    private AudioClip openSound; 
+    private AudioClip openSound,closeSound; 
     private AudioSource audioSource;
     public float volume = 0.5f;
 
 	void Start () {
         Player = GameObject.FindWithTag("Player");
-        OpenPosition = this.transform.position + new Vector3(0.0f,this.transform.localScale.y,0.0f);
+        OpenPosition = this.transform.position + new Vector3(0.0f,this.GetComponent<Collider>().bounds.size.y,0.0f);
         ClosePosition = this.transform.position;
 
-            //openSound = (AudioClip)Resources.Load("Michael/Audio/suva__frome");
         audioSource = gameObject.GetComponent<AudioSource>();
         //audioSource.clip = openSound;
         audioSource.playOnAwake = false;
-		
-        if(openSound == null)
-            openSound = (AudioClip)Resources.Load("Michael/Audio/sfx-door-open");
+
+        if (openSound == null)
+            openSound = (AudioClip)Resources.Load("Michael/Audio/electric_door_opening_1");
+        if (closeSound == null)
+            closeSound = (AudioClip)Resources.Load("Michael/Audio/electric_door_closing_2");
+            //closeSound = (AudioClip)Resources.Load("Michael/Audio/sfx-door-open");
 	}
 	
 	void Update () {
@@ -52,7 +54,7 @@ public class OpenDoor : MonoBehaviour {
             if(distPlayer <= motionSensor) {
                 isOpen = true;
                 if(!audioSource.isPlaying)   
-                    audioSource.PlayOneShot(openSound,0.5f);
+                    audioSource.PlayOneShot(openSound,1.0f);
             }
 
 
@@ -75,9 +77,21 @@ public class OpenDoor : MonoBehaviour {
     }
 
     private void Close() {
-        if(this.transform.position.y > ClosePosition.y)
-            this.transform.position -= new Vector3(0,moveSpeed*Time.deltaTime,0);
+        if (this.transform.position.y > ClosePosition.y)
+        {
+            this.transform.position -= new Vector3(0, moveSpeed * Time.deltaTime, 0);
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(closeSound, 1.0f);
+        }
+        else
+            audioSource.Stop();
     }
-    public void Lock() { this.isLocked = true; }
-    public void Unlock() { this.isLocked = false; }
+    public void Lock() {
+        this.isLocked = true;
+        this.GetComponent<Renderer>().materials[1].color = new Color(0.984f, 0.313f, 0.156f, 0.309f);
+    }
+    public void Unlock() {
+        this.isLocked = false;
+        this.GetComponent<Renderer>().materials[1].color = new Color(0.156f, 0.313f, 0.984f, 0.309f);
+    }
 }

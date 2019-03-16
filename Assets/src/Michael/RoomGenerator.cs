@@ -16,9 +16,10 @@ public class RoomGenerator : MonoBehaviour
     public static List<Room> RoomList = new List<Room>();
     public static List<GameObject> EnemyList = new List<GameObject>();
     public static GameObject Wall;
+    public static float WallHeight;
     public static GameObject Door;
     public static GameObject Block;
-    public static GameObject Floor;
+    public static GameObject FloorTile;
     public static GameObject Ceiling; 
 
 
@@ -26,7 +27,7 @@ public class RoomGenerator : MonoBehaviour
     public Room r;
 
     [SerializeField]
-    private Vector3 size = new Vector3(16.0f,4.0f,16.0f);
+    private Vector3 size = new Vector3(16.0f,3.0f,16.0f);
     [SerializeField]
     private Vector3 Zero;
     public bool standalone = false;
@@ -36,10 +37,13 @@ public class RoomGenerator : MonoBehaviour
     {
         WallLayer = 8;
         WallMask = 1 << WallLayer;
-        Wall = Resources.Load<GameObject>("Michael/Wall");
-        Door = Resources.Load<GameObject>("Michael/Door");
+        //Wall = Resources.Load<GameObject>("Michael/Wall");
+        Wall = Resources.Load<GameObject>("Prefabs/Wall_2_X4");
+        //Door = Resources.Load<GameObject>("Michael/Door");
+        Door = Resources.Load<GameObject>("Prefabs/WindowGlass_001");
         Block = Resources.Load<GameObject>("Michael/Block");
-        Floor = Resources.Load<GameObject>("Michael/Plane");
+        //Floor = Resources.Load<GameObject>("Michael/Plane");
+        FloorTile = Resources.Load<GameObject>("Prefabs/Floor_002");
         Ceiling = Resources.Load<GameObject>("Michael/Plane");
     }
     void Start() {
@@ -82,7 +86,8 @@ public class RoomGenerator : MonoBehaviour
                 break;
             case RoomType.Puzzle:
                 r = newroom.AddComponent<PuzzleRoom>();
-                newroom.AddComponent<PuzzleOne>();
+                //newroom.AddComponent<PuzzleOne>();
+                newroom.AddComponent<PuzzleTwo>();
                 newroom.name = "Puzzle Room";
                 break;
             default:
@@ -115,48 +120,51 @@ public class RoomGenerator : MonoBehaviour
         // finally it calls the BuildWall function, which puts up walls between all the doors.
         // I'm adding doors to two different rooms, so i have to do DoorList.Add on the correct room...fix this
         GameObject d;
+        Vector3 dBounds;
+        float doorWidth = 2.5f;
         foreach(Room room in RoomList)
         {
             BoxCollider roomCollider = room.GetComponent<BoxCollider>();
-            foreach(Collider o in Physics.OverlapBox(roomCollider.center,roomCollider.size/2)) {
-                if(o.GetComponent<Room>() && o != roomCollider) {
+            foreach(Collider room2Collider in Physics.OverlapBox(roomCollider.center,roomCollider.size/2)) {
+                if(room2Collider.GetComponent<Room>() && room2Collider != roomCollider) {
                     // detect if roomCollider is touching o on o's north, south, east, or west side.
                     // r south of o
-                    if(o.bounds.center.z - o.bounds.size.z/2 >= roomCollider.center.z + roomCollider.size.z/2) {
+                    if(room2Collider.bounds.center.z - room2Collider.bounds.size.z/2 >= roomCollider.center.z + roomCollider.size.z/2) {
                         //find X location of doorway from south side of o to north side of r.
-                        float WestOverlapEdge = Mathf.Max(roomCollider.center.x-roomCollider.size.x/2,o.bounds.center.x-o.bounds.size.x/2);
-                        float EastOverlapEdge = Mathf.Min(roomCollider.center.x+roomCollider.size.x/2,o.bounds.center.x+o.bounds.size.x/2);
+                        float WestOverlapEdge = Mathf.Max(roomCollider.center.x-roomCollider.size.x/2,room2Collider.bounds.center.x-room2Collider.bounds.size.x/2);
+                        float EastOverlapEdge = Mathf.Min(roomCollider.center.x+roomCollider.size.x/2,room2Collider.bounds.center.x+room2Collider.bounds.size.x/2);
                         if(EastOverlapEdge - WestOverlapEdge > Door.transform.localScale.x*2) {
                             float DoorX = (WestOverlapEdge+EastOverlapEdge)/2.0f+0.5f;
                             float DoorZ = roomCollider.center.z+roomCollider.size.z/2;
                             d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.identity,room.transform);
-                            d.transform.localScale = new Vector3(d.transform.localScale.x, room.size.y, d.transform.localScale.z);
+                            dBounds = d.GetComponent<Renderer>().bounds.size;
+                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, room.size.y/dBounds.y, d.transform.localScale.z);
                             d.name = "Door";
+                            d.gameObject.SetActive(false);
+                            d.gameObject.SetActive(true);
                             room.DoorList.Add(d);
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,o.GetComponent<Room>().size.y/2,DoorZ),Quaternion.identity,o.transform);
-                            d.transform.localScale = new Vector3(d.transform.localScale.x, o.GetComponent<Room>().size.y, d.transform.localScale.z);
-                            d.name = "Door";
-                            o.GetComponent<Room>().DoorList.Add(d);
+                            room2Collider.GetComponent<Room>().DoorList.Add(d);
                         }
                     }
                     /* else if(o.bounds.center.z + o.bounds.size.z/2 <= roomCollider.center.z-roomCollider.size.z/2)
                         Debug.Log(roomCollider.name + " north of " + o.name); */
-                    else if(o.bounds.center.x + o.bounds.size.x/2 <= roomCollider.center.x - roomCollider.size.x/2) {
+                    else if(room2Collider.bounds.center.x + room2Collider.bounds.size.x/2 <= roomCollider.center.x - roomCollider.size.x/2) {
                         
-                        float SouthOverlapEdge = Mathf.Max(roomCollider.center.z-roomCollider.size.z/2,o.bounds.center.z-o.bounds.size.z/2);
-                        float NorthOverlapEdge = Mathf.Min(roomCollider.center.z+roomCollider.size.z/2,o.bounds.center.z+o.bounds.size.z/2);
+                        float SouthOverlapEdge = Mathf.Max(roomCollider.center.z-roomCollider.size.z/2,room2Collider.bounds.center.z-room2Collider.bounds.size.z/2);
+                        float NorthOverlapEdge = Mathf.Min(roomCollider.center.z+roomCollider.size.z/2,room2Collider.bounds.center.z+room2Collider.bounds.size.z/2);
                         if(NorthOverlapEdge - SouthOverlapEdge > Door.transform.localScale.x*2) {
-                            float DoorZ = (Mathf.Max(roomCollider.center.z-roomCollider.size.z/2,o.bounds.center.z-o.bounds.size.z/2)+Mathf.Min(roomCollider.center.z+roomCollider.size.z/2,o.bounds.center.z+o.bounds.size.z/2))/2.0f+0.5f;
+                            float DoorZ = (Mathf.Max(roomCollider.center.z-roomCollider.size.z/2,room2Collider.bounds.center.z-room2Collider.bounds.size.z/2)+Mathf.Min(roomCollider.center.z+roomCollider.size.z/2,room2Collider.bounds.center.z+room2Collider.bounds.size.z/2))/2.0f+0.5f;
                             float DoorX = roomCollider.center.x-roomCollider.size.x/2;
 
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.Euler(0,90.0f,0),room.transform);
-                            d.transform.localScale = new Vector3(d.transform.localScale.x, room.size.y, d.transform.localScale.z);
+                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.identity,room.transform);
+                            dBounds = d.GetComponent<Renderer>().bounds.size;
+                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, room.size.y/dBounds.y, d.transform.localScale.z);
+                            d.transform.Rotate(0, 90, 0);
                             d.name = "Door";
+                            d.gameObject.SetActive(false);
+                            d.gameObject.SetActive(true);
                             room.DoorList.Add(d);
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,o.GetComponent<Room>().size.y/2,DoorZ),Quaternion.Euler(0,90.0f,0),o.transform);
-                            d.transform.localScale = new Vector3(d.transform.localScale.x, o.GetComponent<Room>().size.y, d.transform.localScale.z);
-                            d.name = "Door";
-                            o.GetComponent<Room>().DoorList.Add(d);
+                            room2Collider.GetComponent<Room>().DoorList.Add(d);
                         }
                     }
 

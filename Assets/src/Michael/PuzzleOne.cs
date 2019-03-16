@@ -5,6 +5,7 @@ public class PuzzleOne : MonoBehaviour {
     private GameObject Player;
     private Inventory inventory;
     private bool solved;
+    private Vector3 Zero, size;
     public Room R;
 
     public void Start()
@@ -12,11 +13,10 @@ public class PuzzleOne : MonoBehaviour {
         Player = GameObject.FindWithTag("Player");
 
         inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
-        Player = GameObject.FindWithTag("Player");
-    }
+        R = this.GetComponent<Room>();
+        Zero = R.GetZero();
+        size = R.GetSize();
 
-    public void Init(Vector3 Zero, Vector3 size)
-    { 
         GameObject key = GameObject.Instantiate(
             Resources.Load<GameObject>("Gabriel/Items/GameObjects/Interactable"),
             Zero+size/2,Quaternion.identity,this.transform);

@@ -7,9 +7,11 @@ public class Room : MonoBehaviour
 {
     private Bounds RoomBounds;
     public List<GameObject> DoorList;
+    public List<GameObject> FloorTiles;
     protected GameObject Wall = RoomGenerator.Wall;
     protected GameObject Door = RoomGenerator.Door;
     protected GameObject Block = RoomGenerator.Block;
+    protected GameObject FloorTile = RoomGenerator.FloorTile;
     protected GameObject Player;
     public Vector3 Zero;
     public Vector3 size;
@@ -21,6 +23,7 @@ public class Room : MonoBehaviour
     public void Awake()
     {
         DoorList = new List<GameObject>();
+        FloorTiles = new List<GameObject>();
         Player = GameObject.FindWithTag("Player");
         Walls = new GameObject("Walls");
         Walls.transform.parent = this.gameObject.transform;
@@ -33,14 +36,39 @@ public class Room : MonoBehaviour
     public void Init() {
         this.RoomBounds = new Bounds(new Vector3(Zero.x + size.x / 2, Zero.y + size.y / 2, Zero.z + size.z / 2), size);
 
-        Floor = GameObject.Instantiate(
-            Resources.Load<GameObject>("Michael/Plane"),
+        /*
+         * * * * if tiling instances of a prefab, use this:
+         */
+        Floor = new GameObject("Floor");
+        Floor.transform.parent = this.transform;
+        for(float i = 0.5f; i < size.x; i++)
+        {
+            for(float j = 0.5f; j < size.z; j++)
+            {
+                GameObject f = GameObject.Instantiate(FloorTile, Zero + new Vector3(i, 0, j), FloorTile.transform.rotation, Floor.transform);
+                Vector3 FloorSize = f.GetComponent<Renderer>().bounds.size;
+                f.transform.localScale = new Vector3(1.0f / FloorSize.x, 1.0f, 1.0f / FloorSize.z);
+                f.name = "Floor";
+                FloorTiles.Add(f);
+            }
+        }
+        /*
+        */
+
+        /*
+         * * * * if using a tileable texture, use this:
+         *
+        GameObject f = GameObject.Instantiate(
+            Floor,
             new Vector3(size.x / 2 + Zero.x, 0, size.z / 2 + Zero.z), 
             Quaternion.identity,
             this.transform);
-        Floor.name = "Floor";
-        Floor.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
-        Floor.GetComponent<Renderer>().material.mainTextureScale = new Vector2(size.x/2, size.z/2);
+        Vector3 FloorSize = f.GetComponent<Renderer>().bounds.size;
+        f.name = "Floor";
+        f.transform.localScale = new Vector3(size.x / FloorSize.x, 1, size.z / FloorSize.x);
+        f.GetComponent<Renderer>().material.mainTextureScale = new Vector2(size.x/2, size.z/2);
+        *
+        */
 
         Ceiling = GameObject.Instantiate(
             Resources.Load<GameObject>("Michael/Plane"),
@@ -85,6 +113,7 @@ public class Room : MonoBehaviour
             this.SetLighting(Color.white, 1);
         }
     }
+
     private void OnTriggerExit(Collider player) {
         if (player.gameObject == Player)
         {
@@ -94,85 +123,112 @@ public class Room : MonoBehaviour
 
     public void GetWalls()
     {
-        BuildWall(Zero + new Vector3(0, size.y / 2, 0), Zero + new Vector3(size.x, size.y / 2, 0),size.y);
-        BuildWall(Zero + new Vector3(0, size.y / 2, 0), Zero + new Vector3(0, size.y / 2, size.z),size.y);
-        BuildWall(Zero + new Vector3(size.x, size.y / 2, 0), Zero + new Vector3(size.x, size.y / 2, size.z),size.y);
-        BuildWall(Zero + new Vector3(0, size.y / 2, size.z), Zero + new Vector3(size.x, size.y / 2, size.z),size.y);
+        Vector3 WallZero = Zero;// + new Vector3(0, size.y/2, 0);
+        BuildWall(WallZero, WallZero + new Vector3(size.x, 0, 0), size.y);
+        BuildWall(WallZero, WallZero + new Vector3(0, 0, size.z), size.y);
+        BuildWall(WallZero + new Vector3(size.x, 0, 0), WallZero + new Vector3(size.x, 0, size.z), size.y);
+        BuildWall(WallZero + new Vector3(0, 0, size.z), WallZero + new Vector3(size.x, 0, size.z), size.y);
 
         Transform start = Walls.transform.GetChild(Random.Range(0, Walls.transform.childCount - 1));
         Vector3 dir = start.TransformDirection(Vector3.forward)*((start.position.x == Zero.x || start.position.z == Zero.z+size.z? 1 : -1));
-        Vector3 startPosition = new Vector3(start.position.x, start.position.y / 2, start.position.z);
 
         RaycastHit hit;
-        Debug.DrawRay(start.position, dir,Color.white,10);
-        if (Physics.Raycast(startPosition, dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
-            GetInnerWalls(startPosition, hit.point, 0);
+        //Debug.DrawRay(start.position+new Vector3(0,size.y/2,0), dir*64,Color.red,10);
+        if (Physics.Raycast(start.position + new Vector3(0, size.y / 2, 0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
+        {
+            GetInnerWalls(start.position, hit, 0);
+        }
             
     }
 
-    public void BuildWall(Vector3 start, Vector3 end,float height)
+    public void BuildWall(Vector3 start, Vector3 end,float height,bool doors = true)
     {
+        Vector3 wBounds;
         //start at wall's starting location; 
-        //increase length of wall segment(segmentEnd - segmentStart) until hits a door, or hits wallEnd
+        //increase length of wall segment(segmentEnd -> segmentStart) until hits a door, or hits wallEnd
         //build wall there, start again.
 
         Vector3 SegmentStart = start;
         Vector3 SegmentEnd = start;
         GameObject w;
+        Vector3 lastDoor = new Vector3();
         float t = 0.0f;
-        while(Vector3.Distance(SegmentEnd,end) > 1)
+        if (doors)
         {
-            SegmentEnd = Vector3.Lerp(SegmentEnd, end, t);
-            foreach (Collider o in Physics.OverlapBox((SegmentEnd + SegmentStart) / 2, (SegmentEnd - SegmentStart) / 3))
+            while (Vector3.Distance(SegmentEnd, end) > 1)
             {
-                if(o.name == "Door" && this.DoorList.Contains(o.gameObject))
+                SegmentEnd = Vector3.Lerp(SegmentEnd, end, t);
+                foreach (Collider o in Physics.OverlapBox(new Vector3((SegmentEnd.x + SegmentStart.x) / 2, size.y / 2, (SegmentEnd.z + SegmentStart.z) / 2), new Vector3(Mathf.Abs(SegmentEnd.x - SegmentStart.x), size.y, Mathf.Abs(SegmentEnd.z - SegmentStart.z))))
                 {
-                    SegmentEnd = o.ClosestPoint(start);
-                    w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2,Quaternion.Euler(0,0,0),Walls.transform);
-                    w.transform.LookAt(end);
-                    w.transform.Rotate(0, 90, 0);
-                    w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart,SegmentEnd), height, 0.2f);
-                    w.GetComponent<Renderer>().material.mainTextureScale = new Vector2(w.transform.localScale.x/4, w.transform.localScale.y/4);
-                    w.name = "Wall";
-                    w.gameObject.SetActive(false);
-                    w.gameObject.SetActive(true);
-                    SegmentStart = o.ClosestPoint(end);
-                    SegmentEnd = SegmentStart;
-                    o.name = "nDoor";
-                    break;
+                    if (o.name == "Door" && this.DoorList.Contains(o.gameObject) && lastDoor != o.transform.position)
+                    {
+                        SegmentEnd = o.GetComponent<Renderer>().bounds.ClosestPoint(start);
+                        SegmentEnd = new Vector3(SegmentEnd.x, 0, SegmentEnd.z);
+                        w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, Quaternion.identity, Walls.transform);
+                        wBounds = w.GetComponent<Renderer>().bounds.size;
+                        w.transform.LookAt(end);
+                        w.transform.Rotate(0, 90, 0);
+                        w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart, SegmentEnd) / wBounds.x, height / wBounds.y, 1);
+                        w.name = "Wall";
+                        w.gameObject.SetActive(false);
+                        w.gameObject.SetActive(true);
+                        SegmentStart = o.GetComponent<Renderer>().bounds.ClosestPoint(end);
+                        SegmentStart = new Vector3(SegmentStart.x, 0, SegmentStart.z);
+                        SegmentEnd = SegmentStart;
+                        //o.name = "nDoor";
+                        t = 0.0f;
+                        lastDoor = o.transform.position;
+                        break;
 
+                    }
                 }
+                t += 0.1f;
             }
-            t+=0.1f;
         }
         SegmentEnd = end;
-        w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, Quaternion.Euler(0,0,0),Walls.transform);
+        w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, Quaternion.identity,Walls.transform);
+        wBounds = w.GetComponent<Renderer>().bounds.size;
         w.name = "Wall";
         w.transform.LookAt(end);
         w.transform.Rotate(0, 90, 0);
-        w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart,SegmentEnd), height, 0.2f);
-        w.GetComponent<Renderer>().material.mainTextureScale = new Vector2(w.transform.localScale.x/4, w.transform.localScale.y/4);
+        w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart,SegmentEnd)/wBounds.x, height/wBounds.y, 1);
         w.gameObject.SetActive(false);
         w.gameObject.SetActive(true);
 
     }
 
-    public void GetInnerWalls(Vector3 start, Vector3 end, int depth)
+    public void GetInnerWalls(Vector3 start, RaycastHit endHit, int depth)
     {
-        if (depth > 3) return;
-        if (Vector3.Distance(start, end) < 4)   return;
-        RaycastHit hit;
+        if (depth > 2) return;
+        if (Vector3.Distance(start, endHit.point) < 4)   return;
+        Vector3 end = endHit.point - new Vector3(0, size.y / 2, 0);
+        RaycastHit hit,hit2;
         Vector3 dir;
-        BuildWall(start, Vector3.Lerp(start,end,0.3f),size.y/2);
-        BuildWall(end, Vector3.Lerp(end,start, 0.3f),size.y/2);
+        if (endHit.transform.gameObject.name == "Door")
+            BuildWall(start, Vector3.Lerp(start, end, 0.7f), size.y / 2, false);
+        else
+        {
+            BuildWall(start, Vector3.Lerp(start, end, 0.3f), size.y / 2);
+            BuildWall(end, Vector3.Lerp(end, start, 0.3f), size.y / 2);
+        }
 
-        Vector3 newStart = Vector3.Lerp(start, end, Random.Range(0.3f, 0.7f));
-        Vector3 newEnd = newStart;
-        dir = Vector3.Cross(start, end);
-        dir = new Vector3(dir.x, 0, dir.z);
-        //Debug.DrawRay(newStart, dir, Color.red, 10);
-        if (Physics.Raycast(newStart, dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
-            GetInnerWalls(newStart,hit.point, depth + 1);
+        Vector3 newStart = Vector3.Lerp(start, end, Random.Range(0.2f, 0.8f));
+        dir = Vector3.Cross(start+new Vector3(0,1,0), end+new Vector3(0,1,0));
+        dir = new Vector3(dir.x, 0, dir.z).normalized;
+        //Debug.DrawRay(newStart, dir, Color.green, 10);
+        //Debug.DrawRay(newStart, -dir, Color.blue, 10);
+        if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
+        {
+            if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RoomGenerator.WallMask))
+            {
+                if (Vector3.Distance(newStart, hit2.point) > Vector3.Distance(newStart, hit.point))
+                    GetInnerWalls(newStart, hit2, depth + 1);
+                else if(Vector3.Distance(newStart,hit.point) > Vector3.Distance(newStart,hit2.point))
+                    GetInnerWalls(newStart, hit, depth + 1);
+            }
+            else 
+                GetInnerWalls(newStart, hit, depth + 1);
+        }
 
 
 
@@ -181,10 +237,11 @@ public class Room : MonoBehaviour
         this.size = size;
     }
 
-    public Vector2 GetSize() { return size; }
+    public Vector3 GetSize() { return size; }
 
     public void SetZero(Vector3 Zero) {
         this.Zero = Zero;
     }
+    public Vector3 GetZero() { return Zero; }
 
 }
