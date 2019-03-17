@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Room : MonoBehaviour
 {
     private Bounds RoomBounds;
+    private int complexity = 3;
     public List<GameObject> DoorList;
     public List<GameObject> FloorTiles;
     protected GameObject Wall = RoomGenerator.Wall;
@@ -133,7 +134,7 @@ public class Room : MonoBehaviour
         Vector3 dir = start.TransformDirection(Vector3.forward)*((start.position.x == Zero.x || start.position.z == Zero.z+size.z? 1 : -1));
 
         RaycastHit hit;
-        //Debug.DrawRay(start.position+new Vector3(0,size.y/2,0), dir*64,Color.red,10);
+        Debug.DrawRay(start.position+new Vector3(0,size.y/2,0), dir*64,Color.red,10);
         if (Physics.Raycast(start.position + new Vector3(0, size.y / 2, 0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
         {
             GetInnerWalls(start.position, hit, 0);
@@ -199,7 +200,7 @@ public class Room : MonoBehaviour
 
     public void GetInnerWalls(Vector3 start, RaycastHit endHit, int depth)
     {
-        if (depth > 2) return;
+        if (depth > complexity) return;
         if (Vector3.Distance(start, endHit.point) < 4)   return;
         Vector3 end = endHit.point - new Vector3(0, size.y / 2, 0);
         RaycastHit hit,hit2;
@@ -215,8 +216,8 @@ public class Room : MonoBehaviour
         Vector3 newStart = Vector3.Lerp(start, end, Random.Range(0.2f, 0.8f));
         dir = Vector3.Cross(start+new Vector3(0,1,0), end+new Vector3(0,1,0));
         dir = new Vector3(dir.x, 0, dir.z).normalized;
-        //Debug.DrawRay(newStart, dir, Color.green, 10);
-        //Debug.DrawRay(newStart, -dir, Color.blue, 10);
+        Debug.DrawRay(newStart, dir, Color.green, 10);
+        Debug.DrawRay(newStart, -dir, Color.blue, 10);
         if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
         {
             if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RoomGenerator.WallMask))

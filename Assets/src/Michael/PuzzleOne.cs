@@ -6,14 +6,14 @@ public class PuzzleOne : MonoBehaviour {
     private Inventory inventory;
     private bool solved;
     private Vector3 Zero, size;
-    public Room R;
+    public PuzzleRoom R;
 
     public void Start()
     {
         Player = GameObject.FindWithTag("Player");
 
         inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
-        R = this.GetComponent<Room>();
+        R = this.GetComponent<PuzzleRoom>();
         Zero = R.GetZero();
         size = R.GetSize();
 
@@ -24,11 +24,15 @@ public class PuzzleOne : MonoBehaviour {
 	}
 
 	void Update () {
-        if (!solved && inventory != null)
+        if (!R.solved)
         {
-           if (inventory.items.Count > 0)
+            if (inventory != null)
             {
-                this.solved = true;
+                if (inventory.items.Count > 0)
+                {
+                    R.solved = true;
+                    R.PlaySolvedSound();
+                }
             }
         }
 

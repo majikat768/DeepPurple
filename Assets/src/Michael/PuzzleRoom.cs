@@ -6,7 +6,6 @@ public class PuzzleRoom : Room
 {
     public bool solved = false;
     private bool locked = false;
-    private Inventory inventory;
     private Room R;
     private AudioClip solvedSound;
     private AudioSource audioSource;
@@ -39,14 +38,6 @@ public class PuzzleRoom : Room
     }
     public void Update()
     {
-        /*
-        if (locked && !solved)
-        {
-            solved = gameObject.GetComponent<PuzzleOne>().isSolved();
-
-        }
-        */
-
         if (solved && locked)
         {
             locked = false;

@@ -38,12 +38,12 @@ public class RoomGenerator : MonoBehaviour
         WallLayer = 8;
         WallMask = 1 << WallLayer;
         //Wall = Resources.Load<GameObject>("Michael/Wall");
-        Wall = Resources.Load<GameObject>("Prefabs/Wall_2_X4");
+        Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
         //Door = Resources.Load<GameObject>("Michael/Door");
-        Door = Resources.Load<GameObject>("Prefabs/WindowGlass_001");
+        Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
         Block = Resources.Load<GameObject>("Michael/Block");
         //Floor = Resources.Load<GameObject>("Michael/Plane");
-        FloorTile = Resources.Load<GameObject>("Prefabs/Floor_002");
+        FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
         Ceiling = Resources.Load<GameObject>("Michael/Plane");
     }
     void Start() {
