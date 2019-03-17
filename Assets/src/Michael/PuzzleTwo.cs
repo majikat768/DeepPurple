@@ -23,8 +23,21 @@ public class PuzzleTwo : MonoBehaviour {
             new Vector3(Zero.x + Random.Range(2, size.x-3), size.y / 2, Zero.z + Random.Range(2, size.z-3)),
             Quaternion.Euler(-90,0,0),
             this.transform);
+        Collider[] boxCollisions = Physics.OverlapBox(box.GetComponent<Collider>().bounds.center,box.GetComponent<Collider>().bounds.size/2);
+        for(int i = 0; i < boxCollisions.Length; i++) {
+            Transform w = boxCollisions[i].transform;
+            Vector3 dir = w.TransformDirection(Vector3.forward);
+            box.transform.position += dir*box.GetComponent<Collider>().bounds.size.magnitude;
+                //boxCollisions = Physics.OverlapBox(box.GetComponent<Collider>().bounds.center,box.GetComponent<Collider>().bounds.size/2);
+        }
 
         TargetTile = R.FloorTiles[Random.Range(0,R.FloorTiles.Count)];
+        while(Mathf.Abs(TargetTile.transform.position.x-Zero.x) < 3.0f || 
+                Mathf.Abs(TargetTile.transform.position.x-(Zero.x+size.x)) < 3.0f ||
+                Mathf.Abs(TargetTile.transform.position.z-Zero.z) < 3.0f || 
+                Mathf.Abs(TargetTile.transform.position.z-(Zero.z+size.z)) < 3.0f)
+        TargetTile = R.FloorTiles[Random.Range(0,R.FloorTiles.Count)];
+
         TargetTile.GetComponent<Renderer>().materials[0].color = new Color(0.31f, 0.98f, 0.16f);
         TargetTile.name = "Target";
 		
