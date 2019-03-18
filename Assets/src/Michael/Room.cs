@@ -118,14 +118,14 @@ public class Room : MonoBehaviour
     private void OnTriggerEnter(Collider player) {
         if (player.gameObject == Player)
         {
-            this.SetLighting(new Color(0.46f,1.0f,1.0f), 1);
+            this.SetLighting(RoomGenerator.Amber, 1);
         }
     }
 
     private void OnTriggerExit(Collider player) {
         if (player.gameObject == Player)
         {
-            this.SetLighting(new Color(0.46f,1.0f,1.0f), 0.0f);
+            this.SetLighting(RoomGenerator.Amber, 0.0f);
         }
     }
 
@@ -182,7 +182,7 @@ public class Room : MonoBehaviour
                         w.gameObject.SetActive(false);
                         w.gameObject.SetActive(true);
 
-                        l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height/2,0),w.transform.rotation,w.transform);
+                        l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
                         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z? 1 : -1))).normalized;
                         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
                         l.name = "Light";
@@ -209,7 +209,7 @@ public class Room : MonoBehaviour
         w.transform.Rotate(0, 90, 0);
         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart,SegmentEnd)/wBounds.x, height/wBounds.y, 1);
 
-        l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height/2,0),w.transform.rotation,w.transform);
+        l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z? 1 : -1))).normalized;
         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
         l.name = "Light";

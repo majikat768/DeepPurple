@@ -21,8 +21,12 @@ public class RoomGenerator : MonoBehaviour
     public static GameObject Block;
     public static GameObject FloorTile;
     public static GameObject Ceiling; 
-    public static GameObject WallLight; 
+    public static GameObject WallLight;
 
+    public static Color Amber = new Color(1.0f, 0.82f, 0.39f);
+    public static Color Cyan = new Color(0.47f, 1, 1);
+    public static Color Fuschia = new Color(0.87f, 0.39f, 1);
+    public static Color LightGreen = new Color(0.4f, 1, 0.4f);
 
     public RoomType rt;
     public Room r;
@@ -43,8 +47,8 @@ public class RoomGenerator : MonoBehaviour
         //Door = Resources.Load<GameObject>("Michael/Door");
         Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
         Block = Resources.Load<GameObject>("Michael/Block");
-        //Floor = Resources.Load<GameObject>("Michael/Plane");
-        FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
+        //FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
+        FloorTile = Resources.Load<GameObject>("Michael/FloorTile");
         Ceiling = Resources.Load<GameObject>("Michael/Plane");
         WallLight = Resources.Load<GameObject>("Michael/Roof_Light_003");
     }
@@ -177,7 +181,7 @@ public class RoomGenerator : MonoBehaviour
 
         foreach(Room r in RoomList) {
             r.GetWalls();
-            r.SetLighting(new Color(0.46f,1,1,0));
+            r.SetLighting(Amber);
         }
 
     }
