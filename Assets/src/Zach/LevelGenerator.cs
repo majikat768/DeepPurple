@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+
+    public const int roomSize = 32;
+
     public enum Generator
     {
-        LINEAR, RANDOM, SQUARE
+        LINEAR, RANDOM, SQUARE, TFRACTAL
     }
 
     public void Start()
     {
-        generateLevel(Generator.RANDOM);
+        generateLevel(Generator.TFRACTAL);
     }
 
     public void generateLevel(Generator generator)
@@ -29,16 +32,16 @@ public class LevelGenerator : MonoBehaviour
                         Room r;
                         if (i == j && j == 0)
                         {
-                            r = roomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Start);
+                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Start);
                         }
                         else if (i == j && j == 4)
                         {
-                            r = roomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RoomGenerator.RoomType.Boss);
+                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Boss);
                         }
                         else
                         {
 
-                            r = roomGenerator.Get(new Vector3(16 * i, 0, 16 * j), RandomRoomType());
+                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RandomRoomType());
                         }
                     }
                 }
@@ -49,16 +52,15 @@ public class LevelGenerator : MonoBehaviour
                     Room r;
                     if (i == 0)
                     {
-                        r = roomGenerator.Get(new Vector3(16 * i, 0, 0), RoomGenerator.RoomType.Start);
+                        r = roomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Start);
                     }
                     else if (i == 24)
                     {
-                        r = roomGenerator.Get(new Vector3(16 * i, 0, 0), RoomGenerator.RoomType.Boss);
+                        r = roomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Boss);
                     }
                     else
                     {
-                        r = roomGenerator.Get(new Vector3(16 * i, 0,0), RandomRoomType());
-                        r.SetSize(new Vector3(16.0f,4.0f,Random.Range(8,24)));
+                        r = roomGenerator.Get(new Vector3(roomSize * i, 0,0), RandomRoomType());
                     }
                 }
                 break;
@@ -108,17 +110,58 @@ public class LevelGenerator : MonoBehaviour
                     }
                     else if (i == offsets.Count - 1)
                     {
-                        r = roomGenerator.Get(new Vector3(16 * vector2Int.x, 0, 16 * vector2Int.y), RoomGenerator.RoomType.Boss);
+                        r = roomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RoomGenerator.RoomType.Boss);
                     }
                     else
                     {
-                        r = roomGenerator.Get(new Vector3(16 * vector2Int.x, 0, 16 * vector2Int.y), RandomRoomType());
+                        r = roomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RandomRoomType());
                     }
                 }
+                break;
+            case Generator.TFRACTAL:
+                TFractal(roomGenerator);
                 break;
         }
         RoomGenerator.BuildDoors();
         RoomGenerator.BakeNavMesh();
+    }
+
+    public void TFractal(RoomGenerator roomGenerator)
+    {
+        int startingLength = 10;
+        roomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
+        TFractalRecursive(roomGenerator, 0, 1, 0, startingLength);
+    }
+
+    public void TFractalRecursive(RoomGenerator roomGenerator, int x, int y, int direction, int length)
+    {
+        if (length < 1)
+        {
+            return;
+        }
+        for (int i = 0; i < length; i++)
+        {
+            roomGenerator.Get(new Vector3(x * roomSize, 0, y * roomSize), RandomRoomType());
+            switch (direction)
+            {
+                case 0:
+                    y++;
+                    break;
+                case 1:
+                    x++;
+                    break;
+                case 2:
+                    y--;
+                    break;
+                case 3:
+                    x--;
+                    break;
+            }
+        }
+        int newLeft = (direction + 3) % 4;
+        int newRight = (direction + 1) % 4;
+        TFractalRecursive(roomGenerator, x, y, newLeft, (int) (length * Random.Range(0.6f, 0.9f)));
+        TFractalRecursive(roomGenerator, x, y, newRight, (int)(length * Random.Range(0.6f, 0.9f)));
     }
 
     public RoomGenerator.RoomType RandomRoomType()

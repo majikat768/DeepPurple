@@ -32,7 +32,7 @@ public class RoomGenerator : MonoBehaviour
     public Room r;
 
     [SerializeField]
-    private Vector3 size = new Vector3(16.0f,3.0f,16.0f);
+    private Vector3 size = new Vector3(32.0f,3.0f,32.0f);
     [SerializeField]
     private Vector3 Zero;
     public bool standalone = false;
