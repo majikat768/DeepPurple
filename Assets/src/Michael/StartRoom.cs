@@ -9,10 +9,10 @@ public class StartRoom : Room
         // Player player = new Player();
         // Here, player represented by purple block
         // 
-        Vector3 SpawnPoint = new Vector3(size.x / 2, 1.0f, size.z / 2);
+        Vector3 SpawnPoint = new Vector3(size.x / 2, 2.0f, size.z / 2);
         Player = GameObject.FindWithTag("Player");
         this.Ceiling.GetComponent<Light>().intensity = 2;
-        //Player.transform.position = SpawnPoint;
+        Player.transform.position = SpawnPoint;
         /*
             Player = Object.Instantiate(FirstPerson, SpawnPoint, Quaternion.identity, room.transform);
         else
