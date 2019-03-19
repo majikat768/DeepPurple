@@ -7,11 +7,13 @@ public class PuzzleTwo : MonoBehaviour {
     private bool solved;
     private GameObject box;
     private GameObject TargetTile;
+    private GameObject FloorTile;
     private Vector3 Zero, size;
     private PuzzleRoom R;
 
     public void Start()
     {
+        FloorTile = RoomGenerator.FloorTile;
         Player = GameObject.FindWithTag("Player");
         R = this.GetComponent<PuzzleRoom>();
         Zero = R.GetZero();
@@ -35,14 +37,20 @@ public class PuzzleTwo : MonoBehaviour {
             }
         }
 
+        SpawnPoint = new Vector3(Zero.x + Random.Range(2, size.x-3), FloorTile.GetComponent<Renderer>().bounds.size.y/2, Zero.z + Random.Range(2, size.z-3));
+        TargetTile = GameObject.Instantiate(FloorTile, SpawnPoint, Quaternion.identity, this.gameObject.transform);
+        /*
         TargetTile = R.FloorTiles[Random.Range(0,R.FloorTiles.Count)];
         while(Mathf.Abs(TargetTile.transform.position.x-Zero.x) < 3.0f || 
                 Mathf.Abs(TargetTile.transform.position.x-(Zero.x+size.x)) < 3.0f ||
                 Mathf.Abs(TargetTile.transform.position.z-Zero.z) < 3.0f || 
                 Mathf.Abs(TargetTile.transform.position.z-(Zero.z+size.z)) < 3.0f)
         TargetTile = R.FloorTiles[Random.Range(0,R.FloorTiles.Count)];
+        */
 
         TargetTile.GetComponent<Renderer>().materials[0].color = new Color(0.31f, 0.98f, 0.16f);
+        Destroy(TargetTile.GetComponent<Collider>());
+        TargetTile.transform.localScale *= 1.5f;
         TargetTile.name = "Target";
 		
 	}

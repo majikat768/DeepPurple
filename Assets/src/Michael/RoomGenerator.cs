@@ -32,7 +32,7 @@ public class RoomGenerator : MonoBehaviour
     public Room r;
 
     [SerializeField]
-    private Vector3 size = new Vector3(32.0f,3.0f,32.0f);
+    private Vector3 size = new Vector3(32.0f,5.0f,32.0f);
     [SerializeField]
     private Vector3 Zero;
     public bool standalone = false;
@@ -47,8 +47,8 @@ public class RoomGenerator : MonoBehaviour
         //Door = Resources.Load<GameObject>("Michael/Door");
         Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
         Block = Resources.Load<GameObject>("Michael/Block");
-        //FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
-        FloorTile = Resources.Load<GameObject>("Michael/FloorTile");
+        FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
+        //FloorTile = Resources.Load<GameObject>("Michael/FloorTile");
         Ceiling = Resources.Load<GameObject>("Michael/Plane");
         WallLight = Resources.Load<GameObject>("Michael/Roof_Light_003");
     }

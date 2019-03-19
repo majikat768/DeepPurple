@@ -6,7 +6,7 @@ using UnityEngine;
 public class OpenDoor : MonoBehaviour {
 
     private Vector3 OpenPosition, ClosePosition;
-    private readonly float moveSpeed = 3;
+    private readonly float moveSpeed = 5;
     //private int motionSensor = 4;
     private Vector3 motionSensor = new Vector3(4,4,4)/2;
     private GameObject Player;
@@ -70,7 +70,7 @@ public class OpenDoor : MonoBehaviour {
         if (this.transform.position.y > ClosePosition.y)
         {
             Debug.Log("closing");
-            this.transform.position -= new Vector3(0, moveSpeed * Time.deltaTime, 0);
+            this.transform.position -= new Vector3(0, moveSpeed/2.0f * Time.deltaTime, 0);
             if (!audioSource.isPlaying)
                 audioSource.PlayOneShot(closeSound, 1.0f);
         }

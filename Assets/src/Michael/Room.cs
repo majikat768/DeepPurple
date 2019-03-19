@@ -40,7 +40,6 @@ public class Room : MonoBehaviour
 
         /*
          * * * * if tiling instances of a prefab, use this:
-         */
         Floor = new GameObject("Floor");
         Floor.transform.parent = this.transform;
         for(float i = 0.5f; i < size.x; i++)
@@ -59,9 +58,9 @@ public class Room : MonoBehaviour
 
         /*
          * * * * if using a tileable texture, use this:
-         *
+         */
         GameObject f = GameObject.Instantiate(
-            Floor,
+            FloorTile,
             new Vector3(size.x / 2 + Zero.x, 0, size.z / 2 + Zero.z), 
             Quaternion.identity,
             this.transform);
@@ -69,7 +68,7 @@ public class Room : MonoBehaviour
         f.name = "Floor";
         f.transform.localScale = new Vector3(size.x / FloorSize.x, 1, size.z / FloorSize.x);
         f.GetComponent<Renderer>().material.mainTextureScale = new Vector2(size.x/2, size.z/2);
-        *
+        /*
         */
 
         Ceiling = GameObject.Instantiate(
