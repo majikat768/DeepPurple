@@ -18,17 +18,22 @@ public class PuzzleTwo : MonoBehaviour {
         size = R.GetSize();
         //inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
 
+        Vector3 SpawnPoint = new Vector3(Zero.x + Random.Range(2, size.x-3), size.y / 2, Zero.z + Random.Range(2, size.z-3));
         box = GameObject.Instantiate(
             Resources.Load<GameObject>("Michael/Crate_003"),
-            new Vector3(Zero.x + Random.Range(2, size.x-3), size.y / 2, Zero.z + Random.Range(2, size.z-3)),
+            SpawnPoint,
             Quaternion.Euler(-90,0,0),
             this.transform);
-        Collider[] boxCollisions = Physics.OverlapBox(box.GetComponent<Collider>().bounds.center,box.GetComponent<Collider>().bounds.size/2);
+        Collider[] boxCollisions = Physics.OverlapBox(box.GetComponent<Collider>().bounds.center,box.GetComponent<Collider>().bounds.size);
         for(int i = 0; i < boxCollisions.Length; i++) {
-            Transform w = boxCollisions[i].transform;
-            Vector3 dir = w.TransformDirection(Vector3.forward);
-            box.transform.position += dir*box.GetComponent<Collider>().bounds.size.magnitude;
-                //boxCollisions = Physics.OverlapBox(box.GetComponent<Collider>().bounds.center,box.GetComponent<Collider>().bounds.size/2);
+            if(boxCollisions[i].name == "Wall")
+            {
+                SpawnPoint = new Vector3(Zero.x + Random.Range(2, size.x-3), size.y / 2, Zero.z + Random.Range(2, size.z-3));
+                box.transform.position = SpawnPoint;
+                boxCollisions = Physics.OverlapBox(box.GetComponent<Collider>().bounds.center,box.GetComponent<Collider>().bounds.size/2);
+                i = -1;
+                Debug.Log("wall found");
+            }
         }
 
         TargetTile = R.FloorTiles[Random.Range(0,R.FloorTiles.Count)];
@@ -52,6 +57,16 @@ public class PuzzleTwo : MonoBehaviour {
                 R.PlaySolvedSound();
                 box.GetComponent<Renderer>().materials[0].color = new Color(0.6f, 0.8f, 0.2f);
             }
+
+            foreach(Collider o in Physics.OverlapBox(box.GetComponent<Renderer>().bounds.center,box.GetComponent<Renderer>().bounds.size))
+            {
+                if (o.name == "Wall")
+                {
+                    Vector3 dir = (box.transform.position - o.ClosestPoint(box.transform.position)).normalized;
+                    box.GetComponent<Rigidbody>().MovePosition(box.transform.position + dir * Time.deltaTime);
+                }
+            }
+
             if (Mathf.Abs(box.transform.position.x - R.Zero.x) < 2.0f || 
                 Mathf.Abs(box.transform.position.x - (R.Zero.x+R.size.x)) < 2.0f ||
                 Mathf.Abs(box.transform.position.z - R.Zero.z) < 2.0f ||
