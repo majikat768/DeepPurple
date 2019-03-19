@@ -115,15 +115,18 @@ public class Room : MonoBehaviour
         return false;
     }
 
-    private void OnTriggerEnter(Collider player) {
-        if (player.gameObject == Player)
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject == Player)
         {
-            this.SetLighting(RoomGenerator.Amber, 1);
+            if (other.gameObject == Player)
+            {
+                this.SetLighting(RoomGenerator.Amber, 1);
+            }
         }
     }
 
-    private void OnTriggerExit(Collider player) {
-        if (player.gameObject == Player)
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject == Player)
         {
             this.SetLighting(RoomGenerator.Amber, 0.0f);
         }
@@ -185,6 +188,7 @@ public class Room : MonoBehaviour
                         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
                         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z? 1 : -1))).normalized;
                         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
+                        l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
                         l.name = "Light";
                         
 
@@ -212,6 +216,7 @@ public class Room : MonoBehaviour
         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z? 1 : -1))).normalized;
         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
+        l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
         l.name = "Light";
 
         w.gameObject.SetActive(false);

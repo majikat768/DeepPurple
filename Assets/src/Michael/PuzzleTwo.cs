@@ -32,7 +32,6 @@ public class PuzzleTwo : MonoBehaviour {
                 box.transform.position = SpawnPoint;
                 boxCollisions = Physics.OverlapBox(box.GetComponent<Collider>().bounds.center,box.GetComponent<Collider>().bounds.size/2);
                 i = -1;
-                Debug.Log("wall found");
             }
         }
 

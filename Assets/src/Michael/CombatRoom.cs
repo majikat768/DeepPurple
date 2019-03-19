@@ -16,6 +16,7 @@ public class CombatRoom : Room
         {
             Vector3 SpawnPoint = new Vector3(Zero.x + Random.Range(1,size.x-1),0.5f,Zero.z + Random.Range(1,size.z-1));
             GameObject e = GameObject.Instantiate(Block, SpawnPoint, Quaternion.identity,enemies.transform);
+            e.name = "Enemy";
             RoomGenerator.EnemyList.Add(e);
             e.AddComponent<BasicEnemy>();
             e.GetComponent<Renderer>().material.SetColor("_Color",Color.red);
