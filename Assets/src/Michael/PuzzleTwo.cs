@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PuzzleTwo : MonoBehaviour {
 
-    private GameObject Player;
     private Inventory inventory;
     private bool solved;
     private GameObject box;
@@ -14,7 +13,6 @@ public class PuzzleTwo : MonoBehaviour {
     public void Start()
     {
         FloorTile = RoomGenerator.FloorTile;
-        Player = GameObject.FindWithTag("Player");
         R = this.GetComponent<PuzzleRoom>();
         Zero = R.GetZero();
         size = R.GetSize();

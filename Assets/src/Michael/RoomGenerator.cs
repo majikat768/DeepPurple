@@ -21,6 +21,8 @@ public class RoomGenerator : MonoBehaviour
     public static GameObject FloorTile;
     public static GameObject Ceiling; 
     public static GameObject WallLight;
+    public static GameObject Console;
+    public static GameObject Panel;
 
     public static Color Amber = new Color(1.0f, 0.82f, 0.39f);
     public static Color Cyan = new Color(0.47f, 1, 1);
@@ -31,7 +33,7 @@ public class RoomGenerator : MonoBehaviour
     public Room r;
 
     [SerializeField]
-    private static Vector3 size = new Vector3(32.0f,5.0f,32.0f);
+    private static Vector3 size = new Vector3(32.0f,4.0f,32.0f);
     [SerializeField]
     private static Vector3 Zero;
 
@@ -48,6 +50,8 @@ public class RoomGenerator : MonoBehaviour
         //FloorTile = Resources.Load<GameObject>("Michael/FloorTile");
         Ceiling = Resources.Load<GameObject>("Michael/Plane");
         WallLight = Resources.Load<GameObject>("Michael/Roof_Light_003");
+        Console = Resources.Load<GameObject>("Michael/Console_001");
+        Panel = Resources.Load<GameObject>("Michael/Panel_001");
     }
     void Start() {
 
@@ -172,7 +176,7 @@ public class RoomGenerator : MonoBehaviour
 
         foreach(Room r in RoomList) {
             r.GetWalls();
-            r.SetLighting(Amber);
+            r.SetLighting(Cyan);
         }
 
     }

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PuzzleOne : MonoBehaviour {
 
-    private GameObject Player;
     private Inventory inventory;
     private bool solved;
     private Vector3 Zero, size;
@@ -10,14 +9,13 @@ public class PuzzleOne : MonoBehaviour {
 
     public void Start()
     {
-        Player = GameObject.FindWithTag("Player");
 
         inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
         R = this.GetComponent<PuzzleRoom>();
         Zero = R.GetZero();
         size = R.GetSize();
 
-        GameObject key = GameObject.Instantiate(
+        GameObject.Instantiate(
             Resources.Load<GameObject>("Gabriel/Items/GameObjects/Interactable"),
             Zero+size/2,Quaternion.identity,this.transform);
 		

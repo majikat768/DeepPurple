@@ -9,7 +9,6 @@ public class OpenDoor : MonoBehaviour {
     private readonly float moveSpeed = 5;
     //private int motionSensor = 4;
     private Vector3 motionSensor = new Vector3(4,4,4)/2;
-    private GameObject Player;
     private bool isOpen = false;
     private bool isLocked = false;
     private AudioClip openSound,closeSound; 
@@ -17,7 +16,6 @@ public class OpenDoor : MonoBehaviour {
     public float volume = 0.5f;
 
 	void Start () {
-        Player = GameObject.FindWithTag("Player");
         OpenPosition = this.transform.position + new Vector3(0.0f,this.GetComponent<Collider>().bounds.size.y,0.0f);
         ClosePosition = this.transform.position;
 

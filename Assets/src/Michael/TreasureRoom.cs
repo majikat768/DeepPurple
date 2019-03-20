@@ -27,8 +27,7 @@ public class TreasureRoom : Room
                     1.5f, 
                     Zero.z + Random.Range(0, size.z - 1));
 
-            GameObject item = Object.Instantiate(Interactable,SpawnPoint,Quaternion.identity) as GameObject;
-            item.transform.parent = items.transform;
+            Object.Instantiate(Interactable,SpawnPoint,Quaternion.identity,items.transform);
         }
 
         for(int i = 0; i < numGold; i++) {
@@ -37,7 +36,7 @@ public class TreasureRoom : Room
                     1.5f,
                     Zero.z + Random.Range(1,size.z-2));
 
-            GameObject currency = Object.Instantiate(Currency,SpawnPoint,Quaternion.identity,items.transform);
+            Object.Instantiate(Currency,SpawnPoint,Quaternion.identity,items.transform);
         }
 
     }

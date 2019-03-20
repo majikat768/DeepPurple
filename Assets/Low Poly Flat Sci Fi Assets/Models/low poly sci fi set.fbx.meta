@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: fe8bb5221257840c2805e380fc94544a
-timeCreated: 1517919751
-licenseType: Store
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -57,6 +55,8 @@ ModelImporter:
     100098: WindowFrame_002
     100100: WindowGlass_001
     100102: WindowGlassBroken_001
+    100104: Camera.001
+    100106: Lamp.001
     400000: Barrell_001
     400002: Barrier_Border_001
     400004: Camera
@@ -109,6 +109,8 @@ ModelImporter:
     400098: WindowFrame_002
     400100: WindowGlass_001
     400102: WindowGlassBroken_001
+    400104: Camera.001
+    400106: Lamp.001
     2000000: Camera
     2100000: Glass_Barrier_001
     2100002: Wall_001

@@ -12,6 +12,8 @@ public class Room : MonoBehaviour
     protected GameObject Wall;
     protected GameObject Door;
     protected GameObject Block; 
+    protected GameObject Console;
+    protected GameObject Panel;
     protected static GameObject FloorTile;
     protected GameObject WallLight; 
     protected GameObject Player;
@@ -30,7 +32,8 @@ public class Room : MonoBehaviour
         Door = RoomGenerator.Door;
         Block = RoomGenerator.Block;
         WallLight = RoomGenerator.WallLight;
-        Debug.Log(FloorTile);
+        Console = RoomGenerator.Console;
+        Panel = RoomGenerator.Panel;
         DoorList = new List<GameObject>();
         FloorTiles = new List<GameObject>();
         Player = GameObject.FindWithTag("Player");
@@ -135,14 +138,14 @@ public class Room : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
-                this.SetLighting(RoomGenerator.Amber, 1);
+                this.SetLighting(RoomGenerator.Cyan, 1);
         }
     }
 
     private void OnTriggerExit(Collider other) {
         if (other.gameObject == Player)
         {
-            this.SetLighting(RoomGenerator.Amber, 0.0f);
+            this.SetLighting(RoomGenerator.Cyan, 0.0f);
         }
     }
 
@@ -176,7 +179,7 @@ public class Room : MonoBehaviour
         Vector3 SegmentStart = start;
         Vector3 SegmentEnd = start;
         Vector3 dir;
-        GameObject w,l;
+        GameObject w,l,c,p;
         Vector3 lastDoor = new Vector3();
         float t = 0.0f;
         if (doors)
@@ -199,8 +202,12 @@ public class Room : MonoBehaviour
                         w.gameObject.SetActive(false);
                         w.gameObject.SetActive(true);
 
-                        l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
+                        c = GameObject.Instantiate(Console,Vector3.MoveTowards(SegmentEnd,SegmentStart,Console.GetComponent<Renderer>().bounds.size.magnitude/2),Quaternion.identity,this.transform);
+                        c.transform.LookAt(end);
+                        c.transform.Rotate(0,90*(c.transform.position.x == Zero.x || c.transform.position.z == Zero.z+size.z ? 1 : -1),0);
                         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z? 1 : -1))).normalized;
+                        c.transform.position += dir*Console.GetComponent<Renderer>().bounds.size.z/2;
+                        l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
                         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
                         l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
                         l.name = "Light";
@@ -209,6 +216,11 @@ public class Room : MonoBehaviour
                         SegmentStart = o.GetComponent<Renderer>().bounds.ClosestPoint(end);
                         SegmentStart = new Vector3(SegmentStart.x, 0, SegmentStart.z);
                         SegmentEnd = SegmentStart;
+                        p = GameObject.Instantiate(Panel,Vector3.MoveTowards(SegmentEnd,end,Panel.GetComponent<Renderer>().bounds.size.magnitude/2),Quaternion.identity,this.transform);
+                        p.transform.LookAt(end);
+                        p.transform.Rotate(0,90*(p.transform.position.x == Zero.x || p.transform.position.z == Zero.z+size.z ? 1 : -1),0);
+                        p.transform.position += dir*Panel.GetComponent<Renderer>().bounds.size.z;
+                        p.transform.position += new Vector3(0,size.y/2,0);
                         //o.name = "nDoor";
                         t = 0.0f;
                         lastDoor = o.transform.position;
