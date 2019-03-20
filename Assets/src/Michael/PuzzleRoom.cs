@@ -34,7 +34,7 @@ public class PuzzleRoom : Room
             locked = true;
             foreach (GameObject d in R.DoorList)
                 d.GetComponent<OpenDoor>().Lock();
-            R.SetLighting(RoomGenerator.Fuschia,1);
+            R.SetLighting(RoomGenerator.Red,1);
         }
     }
     public void Update()
