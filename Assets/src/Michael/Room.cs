@@ -9,11 +9,11 @@ public class Room : MonoBehaviour
     private int complexity = 3;
     public List<GameObject> DoorList;
     public List<GameObject> FloorTiles;
-    protected GameObject Wall = RoomGenerator.Wall;
-    protected GameObject Door = RoomGenerator.Door;
-    protected GameObject Block = RoomGenerator.Block;
-    protected GameObject FloorTile = RoomGenerator.FloorTile;
-    protected GameObject WallLight = RoomGenerator.WallLight;
+    protected GameObject Wall;
+    protected GameObject Door;
+    protected GameObject Block; 
+    protected static GameObject FloorTile;
+    protected GameObject WallLight; 
     protected GameObject Player;
     public Vector3 Zero;
     public Vector3 size;
@@ -21,17 +21,35 @@ public class Room : MonoBehaviour
     public GameObject Walls;
     public GameObject Floor;
     public GameObject Ceiling;
-
+    [SerializeField]
+    bool obj = false, final = false;
     public void Awake()
     {
+        FloorTile = RoomGenerator.FloorTile;
+        Wall = RoomGenerator.Wall;
+        Door = RoomGenerator.Door;
+        Block = RoomGenerator.Block;
+        WallLight = RoomGenerator.WallLight;
+        Debug.Log(FloorTile);
         DoorList = new List<GameObject>();
         FloorTiles = new List<GameObject>();
         Player = GameObject.FindWithTag("Player");
         Walls = new GameObject("Walls");
         Walls.transform.parent = this.gameObject.transform;
+
+        if (obj)
+        {
+            Init();
+            RoomGenerator.RoomList.Add(this);
+        }
     }
     public void Start()
     {
+        if (final)
+        {
+            Debug.Log("building doors");
+            RoomGenerator.BuildDoors();
+        }
     }
 
 
@@ -117,10 +135,7 @@ public class Room : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
-            if (other.gameObject == Player)
-            {
                 this.SetLighting(RoomGenerator.Amber, 1);
-            }
         }
     }
 

@@ -1,0 +1,170 @@
+[1mdiff --git a/Assets/src/Michael/RoomGenerator.cs b/Assets/src/Michael/RoomGenerator.cs[m
+[1mindex 737a902..bf95725 100644[m
+[1m--- a/Assets/src/Michael/RoomGenerator.cs[m
+[1m+++ b/Assets/src/Michael/RoomGenerator.cs[m
+[36m@@ -8,9 +8,8 @@[m [musing UnityEngine.AI;[m
+ [m
+ public class RoomGenerator : MonoBehaviour[m
+ {[m
+[31m-[m
+     // Declare all the object references I'll be using; gets passed down to Room class[m
+[31m-    public enum RoomType { Start, Boss, Treasure, Puzzle, Combat };[m
+[32m+[m[32m    public enum RoomType { Start, Boss, Treasure, Puzzle, Combat, None };[m[41m[m
+     public static int WallLayer;[m
+     public static int WallMask;[m
+     public static List<Room> RoomList = new List<Room>();[m
+[36m@@ -32,9 +31,9 @@[m [mpublic class RoomGenerator : MonoBehaviour[m
+     public Room r;[m
+ [m
+     [SerializeField][m
+[31m-    private Vector3 size = new Vector3(32.0f,5.0f,32.0f);[m
+[32m+[m[32m    private static Vector3 size = new Vector3(32.0f,5.0f,32.0f);[m[41m[m
+     [SerializeField][m
+[31m-    private Vector3 Zero;[m
+[32m+[m[32m    private static Vector3 Zero;[m[41m[m
+     public bool standalone = false;[m
+     public bool final = false;[m
+ [m
+[36m@@ -68,7 +67,7 @@[m [mpublic class RoomGenerator : MonoBehaviour[m
+         */[m
+     }[m
+ [m
+[31m-    public Room Get(Vector3 Zero, RoomType rt)[m
+[32m+[m[32m    public static GameObject Get(Vector3 Zero, RoomType rt)[m[41m[m
+     {[m
+         GameObject newroom = new GameObject();[m
+         Room r;[m
+[36m@@ -113,7 +112,7 @@[m [mpublic class RoomGenerator : MonoBehaviour[m
+         r.SetSize(size);[m
+         r.Init();[m
+         RoomList.Add(r);[m
+[31m-        return r;[m
+[32m+[m[32m        return newroom;[m[41m[m
+     }[m
+ [m
+     public static void BuildDoors()[m
+[36m@@ -192,11 +191,11 @@[m [mpublic class RoomGenerator : MonoBehaviour[m
+     }[m
+ [m
+ [m
+[31m-    public Vector3 GetSize() { return this.size; }[m
+[32m+[m[32m    public Vector3 GetSize() { return size; }[m[41m[m
+     public void SetSize(float x, float y, float z) {[m
+[31m-        this.size = new Vector3(x,y,z);[m
+[32m+[m[32m        size = new Vector3(x,y,z);[m[41m[m
+     }[m
+[31m-    public Vector3 GetZero() { return this.Zero; }[m
+[32m+[m[32m    public Vector3 GetZero() { return Zero; }[m[41m[m
+     [m
+     public void Update() {[m
+     }[m
+[1mdiff --git a/Assets/src/Zach/LevelGenerator.cs b/Assets/src/Zach/LevelGenerator.cs[m
+[1mindex 28ceaf6..0739aa7 100644[m
+[1m--- a/Assets/src/Zach/LevelGenerator.cs[m
+[1m+++ b/Assets/src/Zach/LevelGenerator.cs[m
+[36m@@ -29,19 +29,19 @@[m [mpublic class LevelGenerator : MonoBehaviour[m
+                 {[m
+                     for (int j = 0; j < 5; j++)[m
+                     {[m
+[31m-                        Room r;[m
+[32m+[m[32m                        GameObject r;[m
+                         if (i == j && j == 0)[m
+                         {[m
+[31m-                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Start);[m
+[32m+[m[32m                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Start);[m
+                         }[m
+                         else if (i == j && j == 4)[m
+                         {[m
+[31m-                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Boss);[m
+[32m+[m[32m                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Boss);[m
+                         }[m
+                         else[m
+                         {[m
+ [m
+[31m-                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RandomRoomType());[m
+[32m+[m[32m                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RandomRoomType());[m
+                         }[m
+                     }[m
+                 }[m
+[36m@@ -49,18 +49,18 @@[m [mpublic class LevelGenerator : MonoBehaviour[m
+             case Generator.LINEAR:[m
+                 for (int i = 0; i < 25; i++)[m
+                 {[m
+[31m-                    Room r;[m
+[32m+[m[32m                    GameObject r;[m
+                     if (i == 0)[m
+                     {[m
+[31m-                        r = roomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Start);[m
+[32m+[m[32m                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Start);[m
+                     }[m
+                     else if (i == 24)[m
+                     {[m
+[31m-                        r = roomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Boss);[m
+[32m+[m[32m                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Boss);[m
+                     }[m
+                     else[m
+                     {[m
+[31m-                        r = roomGenerator.Get(new Vector3(roomSize * i, 0,0), RandomRoomType());[m
+[32m+[m[32m                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0,0), RandomRoomType());[m
+                     }[m
+                 }[m
+                 break;[m
+[36m@@ -103,18 +103,18 @@[m [mpublic class LevelGenerator : MonoBehaviour[m
+                 for (int i = 0; i < offsets.Count; i++)[m
+                 {[m
+                     Vector2Int vector2Int = offsets[i];[m
+[31m-                    Room r;[m
+[32m+[m[32m                    GameObject r;[m
+                     if (vector2Int.x == 0 && vector2Int.y == 0)[m
+                     {[m
+[31m-                        r = roomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);[m
+[32m+[m[32m                        r = RoomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);[m
+                     }[m
+                     else if (i == offsets.Count - 1)[m
+                     {[m
+[31m-                        r = roomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RoomGenerator.RoomType.Boss);[m
+[32m+[m[32m                        r = RoomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RoomGenerator.RoomType.Boss);[m
+                     }[m
+                     else[m
+                     {[m
+[31m-                        r = roomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RandomRoomType());[m
+[32m+[m[32m                        r = RoomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RandomRoomType());[m
+                     }[m
+                 }[m
+                 break;[m
+[36m@@ -129,7 +129,7 @@[m [mpublic class LevelGenerator : MonoBehaviour[m
+     public void TFractal(RoomGenerator roomGenerator)[m
+     {[m
+         int startingLength = 10;[m
+[31m-        roomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);[m
+[32m+[m[32m        RoomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);[m
+         TFractalRecursive(roomGenerator, 0, 1, 0, startingLength);[m
+     }[m
+ [m
+[36m@@ -141,7 +141,7 @@[m [mpublic class LevelGenerator : MonoBehaviour[m
+         }[m
+         for (int i = 0; i < length; i++)[m
+         {[m
+[31m-            roomGenerator.Get(new Vector3(x * roomSize, 0, y * roomSize), RandomRoomType());[m
+[32m+[m[32m            RoomGenerator.Get(new Vector3(x * roomSize, 0, y * roomSize), RandomRoomType());[m
+             switch (direction)[m
+             {[m
+                 case 0:[m
+[1mdiff --git a/Assets/tst/Michael/testScene/NavMesh.asset b/Assets/tst/Michael/testScene/NavMesh.asset[m
+[1mdeleted file mode 100644[m
+[1mindex 4ce39d6..0000000[m
+Binary files a/Assets/tst/Michael/testScene/NavMesh.asset and /dev/null differ
+[1mdiff --git a/Assets/tst/Michael/testScene/NavMesh.asset.meta b/Assets/tst/Michael/testScene/NavMesh.asset.meta[m
+[1mdeleted file mode 100644[m
+[1mindex 6f2d699..0000000[m
+[1m--- a/Assets/tst/Michael/testScene/NavMesh.asset.meta[m
+[1m+++ /dev/null[m
+[36m@@ -1,8 +0,0 @@[m
+[31m-fileFormatVersion: 2[m
+[31m-guid: 1325c0d18696d8243b8d711f98e56a32[m
+[31m-NativeFormatImporter:[m
+[31m-  externalObjects: {}[m
+[31m-  mainObjectFileID: 23800000[m
+[31m-  userData: [m
+[31m-  assetBundleName: [m
+[31m-  assetBundleVariant: [m

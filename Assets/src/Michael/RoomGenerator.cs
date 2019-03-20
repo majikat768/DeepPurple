@@ -8,9 +8,8 @@ using UnityEngine.AI;
 
 public class RoomGenerator : MonoBehaviour
 {
-
     // Declare all the object references I'll be using; gets passed down to Room class
-    public enum RoomType { Start, Boss, Treasure, Puzzle, Combat };
+    public enum RoomType { Start, Boss, Treasure, Puzzle, Combat, None };
     public static int WallLayer;
     public static int WallMask;
     public static List<Room> RoomList = new List<Room>();
@@ -32,11 +31,9 @@ public class RoomGenerator : MonoBehaviour
     public Room r;
 
     [SerializeField]
-    private Vector3 size = new Vector3(32.0f,5.0f,32.0f);
+    private static Vector3 size = new Vector3(32.0f,5.0f,32.0f);
     [SerializeField]
-    private Vector3 Zero;
-    public bool standalone = false;
-    public bool final = false;
+    private static Vector3 Zero;
 
     void Awake()
     {
@@ -54,12 +51,6 @@ public class RoomGenerator : MonoBehaviour
     }
     void Start() {
 
-        if(standalone)  Get(this.transform.position, rt);
-        if (final)
-        {
-            BuildDoors();
-            BakeNavMesh();
-        }
         /*room = Get(transform.position,rt);
         // don't need to call setSize.  if you don't it's default 16x16
         room.SetSize(size.x,size.y,size.z); 
@@ -68,7 +59,7 @@ public class RoomGenerator : MonoBehaviour
         */
     }
 
-    public Room Get(Vector3 Zero, RoomType rt)
+    public static GameObject Get(Vector3 Zero, RoomType rt)
     {
         GameObject newroom = new GameObject();
         Room r;
@@ -93,7 +84,7 @@ public class RoomGenerator : MonoBehaviour
             case RoomType.Puzzle:
                 r = newroom.AddComponent<PuzzleRoom>();
                 //newroom.AddComponent<PuzzleOne>();
-                newroom.AddComponent<PuzzleTwo>();
+                //newroom.AddComponent<PuzzleTwo>();
                 newroom.name = "Puzzle Room";
                 break;
             default:
@@ -113,7 +104,7 @@ public class RoomGenerator : MonoBehaviour
         r.SetSize(size);
         r.Init();
         RoomList.Add(r);
-        return r;
+        return newroom;
     }
 
     public static void BuildDoors()
@@ -192,11 +183,11 @@ public class RoomGenerator : MonoBehaviour
     }
 
 
-    public Vector3 GetSize() { return this.size; }
+    public static Vector3 GetSize() { return size; }
     public void SetSize(float x, float y, float z) {
-        this.size = new Vector3(x,y,z);
+        size = new Vector3(x,y,z);
     }
-    public Vector3 GetZero() { return this.Zero; }
+    public Vector3 GetZero() { return Zero; }
     
     public void Update() {
     }

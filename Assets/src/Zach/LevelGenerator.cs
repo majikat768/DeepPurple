@@ -29,19 +29,19 @@ public class LevelGenerator : MonoBehaviour
                 {
                     for (int j = 0; j < 5; j++)
                     {
-                        Room r;
+                        GameObject r;
                         if (i == j && j == 0)
                         {
-                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Start);
+                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Start);
                         }
                         else if (i == j && j == 4)
                         {
-                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Boss);
+                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Boss);
                         }
                         else
                         {
 
-                            r = roomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RandomRoomType());
+                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RandomRoomType());
                         }
                     }
                 }
@@ -49,18 +49,18 @@ public class LevelGenerator : MonoBehaviour
             case Generator.LINEAR:
                 for (int i = 0; i < 25; i++)
                 {
-                    Room r;
+                    GameObject r;
                     if (i == 0)
                     {
-                        r = roomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Start);
+                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Start);
                     }
                     else if (i == 24)
                     {
-                        r = roomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Boss);
+                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Boss);
                     }
                     else
                     {
-                        r = roomGenerator.Get(new Vector3(roomSize * i, 0,0), RandomRoomType());
+                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0,0), RandomRoomType());
                     }
                 }
                 break;
@@ -103,18 +103,18 @@ public class LevelGenerator : MonoBehaviour
                 for (int i = 0; i < offsets.Count; i++)
                 {
                     Vector2Int vector2Int = offsets[i];
-                    Room r;
+                    GameObject r;
                     if (vector2Int.x == 0 && vector2Int.y == 0)
                     {
-                        r = roomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
+                        r = RoomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
                     }
                     else if (i == offsets.Count - 1)
                     {
-                        r = roomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RoomGenerator.RoomType.Boss);
+                        r = RoomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RoomGenerator.RoomType.Boss);
                     }
                     else
                     {
-                        r = roomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RandomRoomType());
+                        r = RoomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RandomRoomType());
                     }
                 }
                 break;
@@ -129,7 +129,7 @@ public class LevelGenerator : MonoBehaviour
     public void TFractal(RoomGenerator roomGenerator)
     {
         int startingLength = 10;
-        roomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
+        RoomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
         TFractalRecursive(roomGenerator, 0, 1, 0, startingLength);
     }
 
@@ -141,7 +141,7 @@ public class LevelGenerator : MonoBehaviour
         }
         for (int i = 0; i < length; i++)
         {
-            roomGenerator.Get(new Vector3(x * roomSize, 0, y * roomSize), RandomRoomType());
+            RoomGenerator.Get(new Vector3(x * roomSize, 0, y * roomSize), RandomRoomType());
             switch (direction)
             {
                 case 0:

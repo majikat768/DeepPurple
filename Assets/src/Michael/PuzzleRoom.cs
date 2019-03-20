@@ -14,6 +14,7 @@ public class PuzzleRoom : Room
     public new void Start()
     {
         R = this.GetComponent<Room>();
+        this.gameObject.AddComponent<PuzzleTwo>();
         Player = GameObject.FindWithTag("Player");
         solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
         audioSource = gameObject.AddComponent<AudioSource>();

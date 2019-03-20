@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.217
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17151117, g: 0.17554322, b: 0.1638965, a: 0.217}
+  m_IndirectSpecularColor: {r: 0.21037742, g: 0.23674381, b: 0.2782264, a: 0.217}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 186880541}
   - component: {fileID: 186880540}
+  - component: {fileID: 186880542}
   m_Layer: 0
   m_Name: GameObject (5)
   m_TagString: Untagged
@@ -135,17 +136,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 186880539}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 4
   r: {fileID: 0}
-  size: {x: 16, y: 3, z: 12}
-  Zero: {x: 0, y: 0, z: 0}
-  standalone: 1
-  final: 0
 --- !u!4 &186880541
 Transform:
   m_ObjectHideFlags: 0
@@ -159,6 +156,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &186880542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 186880539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc868fe1aef25d4fa892819138a73b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 16, y: 0, z: 36}
+  size: {x: 16, y: 4, z: 16}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  obj: 1
+  final: 0
+  numEnemies: 2
+  enemies: {fileID: 0}
 --- !u!1 &341014170
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 341014172}
   - component: {fileID: 341014171}
+  - component: {fileID: 341014173}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -181,17 +201,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 341014170}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 0
   r: {fileID: 0}
-  size: {x: 16, y: 3, z: 16}
-  Zero: {x: 0, y: 0, z: 0}
-  standalone: 1
-  final: 0
 --- !u!4 &341014172
 Transform:
   m_ObjectHideFlags: 0
@@ -205,6 +221,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &341014173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 341014170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70b0793d6ba6ed4d9f1dd5fecaaccb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 0, y: 0, z: 0}
+  size: {x: 16, y: 4, z: 16}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  obj: 1
+  final: 0
 --- !u!1001 &394856978
 Prefab:
   m_ObjectHideFlags: 0
@@ -1099,7 +1135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &670545355
 Light:
   m_ObjectHideFlags: 0
@@ -1158,6 +1194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 745875550}
   - component: {fileID: 745875549}
+  - component: {fileID: 745875551}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -1171,17 +1208,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 745875548}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 3
   r: {fileID: 0}
-  size: {x: 16, y: 3, z: 16}
-  Zero: {x: 0, y: 0, z: 0}
-  standalone: 1
-  final: 0
 --- !u!4 &745875550
 Transform:
   m_ObjectHideFlags: 0
@@ -1195,6 +1228,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &745875551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 745875548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64618943afc6d4c77b6ffb3034551820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 16, y: 0, z: 0}
+  size: {x: 16, y: 4, z: 16}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  obj: 1
+  final: 0
+  solved: 0
 --- !u!1001 &770758861
 Prefab:
   m_ObjectHideFlags: 0
@@ -1292,6 +1346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 995219049}
   - component: {fileID: 995219048}
+  - component: {fileID: 995219050}
   m_Layer: 0
   m_Name: GameObject (2)
   m_TagString: Untagged
@@ -1305,17 +1360,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 995219047}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 3
   r: {fileID: 0}
-  size: {x: 48, y: 3, z: 20}
-  Zero: {x: 0, y: 0, z: 0}
-  standalone: 1
-  final: 0
 --- !u!4 &995219049
 Transform:
   m_ObjectHideFlags: 0
@@ -1329,6 +1380,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &995219050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 995219047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64618943afc6d4c77b6ffb3034551820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 0, y: 0, z: 16}
+  size: {x: 48, y: 4, z: 20}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  obj: 1
+  final: 0
+  solved: 0
 --- !u!1001 &1456369516
 Prefab:
   m_ObjectHideFlags: 0
@@ -1384,6 +1456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1689684602}
   - component: {fileID: 1689684601}
+  - component: {fileID: 1689684603}
   m_Layer: 0
   m_Name: GameObject (3)
   m_TagString: Untagged
@@ -1397,17 +1470,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1689684600}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 4
   r: {fileID: 0}
-  size: {x: 24, y: 3, z: 12}
-  Zero: {x: 0, y: 0, z: 0}
-  standalone: 1
-  final: 0
 --- !u!4 &1689684602
 Transform:
   m_ObjectHideFlags: 0
@@ -1421,6 +1490,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1689684603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1689684600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc868fe1aef25d4fa892819138a73b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 32, y: 0, z: 4}
+  size: {x: 16, y: 4, z: 12}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  obj: 1
+  final: 0
+  numEnemies: 2
+  enemies: {fileID: 0}
 --- !u!1 &1866962119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,6 +1521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1866962121}
   - component: {fileID: 1866962120}
+  - component: {fileID: 1866962122}
   m_Layer: 0
   m_Name: GameObject (4)
   m_TagString: Untagged
@@ -1443,17 +1535,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1866962119}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 2
   r: {fileID: 0}
-  size: {x: 24, y: 3, z: 36}
-  Zero: {x: 0, y: 0, z: 0}
-  standalone: 1
-  final: 0
 --- !u!4 &1866962121
 Transform:
   m_ObjectHideFlags: 0
@@ -1467,6 +1555,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1866962122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1866962119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ccd346c18b4a0d4cb3e48b02db57ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 48, y: 0, z: 12}
+  size: {x: 30, y: 4, z: 36}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  obj: 1
+  final: 0
 --- !u!1 &1872896469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,6 +1672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1929334710}
   - component: {fileID: 1929334709}
+  - component: {fileID: 1929334711}
   m_Layer: 0
   m_Name: GameObject (6)
   m_TagString: Untagged
@@ -1577,17 +1686,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1929334708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rt: 1
   r: {fileID: 0}
-  size: {x: 16, y: 3, z: 16}
-  Zero: {x: 0, y: 0, z: 0}
-  standalone: 1
-  final: 1
 --- !u!4 &1929334710
 Transform:
   m_ObjectHideFlags: 0
@@ -1601,3 +1706,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1929334711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1929334708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86c0ce7a1d1fd546a18338858d8182b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 32, y: 0, z: 36}
+  size: {x: 16, y: 4, z: 16}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  obj: 1
+  final: 1
+  numEnemies: 2
