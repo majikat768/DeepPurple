@@ -8,14 +8,18 @@ public class OpenDoor : MonoBehaviour {
     private Vector3 OpenPosition, ClosePosition;
     private readonly float moveSpeed = 5;
     //private int motionSensor = 4;
-    private Vector3 motionSensor = new Vector3(4,4,4)/2;
+    //private Vector3 motionSensor = new Vector3(4,4,4)/1;
+    private Bounds motionSensor;
     private bool isOpen = false;
     private bool isLocked = false;
     private AudioClip openSound,closeSound; 
     private AudioSource audioSource;
     public float volume = 0.5f;
+    private GameObject Player;
 
 	void Start () {
+        motionSensor = new Bounds(new Vector3(transform.position.x,0,transform.position.z),new Vector3(4,4,4)*2);
+        Player = GameObject.FindWithTag("Player");
         OpenPosition = this.transform.position + new Vector3(0.0f,this.GetComponent<Collider>().bounds.size.y,0.0f);
         ClosePosition = this.transform.position;
 
@@ -34,22 +38,35 @@ public class OpenDoor : MonoBehaviour {
 	void Update () {
         isOpen = false;
         if(!isLocked) {
+            if(motionSensor.Contains(Player.transform.position)) 
+            {
+                Debug.Log("Player detected");
+                isOpen = true;
+                if (!audioSource.isPlaying)
+                    audioSource.PlayOneShot(openSound, 1.0f);
+
+            }
+
+            /*
             foreach(Collider o in Physics.OverlapBox(new Vector3(this.transform.position.x,0,this.transform.position.z),motionSensor))
             {
                 if(o.tag == "Player" || o.name == "Enemy")
                 {
+                    Debug.Log("Player detected");
                     isOpen = true;
                     if (!audioSource.isPlaying)
                         audioSource.PlayOneShot(openSound, 1.0f);
                     break;
                 }
             }
+            */
 
             if(isOpen)  Open();
             else        Close();
         }
         else {
             Close();
+
         }
 		
 	}

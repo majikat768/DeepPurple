@@ -10,19 +10,19 @@ public class RoomGenerator : MonoBehaviour
 {
     // Declare all the object references I'll be using; gets passed down to Room class
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat, None };
-    public static int WallLayer;
-    public static int WallMask;
+    public static int WallLayer; 
+    public static int WallMask; 
     public static List<Room> RoomList = new List<Room>();
     public static List<GameObject> EnemyList = new List<GameObject>();
-    public static GameObject Wall;
+    public static GameObject Wall; 
     public static float WallHeight;
     public static GameObject Door;
-    public static GameObject Block;
-    public static GameObject FloorTile;
+    public static GameObject Block; 
+    public static GameObject FloorTile; 
     public static GameObject Ceiling; 
-    public static GameObject WallLight;
-    public static GameObject Console;
-    public static GameObject Panel;
+    public static GameObject WallLight; 
+    public static GameObject Console; 
+    public static GameObject Panel; 
 
     public static Color Amber = new Color(1.0f, 0.82f, 0.39f);
     public static Color Cyan = new Color(0.47f, 1, 1);
@@ -54,6 +54,7 @@ public class RoomGenerator : MonoBehaviour
         Console = Resources.Load<GameObject>("Michael/Console_001");
         Panel = Resources.Load<GameObject>("Michael/Panel_001");
     }
+
     void Start() {
 
         /*room = Get(transform.position,rt);
@@ -64,7 +65,7 @@ public class RoomGenerator : MonoBehaviour
         */
     }
 
-    public static GameObject Get(Vector3 Zero, RoomType rt)
+    public static GameObject Get(Vector3 Zero, RoomType rt = RoomType.None)
     {
         GameObject newroom = new GameObject();
         Room r;
@@ -104,7 +105,6 @@ public class RoomGenerator : MonoBehaviour
         //  r.SetSize(vector3 dimensions);
         //  ...other room attributes to be added later....
         //  r.Init();
-        //  the output should be something like the scene in my tst/ folder.
         r.SetZero(Zero);
         r.SetSize(size);
         r.Init();
@@ -182,9 +182,29 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
+    public static void Rebuild() {
+        Debug.Log("rebuilding");
+        foreach(Room r in RoomList) {
+            foreach(Transform o in r.gameObject.transform)
+                Destroy(o.gameObject);
+            /*
+            foreach(Transform w in r.gameObject.transform.Find("Walls"))
+                Destroy(w.gameObject);
+            foreach(GameObject d in r.DoorList)
+                Destroy(d);
+                */
+            r.DoorList.Clear();
+            r.Awake();
+            r.Init();
+        }
+        BuildDoors();
+    }
+
     public static void BakeNavMesh()
     {
+        Debug.Log("baking");
         UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
+        Debug.Log("done");
     }
 
 

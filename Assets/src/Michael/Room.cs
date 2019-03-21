@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Room : MonoBehaviour
 {
     private Bounds RoomBounds;
-    private int complexity = 3;
+    public int complexity = 3;
     public List<GameObject> DoorList;
     public List<GameObject> FloorTiles;
     protected GameObject Wall;
@@ -50,7 +50,6 @@ public class Room : MonoBehaviour
     {
         if (final)
         {
-            Debug.Log("building doors");
             RoomGenerator.BuildDoors();
         }
     }
@@ -199,6 +198,7 @@ public class Room : MonoBehaviour
                         w.transform.Rotate(0, 90, 0);
                         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart, SegmentEnd) / wBounds.x, height / wBounds.y, 1);
                         w.name = "Wall";
+                        w.GetComponent<NavMeshObstacle>().size = w.GetComponent<Collider>().bounds.size;
                         w.gameObject.SetActive(false);
                         w.gameObject.SetActive(true);
 
@@ -238,9 +238,10 @@ public class Room : MonoBehaviour
         w.transform.LookAt(end);
         w.transform.Rotate(0, 90, 0);
         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart,SegmentEnd)/wBounds.x, height/wBounds.y, 1);
+        w.GetComponent<NavMeshObstacle>().size = w.GetComponent<Collider>().bounds.size;
 
         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
-        dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z? 1 : -1))).normalized;
+        dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z ? 1 : -1))).normalized;
         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
         l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
         l.name = "Light";
@@ -253,8 +254,8 @@ public class Room : MonoBehaviour
     public void GetInnerWalls(Vector3 start, RaycastHit endHit, int depth)
     {
         if (depth > complexity) return;
-        if (Vector3.Distance(start, endHit.point) < 4)   return;
         Vector3 end = endHit.point - new Vector3(0, size.y / 2, 0);
+        if (Vector3.Distance(start, end) < 4)   return;
         RaycastHit hit,hit2;
         Vector3 dir;
         if (endHit.transform.gameObject.name == "Door")
@@ -268,20 +269,22 @@ public class Room : MonoBehaviour
         Vector3 newStart = Vector3.Lerp(start, end, Random.Range(0.2f, 0.8f));
         dir = Vector3.Cross(start+new Vector3(0,1,0), end+new Vector3(0,1,0));
         dir = new Vector3(dir.x, 0, dir.z).normalized;
-        Debug.DrawRay(newStart, dir, Color.green, 10);
-        Debug.DrawRay(newStart, -dir, Color.blue, 10);
+        Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), dir, Color.green, 10);
+        Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), -dir, Color.blue, 10);
         if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
         {
             if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RoomGenerator.WallMask))
             {
-                if (Vector3.Distance(newStart, hit2.point) > Vector3.Distance(newStart, hit.point))
+                if (Vector3.Distance(newStart, hit2.point) >= Vector3.Distance(newStart, hit.point))
                     GetInnerWalls(newStart, hit2, depth + 1);
-                else if(Vector3.Distance(newStart,hit.point) > Vector3.Distance(newStart,hit2.point))
+                else if(Vector3.Distance(newStart,hit.point) >= Vector3.Distance(newStart,hit2.point))
                     GetInnerWalls(newStart, hit, depth + 1);
             }
             else 
                 GetInnerWalls(newStart, hit, depth + 1);
         }
+        else if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RoomGenerator.WallMask))
+            GetInnerWalls(newStart, hit2, depth + 1);
 
 
 

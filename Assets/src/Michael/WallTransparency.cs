@@ -23,13 +23,14 @@ public class WallTransparency : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
+        if(player == null)
+            player = GameObject.FindWithTag("Player");
         hits.Clear();
         Vector3 dir = player.transform.position - cam.transform.position;
         Debug.DrawLine(cam.transform.position,player.transform.position,Color.white,0.1f);
 
         foreach(RaycastHit hit in Physics.RaycastAll(cam.transform.position,dir,Mathf.Infinity,RoomGenerator.WallMask)) 
             hits.Add(hit.transform.gameObject);
-
 
         col = mat.color;
         if(hits.Contains(this.gameObject)) {
