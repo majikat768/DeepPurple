@@ -14,7 +14,7 @@ public class LevelGenerator : MonoBehaviour
 
     public void Start()
     {
-        generateLevel(Generator.TFRACTAL);
+        generateLevel(Generator.RANDOM);
     }
 
     public void generateLevel(Generator generator)

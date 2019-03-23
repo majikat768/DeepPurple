@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Room : MonoBehaviour
 {
+    public bool initialized = false;
     private Bounds RoomBounds;
     public int complexity = 3;
     public List<GameObject> DoorList;
@@ -23,8 +24,7 @@ public class Room : MonoBehaviour
     public GameObject Walls;
     public GameObject Floor;
     public GameObject Ceiling;
-    [SerializeField]
-    bool obj = false, final = false;
+
     public void Awake()
     {
         FloorTile = RoomGenerator.FloorTile;
@@ -39,23 +39,15 @@ public class Room : MonoBehaviour
         Player = GameObject.FindWithTag("Player");
         Walls = new GameObject("Walls");
         Walls.transform.parent = this.gameObject.transform;
-
-        if (obj)
-        {
-            Init();
-            RoomGenerator.RoomList.Add(this);
-        }
     }
+
     public void Start()
     {
-        if (final)
-        {
-            RoomGenerator.BuildDoors();
-        }
     }
 
 
     public void Init() {
+        initialized = true;
         this.RoomBounds = new Bounds(new Vector3(Zero.x + size.x / 2, Zero.y + size.y / 2, Zero.z + size.z / 2), size);
 
         /*
@@ -97,10 +89,12 @@ public class Room : MonoBehaviour
             Quaternion.Euler(180.0f, 0, 0), 
             this.transform);
         Ceiling.name = "Ceiling";
+        /*
         Light light = Ceiling.AddComponent<Light>();
         light.range = Mathf.Max(size.x, size.z);
         light.intensity = 0.0f;
         light.shadows = LightShadows.Hard;
+        */
         Ceiling.transform.localScale = new Vector3(size.x / 10.0f, 1, size.z / 10.0f);
 
         // Box Collider tells me when player enters or exits a room;
@@ -121,8 +115,8 @@ public class Room : MonoBehaviour
             l.gameObject.GetComponent<Light>().intensity = intensity;
             l.GetComponent<Renderer>().material.SetColor("_EmissionColor",c*intensity);
         }
-        Ceiling.GetComponent<Light>().color = c; 
-        Ceiling.GetComponent<Light>().intensity = intensity;
+        //Ceiling.GetComponent<Light>().color = c; 
+        //Ceiling.GetComponent<Light>().intensity = intensity;
     }
 
     public bool InRoom(GameObject Player)
@@ -150,20 +144,23 @@ public class Room : MonoBehaviour
 
     public void GetWalls()
     {
-        Vector3 WallZero = Zero;// + new Vector3(0, size.y/2, 0);
-        BuildWall(WallZero, WallZero + new Vector3(size.x, 0, 0), size.y);
-        BuildWall(WallZero, WallZero + new Vector3(0, 0, size.z), size.y);
-        BuildWall(WallZero + new Vector3(size.x, 0, 0), WallZero + new Vector3(size.x, 0, size.z), size.y);
-        BuildWall(WallZero + new Vector3(0, 0, size.z), WallZero + new Vector3(size.x, 0, size.z), size.y);
+        BuildWall(Zero, Zero + new Vector3(size.x, 0, 0), size.y);
+        BuildWall(Zero, Zero + new Vector3(0, 0, size.z), size.y);
+        BuildWall(Zero + new Vector3(size.x, 0, 0), Zero + new Vector3(size.x, 0, size.z), size.y);
+        BuildWall(Zero + new Vector3(0, 0, size.z), Zero + new Vector3(size.x, 0, size.z), size.y);
 
         Transform start = Walls.transform.GetChild(Random.Range(0, Walls.transform.childCount - 1));
-        Vector3 dir = start.TransformDirection(Vector3.forward)*((start.position.x == Zero.x || start.position.z == Zero.z+size.z? 1 : -1));
+        Vector3 dir = start.TransformDirection(Vector3.forward)*((start.position.x == Zero.x || start.position.z == Zero.z+size.z ? 1 : -1));
+        Vector3 startpoint = start.position + 
+            (start.position.x > start.position.z ? 
+             new Vector3(Random.Range(-start.GetComponent<Renderer>().bounds.size.x/3,start.GetComponent<Renderer>().bounds.size.x/3),0,0) : 
+             new Vector3(0,0,Random.Range(-start.GetComponent<Renderer>().bounds.size.z/3,start.GetComponent<Renderer>().bounds.size.z/3)));
 
         RaycastHit hit;
-        Debug.DrawRay(start.position+new Vector3(0,size.y/2,0), dir*64,Color.red,10);
-        if (Physics.Raycast(start.position + new Vector3(0, size.y / 2, 0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
+        //Debug.DrawRay(start.position+new Vector3(0,size.y/2,0), dir*64,Color.red,10);
+        if (Physics.Raycast(startpoint + new Vector3(0, size.y / 2, 0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
         {
-            GetInnerWalls(start.position, hit, 0);
+            GetInnerWalls(startpoint, hit, 0);
         }
             
     }
@@ -188,9 +185,9 @@ public class Room : MonoBehaviour
                 SegmentEnd = Vector3.Lerp(SegmentEnd, end, t);
                 foreach (Collider o in Physics.OverlapBox(new Vector3((SegmentEnd.x + SegmentStart.x) / 2, size.y / 2, (SegmentEnd.z + SegmentStart.z) / 2), new Vector3(Mathf.Abs(SegmentEnd.x - SegmentStart.x), size.y, Mathf.Abs(SegmentEnd.z - SegmentStart.z))))
                 {
-                    if (o.name == "Door" && this.DoorList.Contains(o.gameObject) && lastDoor != o.transform.position)
+                    if (o.name == "Door" && lastDoor != o.transform.position)
                     {
-                        SegmentEnd = o.GetComponent<Renderer>().bounds.ClosestPoint(start);
+                        SegmentEnd = o.bounds.ClosestPoint(start);
                         SegmentEnd = new Vector3(SegmentEnd.x, 0, SegmentEnd.z);
                         w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, Quaternion.identity, Walls.transform);
                         wBounds = w.GetComponent<Renderer>().bounds.size;
@@ -209,7 +206,7 @@ public class Room : MonoBehaviour
                         c.transform.position += dir*Console.GetComponent<Renderer>().bounds.size.z/2;
                         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
                         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
-                        l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
+                        //l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
                         l.name = "Light";
                         
 
@@ -243,7 +240,7 @@ public class Room : MonoBehaviour
         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z ? 1 : -1))).normalized;
         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
-        l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
+        //l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
         l.name = "Light";
 
         w.gameObject.SetActive(false);
@@ -262,15 +259,15 @@ public class Room : MonoBehaviour
             BuildWall(start, Vector3.Lerp(start, end, 0.7f), size.y / 2, false);
         else
         {
-            BuildWall(start, Vector3.Lerp(start, end, 0.3f), size.y / 2);
-            BuildWall(end, Vector3.Lerp(end, start, 0.3f), size.y / 2);
+            BuildWall(start, Vector3.Lerp(start, end, 0.3f), size.y / 2,false);
+            BuildWall(end, Vector3.Lerp(end, start, 0.3f), size.y / 2,false);
         }
 
         Vector3 newStart = Vector3.Lerp(start, end, Random.Range(0.2f, 0.8f));
         dir = Vector3.Cross(start+new Vector3(0,1,0), end+new Vector3(0,1,0));
         dir = new Vector3(dir.x, 0, dir.z).normalized;
-        Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), dir, Color.green, 10);
-        Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), -dir, Color.blue, 10);
+        //Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), dir, Color.green, 10);
+        //Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), -dir, Color.blue, 10);
         if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
         {
             if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RoomGenerator.WallMask))

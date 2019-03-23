@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OpenDoor : MonoBehaviour {
-
     private Vector3 OpenPosition, ClosePosition;
     private readonly float moveSpeed = 5;
     //private int motionSensor = 4;

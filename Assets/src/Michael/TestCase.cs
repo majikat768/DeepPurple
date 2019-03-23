@@ -7,7 +7,6 @@ using UnityStandardAssets.Characters.ThirdPerson;
 public class TestCase : MonoBehaviour {
 
     GameObject room;
-    [SerializeField]
     GameObject target;
     GameObject player;
     NavMeshAgent agent;
@@ -70,8 +69,8 @@ public class TestCase : MonoBehaviour {
             r.SetZero(Zero);
             r.SetSize(size);
             r.complexity = complexity++;
-            r.Init();
             RoomGenerator.RoomList.Add(r);
+            r.Init();
             RoomGenerator.Rebuild();
             RoomGenerator.BakeNavMesh();
             target = GameObject.Instantiate(RoomGenerator.Block,new Vector3(r.Zero.x+r.size.x-2, 0, r.Zero.z+r.size.z-2),Quaternion.identity,this.transform);

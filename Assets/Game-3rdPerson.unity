@@ -201,6 +201,10 @@ Prefab:
       propertyPath: smoothFollow
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 11486748, guid: ee2d107a34692a64e95ce85aed5e41f0, type: 2}
+      propertyPath: lockCamera
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee2d107a34692a64e95ce85aed5e41f0, type: 2}
   m_IsPrefabParent: 0
@@ -219,7 +223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &770712764
 Light:
   m_ObjectHideFlags: 0
