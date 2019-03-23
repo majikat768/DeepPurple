@@ -19,7 +19,7 @@ public class Interactable : MonoBehaviour {
 
 	void Update()
 	{
-        return; // TODO: Distance calculation is too expensive to be run every single update. Find workaround.
+        //return; // TODO: Distance calculation is too expensive to be run every single update. Find workaround.
 		float distance = Vector3.Distance(player.position, transform.position);
 		if(distance <= radius)
 		{
