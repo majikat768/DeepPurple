@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.217
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21037742, g: 0.23674381, b: 0.2782264, a: 0.217}
+  m_IndirectSpecularColor: {r: 0.21037742, g: 0.23674378, b: 0.27822632, a: 0.217}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -150,7 +150,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 186880539}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 0, z: 36}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -167,15 +167,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cc868fe1aef25d4fa892819138a73b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 3
   DoorList: []
   FloorTiles: []
-  Zero: {x: 16, y: 0, z: 36}
-  size: {x: 16, y: 4, z: 16}
+  Zero: {x: 8, y: 0, z: 44}
+  size: {x: 24, y: 4, z: 32}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  obj: 1
-  final: 0
   numEnemies: 2
   enemies: {fileID: 0}
 --- !u!1 &341014170
@@ -232,15 +233,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70b0793d6ba6ed4d9f1dd5fecaaccb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 0, y: 0, z: 0}
-  size: {x: 16, y: 4, z: 16}
+  size: {x: 24, y: 4, z: 24}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  obj: 1
-  final: 0
 --- !u!1001 &394856978
 Prefab:
   m_ObjectHideFlags: 0
@@ -1222,7 +1224,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 745875548}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1239,15 +1241,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64618943afc6d4c77b6ffb3034551820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 3
   DoorList: []
   FloorTiles: []
-  Zero: {x: 16, y: 0, z: 0}
-  size: {x: 16, y: 4, z: 16}
+  Zero: {x: 24, y: 0, z: 0}
+  size: {x: 24, y: 4, z: 24}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  obj: 1
-  final: 0
   solved: 0
 --- !u!1001 &770758861
 Prefab:
@@ -1374,7 +1377,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 995219047}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 16}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1391,15 +1394,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64618943afc6d4c77b6ffb3034551820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 3
   DoorList: []
   FloorTiles: []
-  Zero: {x: 0, y: 0, z: 16}
+  Zero: {x: 0, y: 0, z: 24}
   size: {x: 48, y: 4, z: 20}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  obj: 1
-  final: 0
   solved: 0
 --- !u!1001 &1456369516
 Prefab:
@@ -1484,7 +1488,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1689684600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32, y: 0, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1501,15 +1505,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cc868fe1aef25d4fa892819138a73b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 3
   DoorList: []
   FloorTiles: []
-  Zero: {x: 32, y: 0, z: 4}
-  size: {x: 16, y: 4, z: 12}
+  Zero: {x: 48, y: 0, z: 4}
+  size: {x: 16, y: 4, z: 24}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  obj: 1
-  final: 0
   numEnemies: 2
   enemies: {fileID: 0}
 --- !u!1 &1866962119
@@ -1549,7 +1554,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1866962119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48, y: 0, z: 16}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1566,15 +1571,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ccd346c18b4a0d4cb3e48b02db57ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 3
   DoorList: []
   FloorTiles: []
-  Zero: {x: 48, y: 0, z: 12}
+  Zero: {x: 48, y: 0, z: 28}
   size: {x: 30, y: 4, z: 36}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  obj: 1
-  final: 0
 --- !u!1 &1872896469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,10 +1623,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: -20
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1700,7 +1706,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1929334708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32, y: 0, z: 36}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1717,13 +1723,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86c0ce7a1d1fd546a18338858d8182b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 1
+  complexity: 3
   DoorList: []
   FloorTiles: []
-  Zero: {x: 32, y: 0, z: 36}
-  size: {x: 16, y: 4, z: 16}
+  Zero: {x: 32, y: 0, z: 44}
+  size: {x: 16, y: 4, z: 24}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  obj: 1
-  final: 1
   numEnemies: 2

@@ -63,6 +63,7 @@ public class RoomGenerator : MonoBehaviour
     public static GameObject Get(Vector3 Zero, RoomType rt = RoomType.None)
     {
         GameObject newroom = new GameObject();
+        newroom.transform.position = Zero;
         Room r;
 
         switch(rt)
@@ -104,7 +105,7 @@ public class RoomGenerator : MonoBehaviour
         r.SetZero(Zero);
         r.SetSize(size);
         //r.Init();
-        RoomList.Add(r);
+        //RoomList.Add(r);
         return newroom;
     }
 
@@ -140,9 +141,9 @@ public class RoomGenerator : MonoBehaviour
                         if(EastOverlapEdge - WestOverlapEdge > Door.transform.localScale.x*2) {
                             float DoorX = (WestOverlapEdge+EastOverlapEdge)/2.0f+0.5f;
                             float DoorZ = r1.center.z+r1.size.z/2;
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.identity,room.transform);
+                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.GetSize().y/2,DoorZ),Quaternion.identity,room.transform);
                             dBounds = d.GetComponent<Renderer>().bounds.size;
-                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, room.size.y/dBounds.y, d.transform.localScale.z);
+                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, room.GetSize().y/dBounds.y, d.transform.localScale.z);
                             d.name = "Door";
                             d.gameObject.SetActive(false);
                             d.gameObject.SetActive(true);
@@ -161,9 +162,9 @@ public class RoomGenerator : MonoBehaviour
                             float DoorZ = (Mathf.Max(r1.center.z-r1.size.z/2,r2.center.z-r2.size.z/2)+Mathf.Min(r1.center.z+r1.size.z/2,r2.center.z+r2.size.z/2))/2.0f+0.5f;
                             float DoorX = r1.center.x-r1.size.x/2;
 
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.size.y/2,DoorZ),Quaternion.identity,room.transform);
+                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.GetSize().y/2,DoorZ),Quaternion.identity,room.transform);
                             dBounds = d.GetComponent<Renderer>().bounds.size;
-                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, room.size.y/dBounds.y, d.transform.localScale.z);
+                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, room.GetSize().y/dBounds.y, d.transform.localScale.z);
                             d.transform.Rotate(0, 90, 0);
                             d.name = "Door";
                             d.gameObject.SetActive(false);

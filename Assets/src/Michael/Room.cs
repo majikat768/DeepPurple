@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Room : MonoBehaviour
 {
     public bool initialized = false;
+    public bool testbuild = false;
     private Bounds RoomBounds;
     public int complexity = 3;
     public List<GameObject> DoorList;
@@ -18,8 +19,10 @@ public class Room : MonoBehaviour
     protected static GameObject FloorTile;
     protected GameObject WallLight; 
     protected GameObject Player;
-    public Vector3 Zero;
-    public Vector3 size;
+    [SerializeField]
+    protected Vector3 Zero;
+    [SerializeField]
+    protected Vector3 size;
 
     public GameObject Walls;
     public GameObject Floor;
@@ -27,6 +30,7 @@ public class Room : MonoBehaviour
 
     public void Awake()
     {
+        this.gameObject.transform.position = Zero;
         FloorTile = RoomGenerator.FloorTile;
         Wall = RoomGenerator.Wall;
         Door = RoomGenerator.Door;
@@ -39,6 +43,10 @@ public class Room : MonoBehaviour
         Player = GameObject.FindWithTag("Player");
         Walls = new GameObject("Walls");
         Walls.transform.parent = this.gameObject.transform;
+        RoomGenerator.RoomList.Add(this);
+
+        if(testbuild) 
+            RoomGenerator.BuildDoors();
     }
 
     public void Start()
@@ -48,7 +56,7 @@ public class Room : MonoBehaviour
 
     public void Init() {
         initialized = true;
-        this.RoomBounds = new Bounds(new Vector3(Zero.x + size.x / 2, Zero.y + size.y / 2, Zero.z + size.z / 2), size);
+        this.RoomBounds = new Bounds(new Vector3(size.x / 2, size.y / 2, size.z / 2), size);
 
         /*
          * * * * if tiling instances of a prefab, use this:
@@ -73,7 +81,7 @@ public class Room : MonoBehaviour
          */
         GameObject f = GameObject.Instantiate(
             FloorTile,
-            new Vector3(size.x / 2 + Zero.x, 0, size.z / 2 + Zero.z), 
+            Zero+new Vector3(size.x/2,0,size.z/2),
             Quaternion.identity,
             this.transform);
         Vector3 FloorSize = f.GetComponent<Renderer>().bounds.size;
@@ -85,7 +93,7 @@ public class Room : MonoBehaviour
 
         Ceiling = GameObject.Instantiate(
             Resources.Load<GameObject>("Michael/Plane"),
-            new Vector3(size.x / 2 + Zero.x, size.y, size.z / 2 + Zero.z), 
+            Zero+new Vector3(size.x / 2, size.y, size.z / 2), 
             Quaternion.Euler(180.0f, 0, 0), 
             this.transform);
         Ceiling.name = "Ceiling";
@@ -100,7 +108,7 @@ public class Room : MonoBehaviour
         // Box Collider tells me when player enters or exits a room;
         // also gets bordering rooms
         gameObject.AddComponent<BoxCollider>().size = size;
-        this.GetComponent<BoxCollider>().center = Zero+size/2;
+        this.GetComponent<BoxCollider>().center = size/2;
         this.GetComponent<BoxCollider>().isTrigger = true;
         this.gameObject.layer = 2;
 
@@ -144,10 +152,10 @@ public class Room : MonoBehaviour
 
     public void GetWalls()
     {
-        BuildWall(Zero, Zero + new Vector3(size.x, 0, 0), size.y);
-        BuildWall(Zero, Zero + new Vector3(0, 0, size.z), size.y);
-        BuildWall(Zero + new Vector3(size.x, 0, 0), Zero + new Vector3(size.x, 0, size.z), size.y);
-        BuildWall(Zero + new Vector3(0, 0, size.z), Zero + new Vector3(size.x, 0, size.z), size.y);
+        BuildWall(Zero, Zero+new Vector3(size.x, 0, 0), size.y);
+        BuildWall(Zero, Zero+new Vector3(0, 0, size.z), size.y);
+        BuildWall(Zero+new Vector3(size.x, 0, 0), Zero+new Vector3(size.x, 0, size.z), size.y);
+        BuildWall(Zero+new Vector3(0, 0, size.z), Zero+new Vector3(size.x, 0, size.z), size.y);
 
         Transform start = Walls.transform.GetChild(Random.Range(0, Walls.transform.childCount - 1));
         Vector3 dir = start.TransformDirection(Vector3.forward)*((start.position.x == Zero.x || start.position.z == Zero.z+size.z ? 1 : -1));
@@ -180,10 +188,10 @@ public class Room : MonoBehaviour
         float t = 0.0f;
         if (doors)
         {
-            while (Vector3.Distance(SegmentEnd, end) > 1)
+            while (Vector3.Distance(SegmentEnd, end) > 0.1f)
             {
                 SegmentEnd = Vector3.Lerp(SegmentEnd, end, t);
-                foreach (Collider o in Physics.OverlapBox(new Vector3((SegmentEnd.x + SegmentStart.x) / 2, size.y / 2, (SegmentEnd.z + SegmentStart.z) / 2), new Vector3(Mathf.Abs(SegmentEnd.x - SegmentStart.x), size.y, Mathf.Abs(SegmentEnd.z - SegmentStart.z))))
+                foreach (Collider o in Physics.OverlapBox(new Vector3((SegmentEnd.x + SegmentStart.x) / 2, size.y / 2, (SegmentEnd.z + SegmentStart.z) / 2), new Vector3(Mathf.Abs(SegmentEnd.x - SegmentStart.x), size.y, Mathf.Abs(SegmentEnd.z - SegmentStart.z))/2))
                 {
                     if (o.name == "Door" && lastDoor != o.transform.position)
                     {
@@ -195,14 +203,14 @@ public class Room : MonoBehaviour
                         w.transform.Rotate(0, 90, 0);
                         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart, SegmentEnd) / wBounds.x, height / wBounds.y, 1);
                         w.name = "Wall";
-                        w.GetComponent<NavMeshObstacle>().size = w.GetComponent<Collider>().bounds.size;
+                        w.GetComponent<NavMeshObstacle>().size = wBounds;
                         w.gameObject.SetActive(false);
                         w.gameObject.SetActive(true);
 
                         c = GameObject.Instantiate(Console,Vector3.MoveTowards(SegmentEnd,SegmentStart,Console.GetComponent<Renderer>().bounds.size.magnitude/2),Quaternion.identity,this.transform);
                         c.transform.LookAt(end);
                         c.transform.Rotate(0,90*(c.transform.position.x == Zero.x || c.transform.position.z == Zero.z+size.z ? 1 : -1),0);
-                        dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z? 1 : -1))).normalized;
+                        dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z ? 1 : -1))).normalized;
                         c.transform.position += dir*Console.GetComponent<Renderer>().bounds.size.z/2;
                         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
                         l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
@@ -235,7 +243,7 @@ public class Room : MonoBehaviour
         w.transform.LookAt(end);
         w.transform.Rotate(0, 90, 0);
         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart,SegmentEnd)/wBounds.x, height/wBounds.y, 1);
-        w.GetComponent<NavMeshObstacle>().size = w.GetComponent<Collider>().bounds.size;
+        w.GetComponent<NavMeshObstacle>().size = wBounds;
 
         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z ? 1 : -1))).normalized;
@@ -294,6 +302,7 @@ public class Room : MonoBehaviour
 
     public void SetZero(Vector3 Zero) {
         this.Zero = Zero;
+        this.transform.position = Zero;
     }
     public Vector3 GetZero() { return Zero; }
 

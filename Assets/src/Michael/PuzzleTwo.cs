@@ -72,12 +72,12 @@ public class PuzzleTwo : MonoBehaviour {
                 }
             }
 
-            if (Mathf.Abs(box.transform.position.x - R.Zero.x) < 2.0f || 
-                Mathf.Abs(box.transform.position.x - (R.Zero.x+R.size.x)) < 2.0f ||
-                Mathf.Abs(box.transform.position.z - R.Zero.z) < 2.0f ||
-                Mathf.Abs(box.transform.position.z - (R.Zero.z+R.size.z)) < 2.0f)
+            if (Mathf.Abs(box.transform.position.x - R.GetZero().x) < 2.0f || 
+                Mathf.Abs(box.transform.position.x - (R.GetZero().x+R.GetSize().x)) < 2.0f ||
+                Mathf.Abs(box.transform.position.z - R.GetZero().z) < 2.0f ||
+                Mathf.Abs(box.transform.position.z - (R.GetZero().z+R.GetSize().z)) < 2.0f)
             {
-                Vector3 dir = (R.Zero + R.size / 2 - box.transform.position).normalized;
+                Vector3 dir = (R.GetZero() + R.GetSize() / 2 - box.transform.position).normalized;
                 box.GetComponent<Rigidbody>().MovePosition(box.transform.position + (dir * Time.deltaTime));
             }
         }

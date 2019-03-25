@@ -14,7 +14,7 @@ public class CombatRoom : Room
         enemies.transform.parent = this.transform;
         for(int i = 0; i < numEnemies; i++)
         {
-            Vector3 SpawnPoint = new Vector3(Zero.x + Random.Range(1,size.x-1),0.5f,Zero.z + Random.Range(1,size.z-1));
+            Vector3 SpawnPoint = Zero + new Vector3(Random.Range(1,size.x-1),0.5f,Random.Range(1,size.z-1));
             GameObject e = GameObject.Instantiate(Block, SpawnPoint, Quaternion.identity,enemies.transform);
             e.name = "Enemy";
             RoomGenerator.EnemyList.Add(e);
