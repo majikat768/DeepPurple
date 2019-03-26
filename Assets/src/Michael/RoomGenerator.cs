@@ -5,21 +5,22 @@ using UnityEngine.AI;
 /*
  */
 
-public class RoomGenerator : MonoBehaviour
+public static class RoomGenerator //: MonoBehaviour
 {
     // Declare all the object references I'll be using; gets passed down to Room class
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat, None };
-    public static int WallLayer,WallMask; 
+    public static int WallLayer = 8;
+    public static int WallMask = 1 << WallLayer; 
     public static List<Room> RoomList = new List<Room>();
     public static List<GameObject> EnemyList = new List<GameObject>();
-    public static GameObject Wall; 
-    public static GameObject Door;
-    public static GameObject Block; 
-    public static GameObject FloorTile; 
-    public static GameObject Ceiling; 
-    public static GameObject WallLight; 
-    public static GameObject Console; 
-    public static GameObject Panel; 
+    public static GameObject Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
+    public static GameObject Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
+    public static GameObject Block = Resources.Load<GameObject>("Michael/Block");
+    public static GameObject FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
+    public static GameObject Ceiling = Resources.Load<GameObject>("Michael/Plane");
+    public static GameObject WallLight = Resources.Load<GameObject>("Michael/Roof_Light_003");
+    public static GameObject Console = Resources.Load<GameObject>("Michael/Console_001");
+    public static GameObject Panel = Resources.Load<GameObject>("Michael/Panel_001");
 
     public static Color Amber = new Color(1.0f, 0.82f, 0.39f);
     public static Color Cyan = new Color(0.47f, 1, 1);
@@ -27,13 +28,13 @@ public class RoomGenerator : MonoBehaviour
     public static Color Red = new Color(0.87f, 0.39f, 0.39f);
     public static Color LightGreen = new Color(0.4f, 1, 0.4f);
 
-    public RoomType rt;
-    public Room r;
+    public static RoomType rt;
+    public static Room r;
 
     private static Vector3 size = new Vector3(32.0f,4.0f,32.0f);
     private static Vector3 Zero;
 
-    void Awake()
+    private static void Awake()
     {
         WallLayer = 8;
         WallMask = 1 << WallLayer;
@@ -50,7 +51,7 @@ public class RoomGenerator : MonoBehaviour
         Panel = Resources.Load<GameObject>("Michael/Panel_001");
     }
 
-    void Start() {
+    private static void Start() {
 
         /*room = Get(transform.position,rt);
         // don't need to call setSize.  if you don't it's default 16x16
@@ -104,7 +105,6 @@ public class RoomGenerator : MonoBehaviour
         //  r.Init();
         r.SetZero(Zero);
         r.SetSize(size);
-        //r.Init();
         //RoomList.Add(r);
         return newroom;
     }
@@ -138,7 +138,7 @@ public class RoomGenerator : MonoBehaviour
                         //find X location of doorway from south side of o to north side of r.
                         float WestOverlapEdge = Mathf.Max(r1.center.x-r1.size.x/2,r2.center.x-r2.size.x/2);
                         float EastOverlapEdge = Mathf.Min(r1.center.x+r1.size.x/2,r2.center.x+r2.size.x/2);
-                        if(EastOverlapEdge - WestOverlapEdge > Door.transform.localScale.x*2) {
+                        if(EastOverlapEdge - WestOverlapEdge > Door.GetComponent<Renderer>().bounds.size.magnitude*2) {
                             float DoorX = (WestOverlapEdge+EastOverlapEdge)/2.0f+0.5f;
                             float DoorZ = r1.center.z+r1.size.z/2;
                             d = GameObject.Instantiate(Door,new Vector3(DoorX,room.GetSize().y/2,DoorZ),Quaternion.identity,room.transform);
@@ -158,7 +158,7 @@ public class RoomGenerator : MonoBehaviour
                         
                         float SouthOverlapEdge = Mathf.Max(r1.center.z-r1.size.z/2,r2.center.z-r2.size.z/2);
                         float NorthOverlapEdge = Mathf.Min(r1.center.z+r1.size.z/2,r2.center.z+r2.size.z/2);
-                        if(NorthOverlapEdge - SouthOverlapEdge > Door.transform.localScale.x*2) {
+                        if(NorthOverlapEdge - SouthOverlapEdge > Door.GetComponent<Renderer>().bounds.size.magnitude*2) {
                             float DoorZ = (Mathf.Max(r1.center.z-r1.size.z/2,r2.center.z-r2.size.z/2)+Mathf.Min(r1.center.z+r1.size.z/2,r2.center.z+r2.size.z/2))/2.0f+0.5f;
                             float DoorX = r1.center.x-r1.size.x/2;
 
@@ -185,6 +185,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
+        /*
     public static void Rebuild() {
         Debug.Log("rebuilding");
         foreach(Room r in RoomList) {
@@ -200,24 +201,26 @@ public class RoomGenerator : MonoBehaviour
 
         BuildDoors();
     }
+    */
 
     public static void BakeNavMesh()
     {
+        NavMeshSurface surface = RoomList[0].transform.Find("Floor").GetComponent<NavMeshSurface>();
+        surface.BuildNavMesh();
+        /*
         foreach(Room r in RoomList) {
             NavMeshSurface surface = r.gameObject.transform.Find("Floor").GetComponent<NavMeshSurface>();
             //UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
             surface.BuildNavMesh();
         }
+        */
     }
 
 
     public static Vector3 GetSize() { return size; }
-    public void SetSize(float x, float y, float z) {
+    public static void SetSize(float x, float y, float z) {
         size = new Vector3(x,y,z);
     }
-    public Vector3 GetZero() { return Zero; }
+    public static Vector3 GetZero() { return Zero; }
     
-    public void Update() {
-    }
-
 }

@@ -79,15 +79,15 @@ public class Room : MonoBehaviour
         /*
          * * * * if using a tileable texture, use this:
          */
-        GameObject f = GameObject.Instantiate(
+        Floor = GameObject.Instantiate(
             FloorTile,
             Zero+new Vector3(size.x/2,0,size.z/2),
             Quaternion.identity,
             this.transform);
-        Vector3 FloorSize = f.GetComponent<Renderer>().bounds.size;
-        f.name = "Floor";
-        f.transform.localScale = new Vector3(size.x / FloorSize.x, 1, size.z / FloorSize.x);
-        f.GetComponent<Renderer>().material.mainTextureScale = new Vector2(size.x/2, size.z/2);
+        Vector3 FloorSize = Floor.GetComponent<Renderer>().bounds.size;
+        Floor.name = "Floor";
+        Floor.transform.localScale = new Vector3(size.x / FloorSize.x, 1, size.z / FloorSize.x);
+        //Floor.GetComponent<Renderer>().material.mainTextureScale = new Vector2(size.x/2, size.z/2);
         /*
         */
 
@@ -139,7 +139,7 @@ public class Room : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
-                this.SetLighting(RoomGenerator.Cyan, 1);
+            this.SetLighting(RoomGenerator.Cyan, 1);
         }
     }
 
@@ -258,11 +258,24 @@ public class Room : MonoBehaviour
 
     public void GetInnerWalls(Vector3 start, RaycastHit endHit, int depth)
     {
+        bool built = false;
         if (depth > complexity) return;
         Vector3 end = endHit.point - new Vector3(0, size.y / 2, 0);
         if (Vector3.Distance(start, end) < 4)   return;
         RaycastHit hit,hit2;
         Vector3 dir;
+        foreach(Collider o in Physics.OverlapBox(endHit.point, new Vector3(8,8,8))) {
+            if(o.transform.name != "Wall") {
+                BuildWall(start,Vector3.Lerp(start,end,0.7f),size.y/2,false);
+                built = true;
+            }
+        }
+        if(!built) {
+            BuildWall(start, Vector3.Lerp(start, end, 0.3f), size.y / 2,false);
+            BuildWall(end, Vector3.Lerp(end, start, 0.3f), size.y / 2,false);
+        }
+
+        /*
         if (endHit.transform.gameObject.name == "Door")
             BuildWall(start, Vector3.Lerp(start, end, 0.7f), size.y / 2, false);
         else
@@ -270,6 +283,7 @@ public class Room : MonoBehaviour
             BuildWall(start, Vector3.Lerp(start, end, 0.3f), size.y / 2,false);
             BuildWall(end, Vector3.Lerp(end, start, 0.3f), size.y / 2,false);
         }
+        */
 
         Vector3 newStart = Vector3.Lerp(start, end, Random.Range(0.2f, 0.8f));
         dir = Vector3.Cross(start+new Vector3(0,1,0), end+new Vector3(0,1,0));

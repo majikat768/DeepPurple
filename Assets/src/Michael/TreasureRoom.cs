@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class TreasureRoom : Room
 {
-    private readonly int numItems = 6;
-    private readonly int numGold = 8;
+    private readonly int numItems = 4;
+    private readonly int numGold = 4;
     GameObject items;
 
     private GameObject Interactable;
