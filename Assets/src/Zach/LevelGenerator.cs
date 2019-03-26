@@ -14,126 +14,157 @@ public class LevelGenerator : MonoBehaviour
 
     public void Start()
     {
-        generateLevel(Generator.RANDOM);
+        generateLevel(Generator.TFRACTAL);
     }
 
     public void generateLevel(Generator generator)
     {
-        GameObject levelGen = new GameObject();
+        var levelGen = new GameObject();
         levelGen.AddComponent<RoomGenerator>();
         RoomGenerator roomGenerator = levelGen.GetComponent<RoomGenerator>();
+        var rooms = GetRooms(generator);
+
+        foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
+        {
+            roomGenerator.Get(new Vector3(roomSize * room.Key.x, 0, roomSize * room.Key.y), room.Value);
+        }
+
+        RoomGenerator.BuildDoors();
+        RoomGenerator.BakeNavMesh();
+
+    }
+
+    Dictionary<Vector2Int, RoomGenerator.RoomType> GetRooms(Generator generator)
+    {
         switch (generator)
         {
             case Generator.SQUARE:
-                for (int i = 0; i < 5; i++)
-                {
-                    for (int j = 0; j < 5; j++)
-                    {
-                        GameObject r;
-                        if (i == j && j == 0)
-                        {
-                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Start);
-                        }
-                        else if (i == j && j == 4)
-                        {
-                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RoomGenerator.RoomType.Boss);
-                        }
-                        else
-                        {
-
-                            r = RoomGenerator.Get(new Vector3(roomSize * i, 0, roomSize * j), RandomRoomType());
-                        }
-                    }
-                }
-                break;
+                return RoomGeneratorSquare();
             case Generator.LINEAR:
-                for (int i = 0; i < 25; i++)
-                {
-                    GameObject r;
-                    if (i == 0)
-                    {
-                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Start);
-                    }
-                    else if (i == 24)
-                    {
-                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0, 0), RoomGenerator.RoomType.Boss);
-                    }
-                    else
-                    {
-                        r = RoomGenerator.Get(new Vector3(roomSize * i, 0,0), RandomRoomType());
-                    }
-                }
-                break;
+                return RoomGeneratorLinear();
             case Generator.RANDOM:
-                List<Vector2Int> offsets = new List<Vector2Int>();
-                offsets.Add(new Vector2Int(0, 0)); // Spawn room
+                return RoomGeneratorRandom();
+            case Generator.TFRACTAL:
+                return RoomGeneratorTFractal();
+        }
+        return null;
+    }
 
-                int numLoops = Random.Range(25, 50);
-                for (int i = 0; i < numLoops; i++)
+    Dictionary<Vector2Int, RoomGenerator.RoomType> RoomGeneratorSquare()
+    {
+        var dictionary = new Dictionary<Vector2Int, RoomGenerator.RoomType>();
+        for (int x = 0; x < 5; x++)
+        {
+            for (int y = 0; y < 5; y++)
+            {
+                var vec = new Vector2Int(x, y);
+                RoomGenerator.RoomType roomType;
+                if (x == y && y == 0)
                 {
-                    bool foundEmpty = false;
-                    while (!foundEmpty)
-                    {
-                        Vector2Int vector2Int = offsets[Random.Range(0, offsets.Count)]; // Pick random offset from list
-                        // Pick a random direction
-                        int dir = Random.Range(0, 4); // 0 North, 1 East, 2 South, 3 West
-                        Vector2Int newLoc = new Vector2Int(vector2Int.x, vector2Int.y);
-                        switch (dir)
-                        {
-                            case 0:
-                                newLoc.y += 1;
-                                break;
-                            case 1:
-                                newLoc.x += 1;
-                                break;
-                            case 2:
-                                newLoc.y -= 1;
-                                break;
-                            case 3:
-                                newLoc.x -= 1;
-                                break;
-                        }
-                        if (!offsets.Contains(newLoc))
-                        {
-                            offsets.Add(newLoc);
-                            foundEmpty = true;
-                        }
-                    }
+                    roomType = RoomGenerator.RoomType.Start;
                 }
-                for (int i = 0; i < offsets.Count; i++)
+                else if (x == y && y == 4)
                 {
-                    Vector2Int vector2Int = offsets[i];
-                    GameObject r;
-                    if (vector2Int.x == 0 && vector2Int.y == 0)
+                    roomType = RoomGenerator.RoomType.Boss;
+                }
+                else
+                {
+                    roomType = RandomRoomType();
+                }
+                dictionary[vec] = roomType;
+            }
+        }
+        return dictionary;
+    }
+
+    Dictionary<Vector2Int, RoomGenerator.RoomType> RoomGeneratorLinear()
+    {
+        var dictionary = new Dictionary<Vector2Int, RoomGenerator.RoomType>();
+
+        for (int i = 0; i < 25; i++)
+        {
+            var vec = new Vector2Int(i, 0);
+            RoomGenerator.RoomType roomType;
+            if (i == 0)
+            {
+                roomType = RoomGenerator.RoomType.Start;
+            }
+            else if (i == 24)
+            {
+                roomType = RoomGenerator.RoomType.Boss;
+            }
+            else
+            {
+                roomType = RandomRoomType();
+            }
+            dictionary[vec] = roomType;
+        }
+
+        return dictionary;
+    }
+
+    Dictionary<Vector2Int, RoomGenerator.RoomType> RoomGeneratorRandom()
+    {
+        var dictionary = new Dictionary<Vector2Int, RoomGenerator.RoomType>();
+        dictionary[new Vector2Int(0, 0)] = RoomGenerator.RoomType.Start;
+
+        int numLoops = Random.Range(25, 50);
+        for (int i = 0; i < numLoops; i++)
+        {
+            var keys = new List<Vector2Int>(dictionary.Keys);
+            bool foundEmpty = false;
+
+            while (!foundEmpty)
+            {
+                Vector2Int vector = keys[Random.Range(0, keys.Count)]; // Get random vector
+                // Pick a random direction
+                int dir = Random.Range(0, 4); // 0 North, 1 East, 2 South, 3 West
+                Vector2Int newLoc = new Vector2Int(vector.x, vector.y);
+                switch (dir)
+                {
+                    case 0:
+                        newLoc.y += 1;
+                        break;
+                    case 1:
+                        newLoc.x += 1;
+                        break;
+                    case 2:
+                        newLoc.y -= 1;
+                        break;
+                    case 3:
+                        newLoc.x -= 1;
+                        break;
+                }
+                if (!dictionary.ContainsKey(newLoc))
+                {
+                    RoomGenerator.RoomType roomType;
+                    if (i == numLoops - 1)
                     {
-                        r = RoomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
-                    }
-                    else if (i == offsets.Count - 1)
-                    {
-                        r = RoomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RoomGenerator.RoomType.Boss);
+                        roomType = RoomGenerator.RoomType.Boss;
                     }
                     else
                     {
-                        r = RoomGenerator.Get(new Vector3(roomSize * vector2Int.x, 0, roomSize * vector2Int.y), RandomRoomType());
+                        roomType = RandomRoomType();
                     }
+                    dictionary[newLoc] = roomType;
+                    foundEmpty = true;
                 }
-                break;
-            case Generator.TFRACTAL:
-                TFractal(roomGenerator);
-                break;
+            }
         }
-        RoomGenerator.BuildDoors();
-        RoomGenerator.BakeNavMesh();
+
+        return dictionary;
     }
 
-    public void TFractal(RoomGenerator roomGenerator)
+    Dictionary<Vector2Int, RoomGenerator.RoomType> RoomGeneratorTFractal()
     {
+        var dictionary = new Dictionary<Vector2Int, RoomGenerator.RoomType>();
         int startingLength = 10;
-        RoomGenerator.Get(new Vector3(0, 0, 0), RoomGenerator.RoomType.Start);
-        TFractalRecursive(roomGenerator, 0, 1, 0, startingLength);
+        dictionary[new Vector2Int(0, 0)] = RoomGenerator.RoomType.Start; // Add start
+        TFractalRecursive(ref dictionary, 0, 1, 0, startingLength);
+        return dictionary;
     }
 
-    public void TFractalRecursive(RoomGenerator roomGenerator, int x, int y, int direction, int length)
+    public void TFractalRecursive(ref Dictionary<Vector2Int, RoomGenerator.RoomType> dictionary, int x, int y, int direction, int length)
     {
         if (length < 1)
         {
@@ -141,7 +172,8 @@ public class LevelGenerator : MonoBehaviour
         }
         for (int i = 0; i < length; i++)
         {
-            RoomGenerator.Get(new Vector3(x * roomSize, 0, y * roomSize), RandomRoomType());
+            var vec = new Vector2Int(x, y);
+            dictionary[vec] = RandomRoomType();
             switch (direction)
             {
                 case 0:
@@ -160,8 +192,8 @@ public class LevelGenerator : MonoBehaviour
         }
         int newLeft = (direction + 3) % 4;
         int newRight = (direction + 1) % 4;
-        TFractalRecursive(roomGenerator, x, y, newLeft, (int) (length * Random.Range(0.6f, 0.9f)));
-        TFractalRecursive(roomGenerator, x, y, newRight, (int)(length * Random.Range(0.6f, 0.9f)));
+        TFractalRecursive(ref dictionary, x, y, newLeft, (int)(length * Random.Range(0.6f, 0.9f)));
+        TFractalRecursive(ref dictionary, x, y, newRight, (int)(length * Random.Range(0.6f, 0.9f)));
     }
 
     public RoomGenerator.RoomType RandomRoomType()
