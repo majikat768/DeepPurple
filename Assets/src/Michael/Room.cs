@@ -45,8 +45,10 @@ public class Room : MonoBehaviour
         Walls.transform.parent = this.gameObject.transform;
         RoomGenerator.RoomList.Add(this);
 
-        if(testbuild) 
+        if(testbuild) {
             RoomGenerator.BuildDoors();
+            RoomGenerator.BakeNavMesh();
+        }
     }
 
     public void Start()
