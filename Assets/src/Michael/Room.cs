@@ -266,12 +266,13 @@ public class Room : MonoBehaviour
         if (Vector3.Distance(start, end) < 4)   return;
         RaycastHit hit,hit2;
         Vector3 dir;
-        foreach(Collider o in Physics.OverlapBox(endHit.point, new Vector3(8,8,8))) {
-            if(o.transform.name != "Wall") {
+        foreach(Collider o in Physics.OverlapBox(endHit.point, new Vector3(2,2,2))) {
+            if(o.transform.name == "Door") {
                 BuildWall(start,Vector3.Lerp(start,end,0.7f),size.y/2,false);
                 built = true;
             }
         }
+
         if(!built) {
             BuildWall(start, Vector3.Lerp(start, end, 0.3f), size.y / 2,false);
             BuildWall(end, Vector3.Lerp(end, start, 0.3f), size.y / 2,false);

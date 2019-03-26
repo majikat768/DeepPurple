@@ -27,15 +27,22 @@ public class TestCase3 : MonoBehaviour {
     NavMeshPath path;
     bool fail = false;
 
+    float timeToBuild;
 
 	// Use this for initialization
+    void Awake() {
+        Application.targetFrameRate = 300;
+    }
+
 	void Start () {
         this.tag = "Player";
         endpointMarkers = new List<GameObject>();
         line = GetComponent<LineRenderer>();
         line.startColor = new Color(0,1,0);
         line.endColor = new Color(0,1,0);
+        timeToBuild = Time.realtimeSinceStartup;
         BuildRoom();
+        timeToBuild = Time.realtimeSinceStartup - timeToBuild;
 		
 
         line.endWidth = line.startWidth = 0.4f;
@@ -90,7 +97,9 @@ public class TestCase3 : MonoBehaviour {
                 endpointMarkers.Clear();
                 RoomGenerator.RoomList.Clear();
                 complexity++;
+                timeToBuild = Time.realtimeSinceStartup;
                 BuildRoom();
+                timeToBuild = Time.realtimeSinceStartup - timeToBuild;
             }
             else 
                 failMessage = "Room navigation failed\nat wall complexity " + (complexity+1).ToString() + "\n\n";
@@ -101,33 +110,39 @@ public class TestCase3 : MonoBehaviour {
     void BuildRoom() {
         Zero = Vector3.zero;
         for(int i = 0; i < numRooms; i++) {
-            Debug.Log(numRooms);
             size = new Vector3(Random.Range(minSize,maxSize),3,Random.Range(minSize,maxSize));
             GameObject room = RoomGenerator.Get(Zero);
             room.GetComponent<Room>().SetSize(size);
             room.GetComponent<Room>().complexity = complexity;
             room.GetComponent<Room>().Init();
             if(i == 0)
-                start = room.GetComponent<Room>().GetZero() + room.GetComponent<Room>().GetSize()/2;
+                start = room.GetComponent<Room>().GetZero() + new Vector3(1,0,1);
+                //start = room.GetComponent<Room>().GetZero() + room.GetComponent<Room>().GetSize()/2;
             if(i == numRooms-1)
                 targetRoom = room.GetComponent<Room>();
 
 
-            Zero = Zero + (size.x > size.z ? new Vector3(size.x,0,0) : new Vector3(0,0,size.z));
+            //Zero = Zero + (size.x > size.z ? new Vector3(size.x,0,0) : new Vector3(0,0,size.z));
+            Zero = Zero + (i%2 == 0 ? new Vector3(size.x,0,0) : new Vector3(0,0,size.z));
         }
         RoomGenerator.BuildDoors();
         RoomGenerator.BakeNavMesh();
         x = (int)targetRoom.GetZero().x+1;
         z = (int)targetRoom.GetZero().z+1;
         failMessage = "";
+        float MapHeight = Vector3.Distance(start, targetRoom.GetZero()+targetRoom.GetSize()) + 8;
+        Debug.Log(MapHeight);
+        Camera.main.orthographicSize = MapHeight/2;
+        Camera.main.transform.position = new Vector3(MapHeight * 0.3f,10,MapHeight * 0.3f);
     }
 
 
     void OnGUI() {
-        GUI.Label(new Rect(10,10,200,20),"wall complexity: " + (complexity+1).ToString());
-        GUI.Label(new Rect(10,30,200,20),"room size: " + size.x.ToString() + " x " + size.z.ToString());
-        GUI.Label(new Rect(10,50,200,40),debugMessage);
-        GUI.Label(new Rect(10,90,200,200),failMessage);
+        GUI.Label(new Rect(10,10,300,20),"Time to build rooms: " + timeToBuild.ToString() + " seconds");
+        GUI.Label(new Rect(10,30,300,20),"wall complexity: " + (complexity+1).ToString());
+        GUI.Label(new Rect(10,50,300,20),"room size: " + size.x.ToString() + " x " + size.z.ToString());
+        GUI.Label(new Rect(10,70,300,40),debugMessage);
+        GUI.Label(new Rect(10,110,300,200),failMessage);
 
     }
 }

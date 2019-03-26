@@ -28,6 +28,7 @@ public class LevelGenerator : MonoBehaviour
 
         RoomGenerator.BuildDoors();
         RoomGenerator.BakeNavMesh();
+        Debug.Log(Time.realtimeSinceStartup.ToString() + " seconds to build rooms and bake nav mesh");
 
     }
 
