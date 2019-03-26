@@ -19,14 +19,11 @@ public class LevelGenerator : MonoBehaviour
 
     public void generateLevel(Generator generator)
     {
-        var levelGen = new GameObject();
-        levelGen.AddComponent<RoomGenerator>();
-        RoomGenerator roomGenerator = levelGen.GetComponent<RoomGenerator>();
         var rooms = GetRooms(generator);
 
         foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
         {
-            roomGenerator.Get(new Vector3(roomSize * room.Key.x, 0, roomSize * room.Key.y), room.Value);
+            RoomGenerator.Get(new Vector3(roomSize * room.Key.x, 0, roomSize * room.Key.y), room.Value);
         }
 
         RoomGenerator.BuildDoors();
