@@ -18,7 +18,7 @@ public class PuzzleTwo : MonoBehaviour {
         size = R.GetSize();
         //inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
 
-        Vector3 SpawnPoint = new Vector3(Zero.x + Random.Range(2, size.x-3), size.y / 2, Zero.z + Random.Range(2, size.z-3));
+        Vector3 SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), size.y / 2, Random.Range(2, size.z-3));
         box = GameObject.Instantiate(
             Resources.Load<GameObject>("Michael/Crate_003"),
             SpawnPoint,
@@ -28,14 +28,14 @@ public class PuzzleTwo : MonoBehaviour {
         for(int i = 0; i < boxCollisions.Length; i++) {
             if(boxCollisions[i].name == "Wall")
             {
-                SpawnPoint = new Vector3(Zero.x + Random.Range(2, size.x-3), size.y / 2, Zero.z + Random.Range(2, size.z-3));
+                SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), size.y / 2, Random.Range(2, size.z-3));
                 box.transform.position = SpawnPoint;
                 boxCollisions = Physics.OverlapBox(box.GetComponent<Collider>().bounds.center,box.GetComponent<Collider>().bounds.size/2);
                 i = -1;
             }
         }
 
-        SpawnPoint = new Vector3(Zero.x + Random.Range(2, size.x-3), FloorTile.GetComponent<Renderer>().bounds.size.y/2, Zero.z + Random.Range(2, size.z-3));
+        SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), FloorTile.GetComponent<Renderer>().bounds.size.y/2, Random.Range(2, size.z-3));
         TargetTile = GameObject.Instantiate(FloorTile, SpawnPoint, Quaternion.identity, this.gameObject.transform);
         /*
         TargetTile = R.FloorTiles[Random.Range(0,R.FloorTiles.Count)];

@@ -45,6 +45,7 @@ public class Room : MonoBehaviour
         Walls.transform.parent = this.gameObject.transform;
         RoomGenerator.RoomList.Add(this);
 
+        Debug.Log("added " + this.gameObject.name + " to roomlist");
         if(testbuild) {
             RoomGenerator.BuildDoors();
             RoomGenerator.BakeNavMesh();
@@ -84,7 +85,7 @@ public class Room : MonoBehaviour
         Floor = GameObject.Instantiate(
             FloorTile,
             Zero+new Vector3(size.x/2,0,size.z/2),
-            Quaternion.identity,
+            this.gameObject.transform.rotation,
             this.transform);
         Vector3 FloorSize = Floor.GetComponent<Renderer>().bounds.size;
         Floor.name = "Floor";
@@ -154,6 +155,7 @@ public class Room : MonoBehaviour
 
     public void GetWalls()
     {
+        Debug.Log(Zero);
         BuildWall(Zero, Zero+new Vector3(size.x, 0, 0), size.y);
         BuildWall(Zero, Zero+new Vector3(0, 0, size.z), size.y);
         BuildWall(Zero+new Vector3(size.x, 0, 0), Zero+new Vector3(size.x, 0, size.z), size.y);
@@ -193,13 +195,13 @@ public class Room : MonoBehaviour
             while (Vector3.Distance(SegmentEnd, end) > 0.1f)
             {
                 SegmentEnd = Vector3.Lerp(SegmentEnd, end, t);
-                foreach (Collider o in Physics.OverlapBox(new Vector3((SegmentEnd.x + SegmentStart.x) / 2, size.y / 2, (SegmentEnd.z + SegmentStart.z) / 2), new Vector3(Mathf.Abs(SegmentEnd.x - SegmentStart.x), size.y, Mathf.Abs(SegmentEnd.z - SegmentStart.z))/2))
+                foreach (Collider o in Physics.OverlapBox(new Vector3((SegmentEnd.x + SegmentStart.x) / 2, Zero.y+size.y / 2, (SegmentEnd.z + SegmentStart.z) / 2), new Vector3(Mathf.Abs(SegmentEnd.x - SegmentStart.x), size.y*0.75f, Mathf.Abs(SegmentEnd.z - SegmentStart.z))/2))
                 {
                     if (o.name == "Door" && lastDoor != o.transform.position)
                     {
                         SegmentEnd = o.bounds.ClosestPoint(start);
                         SegmentEnd = new Vector3(SegmentEnd.x, 0, SegmentEnd.z);
-                        w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, Quaternion.identity, Walls.transform);
+                        w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, this.gameObject.transform.rotation, Walls.transform);
                         wBounds = w.GetComponent<Renderer>().bounds.size;
                         w.transform.LookAt(end);
                         w.transform.Rotate(0, 90, 0);

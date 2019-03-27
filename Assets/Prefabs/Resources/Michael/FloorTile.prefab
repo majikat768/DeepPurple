@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 64325493354733664}
   - component: {fileID: 23596320010577442}
   - component: {fileID: 114276770336102036}
+  - component: {fileID: 114602892517124162}
   m_Layer: 0
   m_Name: FloorTile
   m_TagString: Untagged
@@ -126,3 +127,14 @@ MonoBehaviour:
   m_VoxelSize: 0.05
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &114602892517124162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1625336325701776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725f3bed20542ce42b0b26beeb0cc433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

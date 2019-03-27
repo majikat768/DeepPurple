@@ -138,7 +138,7 @@ public static class RoomGenerator //: MonoBehaviour
                         //find X location of doorway from south side of o to north side of r.
                         float WestOverlapEdge = Mathf.Max(r1.center.x-r1.size.x/2,r2.center.x-r2.size.x/2);
                         float EastOverlapEdge = Mathf.Min(r1.center.x+r1.size.x/2,r2.center.x+r2.size.x/2);
-                        if(EastOverlapEdge - WestOverlapEdge > Door.GetComponent<Renderer>().bounds.size.magnitude*2) {
+                        if(EastOverlapEdge - WestOverlapEdge > Door.GetComponent<Renderer>().bounds.size.magnitude/2) {
                             float DoorX = (WestOverlapEdge+EastOverlapEdge)/2.0f+0.5f;
                             float DoorZ = r1.center.z+r1.size.z/2;
                             d = GameObject.Instantiate(Door,new Vector3(DoorX,room.GetSize().y/2,DoorZ),Quaternion.identity,room.transform);
@@ -158,7 +158,7 @@ public static class RoomGenerator //: MonoBehaviour
                         
                         float SouthOverlapEdge = Mathf.Max(r1.center.z-r1.size.z/2,r2.center.z-r2.size.z/2);
                         float NorthOverlapEdge = Mathf.Min(r1.center.z+r1.size.z/2,r2.center.z+r2.size.z/2);
-                        if(NorthOverlapEdge - SouthOverlapEdge > Door.GetComponent<Renderer>().bounds.size.magnitude*2) {
+                        if(NorthOverlapEdge - SouthOverlapEdge > Door.GetComponent<Renderer>().bounds.size.magnitude/2) {
                             float DoorZ = (Mathf.Max(r1.center.z-r1.size.z/2,r2.center.z-r2.size.z/2)+Mathf.Min(r1.center.z+r1.size.z/2,r2.center.z+r2.size.z/2))/2.0f+0.5f;
                             float DoorX = r1.center.x-r1.size.x/2;
 
