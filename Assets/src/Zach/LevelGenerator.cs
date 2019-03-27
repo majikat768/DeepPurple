@@ -156,7 +156,7 @@ public class LevelGenerator : MonoBehaviour
     Dictionary<Vector2Int, RoomGenerator.RoomType> RoomGeneratorTFractal()
     {
         var dictionary = new Dictionary<Vector2Int, RoomGenerator.RoomType>();
-        int startingLength = 10;
+        int startingLength = 8;
         dictionary[new Vector2Int(0, 0)] = RoomGenerator.RoomType.Start; // Add start
         TFractalRecursive(ref dictionary, 0, 1, 0, startingLength);
 
@@ -172,10 +172,14 @@ public class LevelGenerator : MonoBehaviour
             possibleLocs.Add(new Vector2Int(vector.x, vector.y - 1)); // South
             possibleLocs.Add(new Vector2Int(vector.x + 1, vector.y)); // East
             possibleLocs.Add(new Vector2Int(vector.x - 1, vector.y)); // West
+            possibleLocs.Add(new Vector2Int(vector.x + 1, vector.y + 1)); // North East
+            possibleLocs.Add(new Vector2Int(vector.x - 1, vector.y + 1)); // North West
+            possibleLocs.Add(new Vector2Int(vector.x + 1, vector.y - 1)); // South East
+            possibleLocs.Add(new Vector2Int(vector.x - 1, vector.y - 1)); // South West
 
             possibleLocs.RemoveAll(x => dictionary.ContainsKey(x)); // Remove any duplicates
 
-            if (possibleLocs.Count > 2) // Only attach boss room to rooms with degree 1
+            if (possibleLocs.Count > 6) // Only attach boss room to rooms with degree 1
             {
                 bossRoomLocs.AddRange(possibleLocs);
             }
@@ -214,6 +218,7 @@ public class LevelGenerator : MonoBehaviour
         int newLeft = (direction + 3) % 4;
         int newRight = (direction + 1) % 4;
         TFractalRecursive(ref dictionary, x, y, newLeft, (int)(length * Random.Range(0.6f, 0.9f)));
+        TFractalRecursive(ref dictionary, x, y, direction, (int)(length * Random.Range(0.6f, 0.9f)));
         TFractalRecursive(ref dictionary, x, y, newRight, (int)(length * Random.Range(0.6f, 0.9f)));
     }
 
