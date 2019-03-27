@@ -32,7 +32,7 @@ public class LevelGenerator : MonoBehaviour
 
     }
 
-    Dictionary<Vector2Int, RoomGenerator.RoomType> GetRooms(Generator generator)
+    public Dictionary<Vector2Int, RoomGenerator.RoomType> GetRooms(Generator generator)
     {
         switch (generator)
         {

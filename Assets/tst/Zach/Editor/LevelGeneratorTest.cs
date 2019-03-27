@@ -3,20 +3,91 @@ using UnityEditor;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LevelGeneratorTest {
 
 	[Test]
-	public void LevelGeneratorTestSimplePasses() {
-		// Use the Assert class to test conditions.
+	public void LevelGeneratorTFractalHasStart() {
+        GameObject gameObject = new GameObject();
+        LevelGenerator lg = gameObject.AddComponent<LevelGenerator>();
+        var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
+        bool foundStart = false;
+        foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
+        {
+            RoomGenerator.RoomType roomType = room.Value;
+            if (roomType == RoomGenerator.RoomType.Start)
+            {
+                foundStart = true;
+            }
+        }
+
+        Assert.IsTrue(foundStart);
 	}
 
-	// A UnityTest behaves like a coroutine in PlayMode
-	// and allows you to yield null to skip a frame in EditMode
-	[UnityTest]
-	public IEnumerator LevelGeneratorTestWithEnumeratorPasses() {
-		// Use the Assert class to test conditions.
-		// yield to skip a frame
-		yield return null;
-	}
+    [Test]
+    public void LevelGeneratorTFractalHasBoss()
+    {
+        GameObject gameObject = new GameObject();
+        LevelGenerator lg = gameObject.AddComponent<LevelGenerator>();
+        var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
+        bool foundBoss = false;
+        foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
+        {
+            RoomGenerator.RoomType roomType = room.Value;
+            if (roomType == RoomGenerator.RoomType.Boss)
+            {
+                foundBoss = true;
+            }
+        }
+
+        Assert.IsTrue(foundBoss);
+    }
+
+    [Test]
+    public void LevelGeneratorTFractalHasWinnablePath()
+    {
+        GameObject gameObject = new GameObject();
+        LevelGenerator lg = gameObject.AddComponent<LevelGenerator>();
+        var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
+
+        var visited = new List<Vector2Int>();
+        var stack = new Stack<Vector2Int>();
+        stack.Push(new Vector2Int(0, 0));
+
+        while (stack.Count != 0)
+        {
+            var vertex = stack.Pop();
+            
+            if (!visited.Contains(vertex))
+            {
+                Debug.Log(vertex);
+                visited.Add(vertex);
+            }
+
+            var possibleLocs = new List<Vector2Int>();
+
+            possibleLocs.Add(new Vector2Int(vertex.x, vertex.y + 1)); // North
+            possibleLocs.Add(new Vector2Int(vertex.x, vertex.y - 1)); // South
+            possibleLocs.Add(new Vector2Int(vertex.x + 1, vertex.y)); // East
+            possibleLocs.Add(new Vector2Int(vertex.x - 1, vertex.y)); // West
+
+            possibleLocs.RemoveAll(x => !rooms.ContainsKey(x));
+
+            foreach (Vector2Int vec in possibleLocs)
+            {
+                if (rooms[vec] == RoomGenerator.RoomType.Boss)
+                {
+                    return; // Path has been found exit function
+                }
+                if (!visited.Contains(vec))
+                {
+                    stack.Push(vec);
+                }
+            }
+        }
+
+        Assert.Fail();
+    }
+
 }
