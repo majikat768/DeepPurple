@@ -5,15 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class Main_Menu_Script : MonoBehaviour 
 {
+	public GameObject fadeOutPanel;
+	public float fadeWait;
+	public string sceneToLoad;
+
+	private void Awake()
+	{
+		if(fadeOutPanel != null)
+		{
+			GameObject panel = Instantiate(fadeOutPanel,Vector3.zero, Quaternion.identity) as GameObject;
+			Destroy(panel, 1);
+		}
+	}
+
 	public void PlayGame()
 	{
 		if(SceneManager.GetActiveScene().buildIndex == 0)
 		{
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+			StartCoroutine(FadeCo());
 		}
 		else
 		{
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+			StartCoroutine(FadeCo());
 		}
 	}
 
@@ -21,5 +34,19 @@ public class Main_Menu_Script : MonoBehaviour
 	{
 		Debug.Log("Quit");
 		Application.Quit();
+	}
+
+	public IEnumerator FadeCo()
+	{
+		if(fadeOutPanel != null)
+		{
+			Instantiate(fadeOutPanel, Vector3.zero, Quaternion.identity);
+		}
+		yield return new WaitForSeconds(fadeWait);
+		AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneToLoad);
+		while(!asyncOperation.isDone)
+		{
+			yield return null;
+		}
 	}
 }

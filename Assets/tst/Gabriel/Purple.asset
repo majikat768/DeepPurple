@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 2108210716, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
   m_Name: Purple
   m_EditorClassIdentifier: 
-  topLeft: {r: 0.4331225, g: 0.13840829, b: 0.58823526, a: 1}
-  topRight: {r: 0.43137255, g: 0.13725491, b: 0.5882353, a: 1}
-  bottomLeft: {r: 0.25133523, g: 0.10218426, b: 0.33088237, a: 1}
-  bottomRight: {r: 0.2509804, g: 0.101960786, b: 0.32941177, a: 1}
+  topLeft: {r: 0.8897059, g: 0.35534096, b: 0.06541956, a: 1}
+  topRight: {r: 0.8901961, g: 0.35686275, b: 0.06666667, a: 1}
+  bottomLeft: {r: 0.8901961, g: 0.35686275, b: 0.06666667, a: 1}
+  bottomRight: {r: 0.8901961, g: 0.35686275, b: 0.06666667, a: 1}
