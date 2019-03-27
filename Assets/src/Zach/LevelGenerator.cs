@@ -159,6 +159,29 @@ public class LevelGenerator : MonoBehaviour
         int startingLength = 10;
         dictionary[new Vector2Int(0, 0)] = RoomGenerator.RoomType.Start; // Add start
         TFractalRecursive(ref dictionary, 0, 1, 0, startingLength);
+
+        var bossRoomLocs = new List<Vector2Int>();
+        // Find all room with degree 1
+        foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in dictionary)
+        {
+            if (room.Value == RoomGenerator.RoomType.Start) continue;
+            var possibleLocs = new List<Vector2Int>();
+            var vector = room.Key;
+
+            possibleLocs.Add(new Vector2Int(vector.x, vector.y + 1)); // North
+            possibleLocs.Add(new Vector2Int(vector.x, vector.y - 1)); // South
+            possibleLocs.Add(new Vector2Int(vector.x + 1, vector.y)); // East
+            possibleLocs.Add(new Vector2Int(vector.x - 1, vector.y)); // West
+
+            possibleLocs.RemoveAll(x => dictionary.ContainsKey(x)); // Remove any duplicates
+
+            if (possibleLocs.Count > 2) // Only attach boss room to rooms with degree 1
+            {
+                bossRoomLocs.AddRange(possibleLocs);
+            }
+        }
+
+        dictionary[bossRoomLocs[Random.Range(0, bossRoomLocs.Count)]] = RoomGenerator.RoomType.Boss;
         return dictionary;
     }
 
