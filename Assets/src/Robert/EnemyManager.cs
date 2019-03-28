@@ -17,7 +17,6 @@ public class EnemyManager : MonoBehaviour {
            SpawnPoints = this.GetComponent<CombatRoom>().SpawnPoints;
        }
         enemy = Resources.Load<GameObject>("Robert/Soldier");
-        Debug.Log(enemy);
         Spawn();
 	}
 	

@@ -24,7 +24,6 @@ public class BasicEnemy : MonoBehaviour, IAttackable
     void Start()
     {
         action = GetComponent<Actions>();
-        Debug.Log(action);
         player = GameObject.FindWithTag("Player");
     }
 

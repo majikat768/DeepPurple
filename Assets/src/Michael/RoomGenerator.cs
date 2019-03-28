@@ -128,7 +128,7 @@ public static class RoomGenerator //: MonoBehaviour
         foreach(Room room in RoomList)
         {
             Bounds r1 = room.GetComponent<Collider>().bounds;
-            foreach(Collider room2Collider in Physics.OverlapBox(r1.center,r1.size/2)) {
+            foreach(Collider room2Collider in Physics.OverlapBox(r1.center,r1.size/2 - new Vector3(0,r1.size.y/3))) {
                 if(room2Collider.GetComponent<Room>()) {
                     Bounds r2 = room2Collider.bounds;
                     // detect if r1 is touching r2 on r2's north, south, east, or west side.
