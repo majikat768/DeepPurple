@@ -10,7 +10,7 @@ public class Actions : MonoBehaviour {
 	int lastDamageAnimation = -1;
 
 	void Awake () {
-		animator = GetComponent<Animator> ();
+		animator = GetComponent<Animator>();
 	}
 
 	public void Stay () {

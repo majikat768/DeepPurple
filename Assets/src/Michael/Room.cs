@@ -45,7 +45,6 @@ public class Room : MonoBehaviour
         Walls.transform.parent = this.gameObject.transform;
         RoomGenerator.RoomList.Add(this);
 
-        Debug.Log("added " + this.gameObject.name + " to roomlist");
         if(testbuild) {
             RoomGenerator.BuildDoors();
             RoomGenerator.BakeNavMesh();
@@ -155,7 +154,6 @@ public class Room : MonoBehaviour
 
     public void GetWalls()
     {
-        Debug.Log(Zero);
         BuildWall(Zero, Zero+new Vector3(size.x, 0, 0), size.y);
         BuildWall(Zero, Zero+new Vector3(0, 0, size.z), size.y);
         BuildWall(Zero+new Vector3(size.x, 0, 0), Zero+new Vector3(size.x, 0, size.z), size.y);

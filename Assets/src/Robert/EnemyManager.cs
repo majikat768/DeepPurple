@@ -9,10 +9,13 @@ public class EnemyManager : MonoBehaviour {
     public string enemy_t;
     //game objects representing the spawn points.
     //TODO: just pass a ist of vector 3d's
-    public GameObject[] spawnPoints;
+    public List<Vector3> SpawnPoints;
     // Use this for initialization
     void Start () {
        //if( enemy_t == "basic")
+       if(SpawnPoints == null) {
+           SpawnPoints = this.GetComponent<CombatRoom>().SpawnPoints;
+       }
         enemy = Resources.Load<GameObject>("Robert/Soldier");
         Debug.Log(enemy);
         Spawn();
@@ -26,9 +29,10 @@ public class EnemyManager : MonoBehaviour {
      **/
     void Spawn()
     {
-        foreach (GameObject spawnPoint in spawnPoints)
+        foreach (Vector3 spawnPoint in SpawnPoints)
         {
-            Instantiate(enemy, spawnPoint.transform.position, spawnPoint.transform.rotation);
+            GameObject e = Instantiate(enemy, spawnPoint, Quaternion.identity);
+            //e.AddComponent<BasicEnemy>();
         }
     }
 	void Update () {

@@ -9,22 +9,22 @@ public class BasicEnemy : MonoBehaviour, IAttackable
     public int health = 100;
 
     //Max distance an enemy will begin moving torward player
-    public int moveMax = 5;
+    public int moveMax = 10;
     //Min distance to player and enemy will get
-    public int moveMin = 1;
+    public int moveMin = 5;
 
     //movement speed of enemy
-    public int moveSpeed = 4;
+    public int moveSpeed = 3;
 
     //stores the actions class for animations
     private Actions action;
-    void awake()
+    void Awake()
     {
-        Debug.Log("Hello");
-        action = GetComponent<Actions>();
     }
     void Start()
     {
+        action = GetComponent<Actions>();
+        Debug.Log(action);
         player = GameObject.FindWithTag("Player");
     }
 
