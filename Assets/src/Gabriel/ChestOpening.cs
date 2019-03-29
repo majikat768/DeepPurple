@@ -27,7 +27,7 @@ public class ChestOpening : Interactable {
 		currentPosition.z = currentPosition.z + Random.Range(-1.0f,1.0f);
 		currentPosition.x = currentPosition.x + Random.Range(-0.7f,0.7f);
 		Rigidbody clone = Instantiate(confetti.GetComponent<Rigidbody>(), currentPosition, gameObject.transform.rotation);
-		clone.velocity = new Vector3(Random.Range(5,10),5,Random.Range(5,10));
+		clone.velocity = new Vector3(Random.Range(-2f,2f),5,Random.Range(-2f,2f));
 		//Start destroying Coroutine
 		StartCoroutine(ScaleToTargetCo(targetScale, duration));
 	}
