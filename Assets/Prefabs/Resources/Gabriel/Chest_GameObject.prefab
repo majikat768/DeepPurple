@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95556151226494932}
   - component: {fileID: 54017208979331732}
   - component: {fileID: 65349285694682270}
-  - component: {fileID: 114823219565215172}
+  - component: {fileID: 114393687611150690}
   m_Layer: 0
   m_Name: Chest_GameObject
   m_TagString: Untagged
@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1068160091508148}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 29.68, y: 0.3, z: 24.85}
+  m_LocalPosition: {x: 29.68, y: -0.17, z: 24.85}
   m_LocalScale: {x: 0.8, y: 1.3, z: 0.8}
   m_Children: []
   m_Father: {fileID: 0}
@@ -133,7 +133,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114823219565215172
+--- !u!114 &114393687611150690
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -141,10 +141,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1068160091508148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29cd99d3ecfe04c12b0730685e266fa4, type: 3}
+  m_Script: {fileID: 11500000, guid: 0157d4e1677e44de19a8635bd1ba1214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 1.6
   offset_X: -1.2
   offset_Y: 0.5
   offset_Z: 0
+  scale: {x: 0, y: 0, z: 0}
+  durationTime: 4
+  confetti: {fileID: 0}
