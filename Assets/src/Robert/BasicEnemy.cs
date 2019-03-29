@@ -23,7 +23,7 @@ public class BasicEnemy : MonoBehaviour, IAttackable
     }
     void Start()
     {
-        action = GetComponent<Actions>();
+        action = this.gameObject.AddComponent<Actions>();
         player = GameObject.FindWithTag("Player");
     }
 

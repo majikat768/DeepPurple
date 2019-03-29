@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   testbuild: 0
-  complexity: 3
+  complexity: 4
   DoorList: []
   FloorTiles: []
   Zero: {x: 8, y: 0, z: 44}
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   testbuild: 0
-  complexity: 3
+  complexity: 4
   DoorList: []
   FloorTiles: []
   Zero: {x: 0, y: 0, z: 0}
@@ -1156,7 +1156,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &442826830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,7 +1170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   testbuild: 0
-  complexity: 3
+  complexity: 4
   DoorList: []
   FloorTiles: []
   Zero: {x: 32, y: 4, z: 56}
@@ -1179,6 +1179,7 @@ MonoBehaviour:
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
   solved: 0
+  PlayerInRoom: 0
 --- !u!4 &442826831
 Transform:
   m_ObjectHideFlags: 0
@@ -1190,7 +1191,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &462554394
 Prefab:
@@ -1319,7 +1320,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 745875550}
-  - component: {fileID: 745875549}
+  - component: {fileID: 745875551}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -1327,27 +1328,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &745875549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 745875548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccd346c18b4a0d4cb3e48b02db57ac5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialized: 0
-  testbuild: 0
-  complexity: 3
-  DoorList: []
-  FloorTiles: []
-  Zero: {x: 24, y: 0, z: 0}
-  size: {x: 24, y: 4, z: 24}
-  Walls: {fileID: 0}
-  Floor: {fileID: 0}
-  Ceiling: {fileID: 0}
 --- !u!4 &745875550
 Transform:
   m_ObjectHideFlags: 0
@@ -1361,6 +1341,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &745875551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 745875548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64618943afc6d4c77b6ffb3034551820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 4
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 24, y: 0, z: 0}
+  size: {x: 24, y: 4, z: 24}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  solved: 0
+  PlayerInRoom: 0
 --- !u!1001 &770758861
 Prefab:
   m_ObjectHideFlags: 0
@@ -1461,7 +1464,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 995219049}
-  - component: {fileID: 995219050}
+  - component: {fileID: 995219048}
   m_Layer: 0
   m_Name: GameObject (2)
   m_TagString: Untagged
@@ -1469,6 +1472,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &995219048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 995219047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ccd346c18b4a0d4cb3e48b02db57ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 4
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 0, y: 0, z: 24}
+  size: {x: 48, y: 4, z: 20}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
 --- !u!4 &995219049
 Transform:
   m_ObjectHideFlags: 0
@@ -1482,28 +1506,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &995219050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 995219047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64618943afc6d4c77b6ffb3034551820, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialized: 0
-  testbuild: 0
-  complexity: 3
-  DoorList: []
-  FloorTiles: []
-  Zero: {x: 0, y: 0, z: 24}
-  size: {x: 48, y: 4, z: 20}
-  Walls: {fileID: 0}
-  Floor: {fileID: 0}
-  Ceiling: {fileID: 0}
-  solved: 0
 --- !u!1001 &1456369516
 Prefab:
   m_ObjectHideFlags: 0
@@ -1541,7 +1543,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4649832860963774, guid: 072ec91599d554824a9ec0f43f5b7cd0, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1094581486357876, guid: 072ec91599d554824a9ec0f43f5b7cd0, type: 2}
       propertyPath: m_IsActive
@@ -1592,7 +1594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   testbuild: 0
-  complexity: 3
+  complexity: 4
   DoorList: []
   FloorTiles: []
   Zero: {x: 48, y: 0, z: 4}
@@ -1611,7 +1613,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1866962121}
-  - component: {fileID: 1866962122}
+  - component: {fileID: 1866962120}
   m_Layer: 0
   m_Name: GameObject (4)
   m_TagString: Untagged
@@ -1619,6 +1621,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1866962120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1866962119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64618943afc6d4c77b6ffb3034551820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialized: 0
+  testbuild: 0
+  complexity: 4
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 48, y: 0, z: 28}
+  size: {x: 30, y: 4, z: 36}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  solved: 0
+  PlayerInRoom: 0
 --- !u!4 &1866962121
 Transform:
   m_ObjectHideFlags: 0
@@ -1632,27 +1657,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1866962122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1866962119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccd346c18b4a0d4cb3e48b02db57ac5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialized: 0
-  testbuild: 0
-  complexity: 3
-  DoorList: []
-  FloorTiles: []
-  Zero: {x: 48, y: 0, z: 28}
-  size: {x: 30, y: 4, z: 36}
-  Walls: {fileID: 0}
-  Floor: {fileID: 0}
-  Ceiling: {fileID: 0}
 --- !u!1 &1872896469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,7 +1742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d23cda61979b438ae1a5a2413e7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 12
+  height: 6
   zOffset: -8
   xOffset: -8
 --- !u!1 &1929334708
@@ -1783,7 +1787,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   testbuild: 1
-  complexity: 3
+  complexity: 4
   DoorList: []
   FloorTiles: []
   Zero: {x: 32, y: 0, z: 44}

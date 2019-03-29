@@ -5,16 +5,24 @@ using UnityEngine.AI;
 public class PuzzleRoom : Room
 {
     public bool solved = false;
+    public bool PlayerInRoom = false;
     private bool locked = false;
     private Room R;
     private AudioClip solvedSound;
     private AudioSource audioSource;
     // the PuzzleRoom will lock all doors upon entry till you solve it
     
+    public void Awake() {
+        base.Awake();
+        this.gameObject.AddComponent<PuzzleTwo>();
+        //this.gameObject.AddComponent<PuzzleOne>();
+        //this.gameObject.AddComponent<PuzzleThree>();
+
+    }
+
     public new void Start()
     {
         R = this.GetComponent<Room>();
-        this.gameObject.AddComponent<PuzzleTwo>();
         Player = GameObject.FindWithTag("Player");
         solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
         audioSource = gameObject.AddComponent<AudioSource>();
@@ -32,11 +40,18 @@ public class PuzzleRoom : Room
         if(other.gameObject == Player)
         {
             locked = true;
-            foreach (GameObject d in R.DoorList)
+            foreach(GameObject d in R.DoorList)
                 d.GetComponent<OpenDoor>().Lock();
             R.SetLighting(RoomGenerator.Red,1);
+            PlayerInRoom = true;
         }
     }
+    
+    private void OnTriggerExit(Collider other) {
+        if(other.gameObject == Player)
+            PlayerInRoom = false;
+    }
+
     public void Update()
     {
         if (solved && locked)

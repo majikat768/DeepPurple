@@ -8,10 +8,11 @@ public class Room : MonoBehaviour
     public bool initialized = false;
     public bool testbuild = false;
     private Bounds RoomBounds;
-    public int complexity = 3;
+    public int complexity = 4;
     public List<GameObject> DoorList;
     public List<GameObject> FloorTiles;
     protected GameObject Wall;
+    protected GameObject Portal;
     protected GameObject Door;
     protected GameObject Block; 
     protected GameObject Console;
@@ -33,6 +34,7 @@ public class Room : MonoBehaviour
         this.gameObject.transform.position = Zero;
         FloorTile = RoomGenerator.FloorTile;
         Wall = RoomGenerator.Wall;
+        Portal = RoomGenerator.Portal;
         Door = RoomGenerator.Door;
         Block = RoomGenerator.Block;
         WallLight = RoomGenerator.WallLight;
@@ -173,6 +175,32 @@ public class Room : MonoBehaviour
             GetInnerWalls(startpoint, hit, 0);
         }
             
+        Decorate();
+    }
+
+    public void Decorate() {
+        GameObject console,panel;
+        foreach(GameObject door in DoorList) {
+            float doorX = door.GetComponent<Renderer>().bounds.size.x;
+            float doorZ = door.GetComponent<Renderer>().bounds.size.z;
+            console = GameObject.Instantiate(Console,
+                    door.transform.position - (doorX > doorZ ? new Vector3(doorX,size.y/2,0) : new Vector3(0,size.y/2,doorZ)),
+                    door.transform.rotation, 
+                    this.transform);
+            console.transform.Rotate(door.transform.position.z > Zero.z+size.z/2 || door.transform.position.x > Zero.x+size.x/2 ? new Vector3(0,180,0) : Vector3.zero);
+            console.transform.position += door.transform.TransformDirection(Vector3.forward)*(door.transform.position.z > Zero.z+size.z/2 || door.transform.position.x > Zero.x+size.x/2 ? -1 : 1);
+            panel = GameObject.Instantiate(Panel,
+                    door.transform.position + (doorX > doorZ ? new Vector3(doorX,0,0) : new Vector3(0,0,doorZ)),
+                    door.transform.rotation,
+                    this.transform);
+            panel.transform.Rotate(door.transform.position.z > Zero.z+size.z/2 || door.transform.position.x > Zero.x+size.x/2 ? new Vector3(0,180,0) : Vector3.zero);
+            panel.transform.position += door.transform.TransformDirection(Vector3.forward)*(door.transform.position.z > Zero.z+size.z/2 || door.transform.position.x > Zero.x+size.x/2 ? -0.15f : 0.15f);
+        }
+
+        //GameObject portal = GameObject.Instantiate(Portal,Zero+size-Portal.GetComponent<Renderer>().bounds.size*2,Quaternion.identity,this.transform);
+        //portal.transform.position = new Vector3(portal.transform.position.x,0.1f,portal.transform.position.z);
+
+
     }
 
     public void BuildWall(Vector3 start, Vector3 end,float height,bool doors = true)
@@ -209,13 +237,9 @@ public class Room : MonoBehaviour
                         w.gameObject.SetActive(false);
                         w.gameObject.SetActive(true);
 
-                        c = GameObject.Instantiate(Console,Vector3.MoveTowards(SegmentEnd,SegmentStart,Console.GetComponent<Renderer>().bounds.size.magnitude/2),Quaternion.identity,this.transform);
-                        c.transform.LookAt(end);
-                        c.transform.Rotate(0,90*(c.transform.position.x == Zero.x || c.transform.position.z == Zero.z+size.z ? 1 : -1),0);
-                        dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z ? 1 : -1))).normalized;
-                        c.transform.position += dir*Console.GetComponent<Renderer>().bounds.size.z/2;
                         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
-                        l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
+                        l.transform.localScale += new Vector3(0,0,8);
+                        //l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
                         //l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
                         l.name = "Light";
                         
@@ -223,11 +247,6 @@ public class Room : MonoBehaviour
                         SegmentStart = o.GetComponent<Renderer>().bounds.ClosestPoint(end);
                         SegmentStart = new Vector3(SegmentStart.x, 0, SegmentStart.z);
                         SegmentEnd = SegmentStart;
-                        p = GameObject.Instantiate(Panel,Vector3.MoveTowards(SegmentEnd,end,Panel.GetComponent<Renderer>().bounds.size.magnitude/2),Quaternion.identity,this.transform);
-                        p.transform.LookAt(end);
-                        p.transform.Rotate(0,90*(p.transform.position.x == Zero.x || p.transform.position.z == Zero.z+size.z ? 1 : -1),0);
-                        p.transform.position += dir*Panel.GetComponent<Renderer>().bounds.size.z;
-                        p.transform.position += new Vector3(0,size.y/2,0);
                         //o.name = "nDoor";
                         t = 0.0f;
                         lastDoor = o.transform.position;
@@ -249,7 +268,8 @@ public class Room : MonoBehaviour
 
         l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z ? 1 : -1))).normalized;
-        l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
+        l.transform.localScale += new Vector3(0,0,8);
+        //l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
         //l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
         l.name = "Light";
 

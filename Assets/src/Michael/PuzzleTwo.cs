@@ -10,6 +10,10 @@ public class PuzzleTwo : MonoBehaviour {
     private Vector3 Zero, size;
     private PuzzleRoom R;
 
+    public void Awake() {
+        //this.GetComponent<Room>().complexity = -1;
+    }
+
     public void Start()
     {
         FloorTile = RoomGenerator.FloorTile;

@@ -8,15 +8,25 @@ public class TreasureRoom : Room
 
     private GameObject Interactable;
     private GameObject Currency; 
+    private GameObject Chest;
 
     public void Start()
     {
         Interactable = Resources.Load<GameObject>("Gabriel/Items/GameObjects/Interactable");
         Currency = Resources.Load<GameObject>("Gabriel/Items/GameObjects/CurrencyItem");
+        Chest = Resources.Load<GameObject>("Gabriel/Chest_GameObject");
 
 
         // Item i = new Item();
         items = new GameObject("Items");
+        GameObject chest = GameObject.Instantiate(Chest,Zero + size/2,Quaternion.Euler(-90,0,0),items.transform);
+        Collider[] chestCollisions = Physics.OverlapBox(chest.GetComponent<Renderer>().bounds.center,chest.GetComponent<Renderer>().bounds.size);
+        for(int i = 0; i < chestCollisions.Length; i++) {
+            if(chestCollisions[i].name == "Wall")
+                Destroy(chestCollisions[i].gameObject);
+        }
+
+        /*
         Vector3 SpawnPoint;
         items.transform.parent = this.transform;
 
@@ -38,6 +48,7 @@ public class TreasureRoom : Room
 
             Object.Instantiate(Currency,SpawnPoint,Quaternion.identity,items.transform);
         }
+        */
 
     }
 }
