@@ -8,8 +8,9 @@ using UnityEngine.AI;
 public static class RoomGenerator //: MonoBehaviour
 {
     // Declare all the object references I'll be using; gets passed down to Room class
+    public static Room PlayerRoom;
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat, None };
-    public static List<GameObject> TeleporterList;
+    public static List<GameObject> TeleporterList = new List<GameObject>();
     public static int WallLayer = 8;
     public static int WallMask = 1 << WallLayer; 
     public static List<Room> RoomList = new List<Room>();
@@ -22,7 +23,8 @@ public static class RoomGenerator //: MonoBehaviour
     public static GameObject WallLight = Resources.Load<GameObject>("Michael/Roof_Light_003");
     public static GameObject Console = Resources.Load<GameObject>("Michael/Console_001");
     public static GameObject Panel = Resources.Load<GameObject>("Michael/Panel_001");
-    public static GameObject Portal = Resources.Load<GameObject>("Michael/Portal");
+    public static GameObject Portal = Resources.Load<GameObject>("Michael/Portal 1");
+    public static GameObject Column =  Resources.Load<GameObject>("Michael/Wall_2_Column");
 
     public static Color Amber = new Color(1.0f, 0.82f, 0.39f);
     public static Color Cyan = new Color(0.47f, 1, 1);
@@ -40,7 +42,7 @@ public static class RoomGenerator //: MonoBehaviour
     {
         WallLayer = 8;
         WallMask = 1 << WallLayer;
-        TeleporterList = new List<GameObject>();
+        
         //Wall = Resources.Load<GameObject>("Michael/Wall");
         Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
         //Door = Resources.Load<GameObject>("Michael/Door");

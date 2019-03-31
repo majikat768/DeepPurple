@@ -46,7 +46,8 @@ public class PuzzleThree : MonoBehaviour {
         if (!R.solved) 
         {
             if(Vector3.Distance(Rabbits[0].transform.position,player.transform.position) < 1) {
-                Destroy(Rabbits[0].gameObject);
+                //Destroy(Rabbits[0].gameObject);
+                Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
                 Rabbits.Remove(Rabbits[0]);
                 R.solved = true;
             }
@@ -63,3 +64,4 @@ public class PuzzleThree : MonoBehaviour {
     public bool isSolved() { return solved; }
 
 }
+

@@ -5,7 +5,6 @@ using UnityEngine.AI;
 public class PuzzleRoom : Room
 {
     public bool solved = false;
-    public bool PlayerInRoom = false;
     private bool locked = false;
     private Room R;
     private AudioClip solvedSound;
@@ -35,21 +34,22 @@ public class PuzzleRoom : Room
         audioSource.PlayOneShot(solvedSound,1.0f);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private new void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == Player)
         {
+            PlayerInRoom = true;
             locked = true;
             foreach(GameObject d in R.DoorList)
                 d.GetComponent<OpenDoor>().Lock();
             R.SetLighting(RoomGenerator.Red,1);
-            PlayerInRoom = true;
         }
     }
     
     private void OnTriggerExit(Collider other) {
-        if(other.gameObject == Player)
+        if(other.gameObject == Player) {
             PlayerInRoom = false;
+        }
     }
 
     public void Update()

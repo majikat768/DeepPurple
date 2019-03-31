@@ -154,8 +154,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
+  PlayerInRoom: 0
   testbuild: 0
-  complexity: 4
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 8, y: 0, z: 44}
@@ -207,7 +208,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 148850, guid: 78a09eb3c6f75e741a38ca61699514bf, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78a09eb3c6f75e741a38ca61699514bf, type: 2}
@@ -253,8 +254,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
+  PlayerInRoom: 0
   testbuild: 0
-  complexity: 4
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 0, y: 0, z: 0}
@@ -1156,7 +1158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &442826830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1169,8 +1171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
+  PlayerInRoom: 0
   testbuild: 0
-  complexity: 4
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 32, y: 4, z: 56}
@@ -1179,7 +1182,6 @@ MonoBehaviour:
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
   solved: 0
-  PlayerInRoom: 0
 --- !u!4 &442826831
 Transform:
   m_ObjectHideFlags: 0
@@ -1191,7 +1193,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &462554394
 Prefab:
@@ -1242,7 +1244,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 155668, guid: ee2d107a34692a64e95ce85aed5e41f0, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee2d107a34692a64e95ce85aed5e41f0, type: 2}
@@ -1353,8 +1355,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
+  PlayerInRoom: 0
   testbuild: 0
-  complexity: 4
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 24, y: 0, z: 0}
@@ -1363,7 +1366,6 @@ MonoBehaviour:
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
   solved: 0
-  PlayerInRoom: 0
 --- !u!1001 &770758861
 Prefab:
   m_ObjectHideFlags: 0
@@ -1405,7 +1407,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1910840301927578, guid: 1242fa2c49e84f644a4a6881fe416970, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1242fa2c49e84f644a4a6881fe416970, type: 2}
@@ -1447,7 +1449,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4716433941407080, guid: ddbe0b06d31ee4b37b5fad91379f269b, type: 2}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1938717559133936, guid: ddbe0b06d31ee4b37b5fad91379f269b, type: 2}
       propertyPath: m_IsActive
@@ -1484,8 +1486,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
+  PlayerInRoom: 0
   testbuild: 0
-  complexity: 4
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 0, y: 0, z: 24}
@@ -1543,7 +1546,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4649832860963774, guid: 072ec91599d554824a9ec0f43f5b7cd0, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1094581486357876, guid: 072ec91599d554824a9ec0f43f5b7cd0, type: 2}
       propertyPath: m_IsActive
@@ -1593,8 +1596,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
+  PlayerInRoom: 0
   testbuild: 0
-  complexity: 4
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 48, y: 0, z: 4}
@@ -1633,8 +1637,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
+  PlayerInRoom: 0
   testbuild: 0
-  complexity: 4
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 48, y: 0, z: 28}
@@ -1643,7 +1648,6 @@ MonoBehaviour:
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
   solved: 0
-  PlayerInRoom: 0
 --- !u!4 &1866962121
 Transform:
   m_ObjectHideFlags: 0
@@ -1674,7 +1678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1872896470
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1702,7 +1706,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1743,8 +1747,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   height: 6
-  zOffset: -8
-  xOffset: -8
+  zOffset: -6
+  xOffset: -6
 --- !u!1 &1929334708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,7 +1776,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1929334711
 MonoBehaviour:
@@ -1786,8 +1790,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
+  PlayerInRoom: 0
   testbuild: 1
-  complexity: 4
+  complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 32, y: 0, z: 44}

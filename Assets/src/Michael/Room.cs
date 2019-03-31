@@ -6,12 +6,14 @@ using UnityEngine.AI;
 public class Room : MonoBehaviour
 {
     public bool initialized = false;
+    public bool PlayerInRoom = false;
     public bool testbuild = false;
     private Bounds RoomBounds;
-    public int complexity = 4;
+    public int complexity = 3;
     public List<GameObject> DoorList;
     public List<GameObject> FloorTiles;
     protected GameObject Wall;
+    protected GameObject Column;
     protected GameObject Portal;
     protected GameObject Door;
     protected GameObject Block; 
@@ -34,6 +36,7 @@ public class Room : MonoBehaviour
         this.gameObject.transform.position = Zero;
         FloorTile = RoomGenerator.FloorTile;
         Wall = RoomGenerator.Wall;
+        Column = RoomGenerator.Column;
         Portal = RoomGenerator.Portal;
         Door = RoomGenerator.Door;
         Block = RoomGenerator.Block;
@@ -81,7 +84,7 @@ public class Room : MonoBehaviour
         */
 
         /*
-         * * * * if using a tileable texture, use this:
+         * * * * if using a single floor instance, use this:
          */
         Floor = GameObject.Instantiate(
             FloorTile,
@@ -131,19 +134,12 @@ public class Room : MonoBehaviour
         //Ceiling.GetComponent<Light>().intensity = intensity;
     }
 
-    public bool InRoom(GameObject Player)
-    {
-        if (!Player) return false;
-
-        if (RoomBounds.Contains(Player.transform.position))
-            return true;
-        return false;
-    }
-
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
             this.SetLighting(RoomGenerator.Cyan, 1);
+            PlayerInRoom = true;
+            RoomGenerator.PlayerRoom = this;
         }
     }
 
@@ -151,6 +147,7 @@ public class Room : MonoBehaviour
         if (other.gameObject == Player)
         {
             this.SetLighting(RoomGenerator.Cyan, 0.0f);
+            PlayerInRoom = false;
         }
     }
 
@@ -179,7 +176,7 @@ public class Room : MonoBehaviour
     }
 
     public void Decorate() {
-        GameObject console,panel;
+        GameObject console,panel, portal, column;
         foreach(GameObject door in DoorList) {
             float doorX = door.GetComponent<Renderer>().bounds.size.x;
             float doorZ = door.GetComponent<Renderer>().bounds.size.z;
@@ -197,10 +194,19 @@ public class Room : MonoBehaviour
             panel.transform.position += door.transform.TransformDirection(Vector3.forward)*(door.transform.position.z > Zero.z+size.z/2 || door.transform.position.x > Zero.x+size.x/2 ? -0.15f : 0.15f);
         }
 
-        //GameObject portal = GameObject.Instantiate(Portal,Zero+size-Portal.GetComponent<Renderer>().bounds.size*2,Quaternion.identity,this.transform);
-        //portal.transform.position = new Vector3(portal.transform.position.x,0.1f,portal.transform.position.z);
+        portal = GameObject.Instantiate(Portal,Zero+new Vector3(size.x,0,size.z),Portal.transform.rotation,this.transform);
+        portal.transform.position -= new Vector3(portal.GetComponent<CapsuleCollider>().radius*2,0,portal.GetComponent<CapsuleCollider>().radius*2);
+        portal.GetComponent<Teleporter>().SetHeight(this.size.y);
+        RoomGenerator.TeleporterList.Add(portal);
 
-
+        /*
+        for(int i = 3; i <= size.x-3; i += (int)(size.x-6)/2) {
+            for(int j = 3; j <= size.z-3; j += (int)(size.z-6)/2) {
+                column = GameObject.Instantiate(Column, Zero+new Vector3(i,0,j), Quaternion.identity,this.transform);
+                column.transform.localScale = new Vector3(column.transform.localScale.x,size.y/column.GetComponent<Renderer>().bounds.size.y,column.transform.localScale.z);
+            }
+        }
+        */
     }
 
     public void BuildWall(Vector3 start, Vector3 end,float height,bool doors = true)
@@ -331,6 +337,7 @@ public class Room : MonoBehaviour
 
 
     }
+
     public void SetSize(Vector3 size) {
         this.size = size;
     }

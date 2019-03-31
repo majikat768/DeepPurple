@@ -50,7 +50,7 @@ public class WallTransparency : MonoBehaviour {
         mat.renderQueue = 3000;
 
         mat.SetFloat("_Mode",3f);
-        if(col.a > 0.05f)    col.a -= FadeSpeed * Time.deltaTime;
+        if(col.a > 0.00f)    col.a -= FadeSpeed * Time.deltaTime;
         mat.SetColor("_Color",col);
         }
     }

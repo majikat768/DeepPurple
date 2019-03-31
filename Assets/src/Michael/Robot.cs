@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RabbitAgent : MonoBehaviour {
+public class Robot : MonoBehaviour {
 
     NavMeshAgent agent;
     public Animator animator;
@@ -30,7 +30,6 @@ public class RabbitAgent : MonoBehaviour {
         if(animator.GetBool("moving")) {
             if(!agent.hasPath || agent.remainingDistance < 2) {
                 agent.SetDestination(RoomZero + new Vector3(Random.Range(0,RoomSize.x),0,Random.Range(0,RoomSize.z)));
-                Debug.Log("changed destination.");
             }
         }
         else

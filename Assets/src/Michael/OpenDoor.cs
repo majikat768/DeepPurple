@@ -39,7 +39,6 @@ public class OpenDoor : MonoBehaviour {
         if(!isLocked) {
             if(motionSensor.Contains(Player.transform.position)) 
             {
-                Debug.Log("Player detected");
                 isOpen = true;
                 if (!audioSource.isPlaying)
                     audioSource.PlayOneShot(openSound, 1.0f);
