@@ -20,7 +20,7 @@ public class PlayerHealth : MonoBehaviour
 
 	void OnCollisionEnter(Collision _collision)
 	{
-		if(_collision.gameObject.tag == "testCube")
+		if(_collision.gameObject.tag == "TestCube")
 		{
 			playerHealth -= damage;
 			print("Enemy just touched me, please help " + playerHealth);
