@@ -8,6 +8,7 @@ public class Main_Menu_Script : MonoBehaviour
 	public GameObject fadeOutPanel;
 	public float fadeWait;
 	public string sceneToLoad;
+	public string sceneToLoad3rd;
 
 	private void Awake()
 	{
@@ -20,14 +21,12 @@ public class Main_Menu_Script : MonoBehaviour
 
 	public void PlayGame()
 	{
-		if(SceneManager.GetActiveScene().buildIndex == 0)
-		{
-			StartCoroutine(FadeCo());
-		}
-		else
-		{
-			StartCoroutine(FadeCo());
-		}
+		StartCoroutine(FadeCo(sceneToLoad));
+	}
+
+	public void PlayGame3rd()
+	{
+		StartCoroutine(FadeCo(sceneToLoad3rd));
 	}
 
 	public void QuitGame()
@@ -36,14 +35,14 @@ public class Main_Menu_Script : MonoBehaviour
 		Application.Quit();
 	}
 
-	public IEnumerator FadeCo()
+	public IEnumerator FadeCo(string scene)
 	{
 		if(fadeOutPanel != null)
 		{
 			Instantiate(fadeOutPanel, Vector3.zero, Quaternion.identity);
 		}
 		yield return new WaitForSeconds(fadeWait);
-		AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneToLoad);
+		AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(scene);
 		while(!asyncOperation.isDone)
 		{
 			yield return null;
