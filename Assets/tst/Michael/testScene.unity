@@ -1181,6 +1181,7 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
+  pt: 0
   solved: 0
 --- !u!4 &442826831
 Transform:
@@ -1365,6 +1366,7 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
+  pt: 2
   solved: 0
 --- !u!1001 &770758861
 Prefab:
@@ -1647,6 +1649,7 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
+  pt: 2
   solved: 0
 --- !u!4 &1866962121
 Transform:

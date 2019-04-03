@@ -4,6 +4,9 @@ using UnityEngine.AI;
 
 public class PuzzleRoom : Room
 {
+    public enum PuzzleType { Two, Three, Four };
+    [SerializeField]
+    public PuzzleType pt = PuzzleType.Two;
     public bool solved = false;
     private bool locked = false;
     private Room R;
@@ -13,9 +16,20 @@ public class PuzzleRoom : Room
     
     public void Awake() {
         base.Awake();
-        this.gameObject.AddComponent<PuzzleTwo>();
+        switch(pt) {
+            case PuzzleType.Two:
+                this.gameObject.AddComponent<PuzzleTwo>();
+                break;
+            case PuzzleType.Three:
+                this.gameObject.AddComponent<PuzzleThree>();
+                break;
+            case PuzzleType.Four:
+                this.gameObject.AddComponent<PuzzleFour>();
+                break;
+            default:
+                break;
+        }
         //this.gameObject.AddComponent<PuzzleOne>();
-        //this.gameObject.AddComponent<PuzzleThree>();
 
     }
 
