@@ -30,6 +30,7 @@ public class PerspectiveChange : MonoBehaviour {
         if(Input.GetKeyDown(toggle)) {
             if(!firstPerson) {
                 cam.GetComponent<vThirdPersonCamera>().defaultDistance = -0.5f;
+
                 firstPerson = true;
             }
             else {
