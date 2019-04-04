@@ -10,12 +10,18 @@ public class Teleporter : MonoBehaviour {
     public bool justArrived;
     public GameObject Destination;
 
+    private AudioClip bloop;
+    private AudioSource audioSource;
+
 	// Use this for initialization
 	void Start () {
-        Debug.Log(Destination);
         player = GameObject.FindWithTag("Player");
         room = this.transform.parent.gameObject.GetComponent<Room>();
         this.GetComponent<ParticleSystem>().Stop();
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        bloop = (AudioClip)Resources.Load("Michael/Audio/Lightsaber");
 	}
 	
 	// Update is called once per frame
@@ -43,6 +49,7 @@ public class Teleporter : MonoBehaviour {
             Destination.GetComponent<Teleporter>().Destination = this.gameObject;
             player.transform.position = Destination.transform.position;
             player.transform.Rotate(new Vector3(0,180,0));
+            audioSource.PlayOneShot(bloop,1.0f);
         }
     }
 

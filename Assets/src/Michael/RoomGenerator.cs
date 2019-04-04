@@ -3,7 +3,19 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /*
+ * 
+ * RoomGenerator is more like RoomManager;
+ * Keeps a reference to every object I have to instantiate (floor, walls, doors, objects, lights),
+ * a List of every Room object, defines Room Types,
+ *
+ * contains a Get function to create a Room object, 
+ * and a BuildDoors function which connects bordering rooms then builds walls around each room.
+ *
+ * also has a get/set function for room size and room coordinates, 
+ * but those also exist in Room.cs and should be used instead to get/set for individual rooms, not from here.
+ *
  */
+
 
 public static class RoomGenerator //: MonoBehaviour
 {
@@ -26,12 +38,14 @@ public static class RoomGenerator //: MonoBehaviour
     public static GameObject Portal = Resources.Load<GameObject>("Michael/Portal 1");
     public static GameObject Column =  Resources.Load<GameObject>("Michael/Wall_2_Column");
 
+    // lighting colors
     public static Color Amber = new Color(1.0f, 0.82f, 0.39f);
     public static Color Cyan = new Color(0.47f, 1, 1);
     public static Color Fuschia = new Color(0.87f, 0.39f, 1);
     public static Color Red = new Color(0.87f, 0.39f, 0.39f);
     public static Color LightGreen = new Color(0.4f, 1, 0.4f);
 
+    // these aren't really used
     public static RoomType rt;
     public static Room r;
 
@@ -66,6 +80,7 @@ public static class RoomGenerator //: MonoBehaviour
         */
     }
 
+    // declare's an empty gameobject as a room, and attaches specific room type as component.
     public static GameObject Get(Vector3 Zero, RoomType rt = RoomType.None)
     {
         GameObject newroom = new GameObject();
@@ -103,7 +118,7 @@ public static class RoomGenerator //: MonoBehaviour
         }
         
         // I'll comment out the lines below, 
-        // then in LevelGenerator you can add in something like: 
+        // then in LevelGenerator we can add in something like: 
         //  r = GetComponent<RoomGenerator>().Get(Zero,rt);
         //  r.SetSize(vector3 dimensions);
         //  ...other room attributes to be added later....
@@ -123,7 +138,7 @@ public static class RoomGenerator //: MonoBehaviour
         //finds overlapping wall sections and puts Door objects there
         // this function checks each wall collider for another collider close by,
         // indicating it's next to another room.
-        // it finds where the room edges overlap, puts a Doorway there, and removes the empty wall collider.
+        // it finds where the room edges overlap, puts a Doorway there.
         // finally it calls the BuildWall function, which puts up walls between all the doors.
         // I'm adding doors to two different rooms, so i have to do DoorList.Add on the correct room...fix this
         GameObject d;
@@ -184,6 +199,8 @@ public static class RoomGenerator //: MonoBehaviour
 
         }
 
+        //after all the doorways between rooms are found,
+        // build the walls and turn on the lights.
         foreach(Room r in RoomList) {
             r.GetWalls();
             r.SetLighting(Cyan);
