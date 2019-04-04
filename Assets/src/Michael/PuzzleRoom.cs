@@ -7,6 +7,8 @@ using UnityEngine.AI;
 
 public class PuzzleRoom : Room
 {
+    // only puzzles two and three are currently complete.  so i'll choose randomly between those two.
+    
     public enum PuzzleType { Two, Three, Four };
     [SerializeField]
     public PuzzleType pt = PuzzleType.Two;
@@ -19,6 +21,8 @@ public class PuzzleRoom : Room
     
     public void Awake() {
         base.Awake();
+        // 85% chance that it's the block puzzle.  15% chance that it's the rabbit puzzle.
+        pt = (Random.value < 0.85f ? PuzzleType.Two : PuzzleType.Three);
         switch(pt) {
             case PuzzleType.Two:
                 this.gameObject.AddComponent<PuzzleTwo>();

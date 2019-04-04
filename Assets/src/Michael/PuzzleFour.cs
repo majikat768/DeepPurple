@@ -43,7 +43,6 @@ public class PuzzleFour : MonoBehaviour {
             roomCam.enabled = false;
         }
 
-        Debug.Log(R.PlayerInRoom);
 
         if (!R.solved)
         {
