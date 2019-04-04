@@ -3,6 +3,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//basically casts a Ray between the camera and the player, and if any Wall objects intersect this ray, 
+//make them transparent.
+//
+
 public class WallTransparency : MonoBehaviour {
 
     Material[] mats;
@@ -41,6 +45,12 @@ public class WallTransparency : MonoBehaviour {
 
 	}
 
+    // I have no idea what any of these functions do.
+    // but apparently they're necessary for changing a material's rendering mode from
+    // Opaque to Transparent, and vice versa.
+    //
+    //After rendering mode is changed, just change material's alpha value incrementally till it's faded out/in.
+    //
     private void FadeOut() {
         foreach(Material mat in mats) {
         col = mat.color;

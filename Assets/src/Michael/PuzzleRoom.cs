@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// base puzzle class provides boolean variable for solved, and when player enters and it's unsolved, lock the doors.
+// attaches a specific puzzle script to room. puzzle script changes "solved" variable when some condition is met.
+
 public class PuzzleRoom : Room
 {
     public enum PuzzleType { Two, Three, Four };

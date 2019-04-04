@@ -1,5 +1,10 @@
 using UnityEngine;
 
+// This is a work in progress.
+// I think I might make an actual maze, or something pacman-ish?
+// changes camera view to top down when player is in room.
+// User control is a problem, because movement is still dependent on mouse direction.
+//
 public class PuzzleFour : MonoBehaviour {
 
     private bool solved;

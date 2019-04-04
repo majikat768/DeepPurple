@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+// I never ended up doing anything with this.
+//
 public class PuzzleZero : MonoBehaviour {
 
     private bool solved;

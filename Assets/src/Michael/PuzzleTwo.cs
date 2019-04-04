@@ -1,5 +1,9 @@
 using UnityEngine;
 
+// spawns a box, and a target tile.
+// Player must move the box on to the target tile to solve the room.
+//
+
 public class PuzzleTwo : MonoBehaviour {
 
     private Inventory inventory;
@@ -56,6 +60,10 @@ public class PuzzleTwo : MonoBehaviour {
         TargetTile.name = "Target";
 		
 	}
+
+    // The box also repels walls, so it won't get stuck in a corner;
+    // and after it's solved, the box turns green
+    // and  always moves towards the target, giving it a magnetic like effect.
 
 	void FixedUpdate () {
         if (!R.solved) 

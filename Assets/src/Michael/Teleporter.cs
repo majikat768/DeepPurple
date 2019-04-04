@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Teleporter object is just a Unity Particle System.
+//it rotates around the y axis every frame to make it look neat.
+//it has a collider that, when the character enters it,
+//it moves the character to a new teleporter location.
+// when a player enters a teleporter the first time, it chooses a random one; 
+// whichever random one it chooses is now connected just to that one, so they go back and forth between each other.
+// this doesn't work quite perfectly yet.
+
 public class Teleporter : MonoBehaviour {
 
     private GameObject player;

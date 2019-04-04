@@ -1,6 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+// This puzzle is kind of ridiculous and dumb.
+// Spawn a bunch of rabbits, and make one of them pink.
+// When the player enters the room, the rabbits just start running around like crazy.
+// After you catch the pink one, the room is solved.
+// I'm not sure what I was thinking
+//
+
 public class PuzzleThree : MonoBehaviour {
 
     private bool solved;

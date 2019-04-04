@@ -1,5 +1,9 @@
 using UnityEngine;
 
+//This was simply a test puzzle, to see if I could make it lock/unlock doors based on a condition.
+//If the player's inventory is empty, doors are locked;
+// once the player picks up an item in the middle of the room, doors unlock.
+//
 public class PuzzleOne : MonoBehaviour {
 
     private Inventory inventory;
