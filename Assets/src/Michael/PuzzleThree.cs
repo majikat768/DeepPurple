@@ -8,27 +8,21 @@ using System.Collections.Generic;
 // I'm not sure what I was thinking
 //
 
-public class PuzzleThree : MonoBehaviour {
+public class PuzzleThree : PuzzleRoom {
 
-    private bool solved;
-    private GameObject player;
     private int numRabbits;
     private GameObject rabbitReference;
-    private Vector3 Zero, size;
-    private PuzzleRoom R;
     private List<GameObject> Rabbits;
 
     public void Awake() {
+        base.Awake();
     }
 
     public void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        base.Start();
         rabbitReference = Resources.Load("Michael/Rabbits/Prefabs/Rabbit 1") as GameObject;
         Rabbits = new List<GameObject>();
-        R = this.GetComponent<PuzzleRoom>();
-        Zero = R.GetZero();
-        size = R.GetSize();
         numRabbits = (int)size.magnitude/2;
 
         for(int i = 0; i < numRabbits; i++) {
@@ -52,7 +46,7 @@ public class PuzzleThree : MonoBehaviour {
 
         if (!R.solved) 
         {
-            if(Vector3.Distance(Rabbits[0].transform.position,player.transform.position) < 1) {
+            if(Vector3.Distance(Rabbits[0].transform.position,Player.transform.position) < 1) {
                 //Destroy(Rabbits[0].gameObject);
                 Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
                 Rabbits.Remove(Rabbits[0]);

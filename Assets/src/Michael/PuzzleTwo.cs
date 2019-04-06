@@ -4,26 +4,22 @@ using UnityEngine;
 // Player must move the box on to the target tile to solve the room.
 //
 
-public class PuzzleTwo : MonoBehaviour {
+public class PuzzleTwo : PuzzleRoom {
 
     private Inventory inventory;
-    private bool solved;
     private GameObject box;
     private GameObject TargetTile;
     private GameObject FloorTile;
-    private Vector3 Zero, size;
-    private PuzzleRoom R;
 
     public void Awake() {
+        base.Awake();
         //this.GetComponent<Room>().complexity = -1;
     }
 
     public void Start()
     {
+        base.Start();
         FloorTile = RoomGenerator.FloorTile;
-        R = this.GetComponent<PuzzleRoom>();
-        Zero = R.GetZero();
-        size = R.GetSize();
         //inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
 
         Vector3 SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), size.y / 2, Random.Range(2, size.z-3));

@@ -19,7 +19,7 @@ public class PuzzleRoom : Room
     private AudioSource audioSource;
     // the PuzzleRoom will lock all doors upon entry till you solve it
     
-    public void Awake() {
+    public new void Awake() {
         base.Awake();
         // add puzzle component in RoomGenerator.Get.
         // 85% chance that it's the block puzzle.  15% chance that it's the rabbit puzzle.
@@ -31,7 +31,6 @@ public class PuzzleRoom : Room
     public new void Start()
     {
         R = this.GetComponent<PuzzleRoom>();
-        Player = GameObject.FindWithTag("Player");
         solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;

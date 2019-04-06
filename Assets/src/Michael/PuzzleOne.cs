@@ -4,20 +4,14 @@ using UnityEngine;
 //If the player's inventory is empty, doors are locked;
 // once the player picks up an item in the middle of the room, doors unlock.
 //
-public class PuzzleOne : MonoBehaviour {
+public class PuzzleOne : PuzzleRoom {
 
     private Inventory inventory;
-    private bool solved;
-    private Vector3 Zero, size;
-    public PuzzleRoom R;
 
-    public void Start()
+    public new void Start()
     {
-
+        base.Start();
         inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
-        R = this.GetComponent<PuzzleRoom>();
-        Zero = R.GetZero();
-        size = R.GetSize();
 
         GameObject.Instantiate(
             Resources.Load<GameObject>("Gabriel/Items/GameObjects/Interactable"),

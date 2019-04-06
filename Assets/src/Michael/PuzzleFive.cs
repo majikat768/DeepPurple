@@ -4,35 +4,29 @@ using System.Collections.Generic;
 // This is a work in progress.
 // Mario style platformer, or something.
 
-public class PuzzleFive : MonoBehaviour {
+public class PuzzleFive : PuzzleRoom {
     GameObject Platform; 
     GameObject Trampoline; 
     GameObject Coin;
-    PuzzleRoom R;
-    GameObject player;
     private float FieldOfView;
-    Vector3 Zero,size;
-    public bool solved;
     private List<MovingPlatform> MovingPlatforms;
     private BoxCollider roomCollider;
     GameObject p8;
 
-    public void Awake()
+    public new void Awake()
     {
-        R = this.GetComponent<PuzzleRoom>();
+        base.Awake();
         MovingPlatforms = new List<MovingPlatform>();
         FieldOfView = Camera.main.fieldOfView;
         Platform = Resources.Load<GameObject>("Michael/platform");
         Trampoline = Resources.Load<GameObject>("Michael/Trampoline");
         Coin = Resources.Load<GameObject>("Gabriel/Items/GameObjects/CurrencyItem");
-        R.complexity = -1;
+        complexity = -1;
     }
-    public void Start()
+    public new void Start()
     {
-        Zero = R.GetZero();
-        size = R.GetSize();
+        base.Start();
         roomCollider = this.GetComponent<BoxCollider>();
-        player = GameObject.FindWithTag("Player");
 
         Destroy(this.transform.Find("Ceiling").gameObject);
         R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),size.y*6,false);
@@ -46,23 +40,24 @@ public class PuzzleFive : MonoBehaviour {
         BuildPlatforms();
 	}
 
-	void Update () {
-        if(R.PlayerInRoom) {
+	new void Update () {
+        base.Update();
+        if(PlayerInRoom) {
             foreach(MovingPlatform p in MovingPlatforms) {
                 if(!p.OnlyMoveWithPlayer)
                     p.moving = true;
             }
         }
-        else if(!R.PlayerInRoom) {
+        else if(!PlayerInRoom) {
             foreach(MovingPlatform p in MovingPlatforms) {
                 p.moving = false;
             }
         }
 
 
-        if (!R.solved)
+        if (!solved)
         {
-            if(player.transform.position.y >= p8.transform.position.y)  R.solved = true;
+            if(Player.transform.position.y >= p8.transform.position.y)  solved = true;
 
         }
 

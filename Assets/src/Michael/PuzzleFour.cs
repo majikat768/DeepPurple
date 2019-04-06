@@ -11,24 +11,16 @@ using UnityEngine;
 // we could use this as an on-screen level map.
 // pretty neat, huh
 
-public class PuzzleFour : MonoBehaviour {
-
-    private bool solved;
-    private Vector3 Zero, size;
-    public PuzzleRoom R;
+public class PuzzleFour : PuzzleRoom {
 
     GameObject roomCamObj;
     Camera roomCam;
-    GameObject player;
     Camera mainCam;
 
-    public void Start()
+    public new void Start()
     {
+        base.Start();
         mainCam = Camera.main;
-        R = this.GetComponent<PuzzleRoom>();
-        Zero = R.GetZero();
-        player = GameObject.FindWithTag("Player");
-        size = R.GetSize();
         roomCam = new GameObject("roomcam").AddComponent<Camera>();
         roomCam.gameObject.transform.parent = this.transform;
         roomCam.orthographic = true;
@@ -53,7 +45,8 @@ public class PuzzleFour : MonoBehaviour {
         R.solved = true;
 	}
 
-	void Update () {
+	new void Update () {
+        base.Update();
         if(this.GetComponent<Room>().PlayerInRoom) {
             roomCam.enabled = true;
         }
