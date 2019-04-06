@@ -48,15 +48,19 @@ public class Teleporter : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if(other == player.GetComponent<Collider>() && !justArrived) {
             if(Destination == null) {
-                Destination = RoomGenerator.TeleporterList[Random.Range(0,RoomGenerator.TeleporterList.Count)];
+                Destination = RoomGenerator.TeleporterList[Random.Range(0,RoomGenerator.TeleporterList.Count-1)];
                 while(Destination == this.gameObject && RoomGenerator.TeleporterList.Count > 1)
                     Destination = RoomGenerator.TeleporterList[Random.Range(0,RoomGenerator.TeleporterList.Count)];
             }
             Debug.Log("player entered Teleporter");
             Destination.GetComponent<Teleporter>().justArrived = true;
             Destination.GetComponent<Teleporter>().Destination = this.gameObject;
-            player.transform.position = Destination.transform.position;
+            player.transform.position = Destination.transform.position; 
             player.transform.Rotate(new Vector3(0,180,0));
+            Camera.main.GetComponent<vThirdPersonCamera>().mouseX = -135;
+            //Camera.main.GetComponent<vThirdPersonCamera>().mouseY = 30;
+            Camera.main.GetComponent<vThirdPersonCamera>().RotateCamera(0,0);
+
             audioSource.PlayOneShot(bloop,1.0f);
         }
     }

@@ -107,6 +107,13 @@ public static class RoomGenerator //: MonoBehaviour
                 break;
             case RoomType.Puzzle:
                 r = newroom.AddComponent<PuzzleRoom>();
+                float rand = Random.value;
+                if(rand < 0.2f)
+                    newroom.AddComponent<PuzzleThree>();
+                else if(rand < 0.65f)
+                    newroom.AddComponent<PuzzleTwo>();
+                else
+                    newroom.AddComponent<PuzzleFive>();
                 //newroom.AddComponent<PuzzleOne>();
                 //newroom.AddComponent<PuzzleTwo>();
                 newroom.name = "Puzzle Room";
@@ -124,7 +131,7 @@ public static class RoomGenerator //: MonoBehaviour
         //  ...other room attributes to be added later....
         //  r.Init();
         r.SetZero(Zero);
-        r.SetSize(size);
+        //r.SetSize(size);
         //RoomList.Add(r);
         return newroom;
     }
@@ -148,8 +155,9 @@ public static class RoomGenerator //: MonoBehaviour
         foreach(Room room in RoomList)
         {
             Bounds r1 = room.GetComponent<Collider>().bounds;
-            foreach(Collider room2Collider in Physics.OverlapBox(r1.center,r1.size/2 - new Vector3(0,r1.size.y/3))) {
+            foreach(Collider room2Collider in Physics.OverlapBox(r1.center,r1.size/2 )) {
                 if(room2Collider.GetComponent<Room>()) {
+                    Room room2 = room2Collider.GetComponent<Room>();
                     Bounds r2 = room2Collider.bounds;
                     // detect if r1 is touching r2 on r2's north, south, east, or west side.
                     // r south of r1:
@@ -161,9 +169,9 @@ public static class RoomGenerator //: MonoBehaviour
                         if(EastOverlapEdge - WestOverlapEdge > Door.GetComponent<Renderer>().bounds.size.magnitude/2) {
                             float DoorX = (WestOverlapEdge+EastOverlapEdge)/2.0f+0.5f;
                             float DoorZ = r1.center.z+r1.size.z/2;
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.GetSize().y/2,DoorZ),Quaternion.identity,room.transform);
+                            d = GameObject.Instantiate(Door,new Vector3(DoorX,Mathf.Min(room.GetSize().y,room2.GetSize().y)/2,DoorZ),Quaternion.identity,room.transform);
                             dBounds = d.GetComponent<Renderer>().bounds.size;
-                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, room.GetSize().y/dBounds.y, d.transform.localScale.z);
+                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, Mathf.Min(room.GetSize().y,room2.GetSize().y)/dBounds.y, d.transform.localScale.z);
                             d.name = "Door";
                             d.gameObject.SetActive(false);
                             d.gameObject.SetActive(true);
@@ -182,9 +190,9 @@ public static class RoomGenerator //: MonoBehaviour
                             float DoorZ = (Mathf.Max(r1.center.z-r1.size.z/2,r2.center.z-r2.size.z/2)+Mathf.Min(r1.center.z+r1.size.z/2,r2.center.z+r2.size.z/2))/2.0f+0.5f;
                             float DoorX = r1.center.x-r1.size.x/2;
 
-                            d = GameObject.Instantiate(Door,new Vector3(DoorX,room.GetSize().y/2,DoorZ),Quaternion.identity,room.transform);
+                            d = GameObject.Instantiate(Door,new Vector3(DoorX,Mathf.Min(room.GetSize().y,room2.GetSize().y)/2,DoorZ),Quaternion.identity,room.transform);
                             dBounds = d.GetComponent<Renderer>().bounds.size;
-                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, room.GetSize().y/dBounds.y, d.transform.localScale.z);
+                            d.transform.localScale = new Vector3(doorWidth/dBounds.x, Mathf.Min(room.GetSize().y,room2.GetSize().y)/dBounds.y, d.transform.localScale.z);
                             d.transform.Rotate(0, 90, 0);
                             d.name = "Door";
                             d.gameObject.SetActive(false);

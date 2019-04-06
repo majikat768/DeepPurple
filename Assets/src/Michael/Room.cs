@@ -26,15 +26,15 @@ public class Room : MonoBehaviour
     public int complexity = 3;
     public List<GameObject> DoorList;
     public List<GameObject> FloorTiles;
-    protected GameObject Wall;
-    protected GameObject Column;
-    protected GameObject Portal;
-    protected GameObject Door;
-    protected GameObject Block; 
-    protected GameObject Console;
-    protected GameObject Panel;
+    protected static GameObject Wall;
+    protected static GameObject Column;
+    protected static GameObject Portal;
+    protected static GameObject Door;
+    protected static GameObject Block;
+    protected static GameObject Console;
+    protected static GameObject Panel;
     protected static GameObject FloorTile;
-    protected GameObject WallLight; 
+    protected static GameObject WallLight;
     protected GameObject Player;
     [SerializeField]
     protected Vector3 Zero;
@@ -47,16 +47,16 @@ public class Room : MonoBehaviour
 
     public void Awake()
     {
-        this.gameObject.transform.position = Zero;
-        FloorTile = RoomGenerator.FloorTile;
         Wall = RoomGenerator.Wall;
         Column = RoomGenerator.Column;
         Portal = RoomGenerator.Portal;
         Door = RoomGenerator.Door;
         Block = RoomGenerator.Block;
-        WallLight = RoomGenerator.WallLight;
         Console = RoomGenerator.Console;
         Panel = RoomGenerator.Panel;
+        FloorTile = RoomGenerator.FloorTile;
+        WallLight = RoomGenerator.WallLight;
+        this.gameObject.transform.position = Zero;
         DoorList = new List<GameObject>();
         FloorTiles = new List<GameObject>();
         Player = GameObject.FindWithTag("Player");
@@ -76,6 +76,9 @@ public class Room : MonoBehaviour
 
 
     public void Init() {
+        if(size == Vector3.zero)
+            size = RoomGenerator.GetSize();
+
         initialized = true;
         this.RoomBounds = new Bounds(new Vector3(size.x / 2, size.y / 2, size.z / 2), size);
 
@@ -198,9 +201,10 @@ public class Room : MonoBehaviour
         GameObject console,panel, portal, column;
         foreach(GameObject door in DoorList) {
             float doorX = door.GetComponent<Renderer>().bounds.size.x;
+            float doorY = door.GetComponent<Renderer>().bounds.size.y;
             float doorZ = door.GetComponent<Renderer>().bounds.size.z;
             console = GameObject.Instantiate(Console,
-                    door.transform.position - (doorX > doorZ ? new Vector3(doorX,size.y/2,0) : new Vector3(0,size.y/2,doorZ)),
+                    door.transform.position - (doorX > doorZ ? new Vector3(doorX,doorY/2,0) : new Vector3(0,doorY/2,doorZ)),
                     door.transform.rotation, 
                     this.transform);
             console.transform.Rotate(door.transform.position.z > Zero.z+size.z/2 || door.transform.position.x > Zero.x+size.x/2 ? new Vector3(0,180,0) : Vector3.zero);

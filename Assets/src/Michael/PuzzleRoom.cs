@@ -9,40 +9,28 @@ public class PuzzleRoom : Room
 {
     // only puzzles two and three are currently complete.  so i'll choose randomly between those two.
     
-    public enum PuzzleType { Two, Three, Four };
+    public enum PuzzleType { Two, Three, Four, Five };
     [SerializeField]
-    public PuzzleType pt = PuzzleType.Two;
+    public PuzzleType pt = PuzzleType.Four;
     public bool solved = false;
-    private bool locked = false;
-    private Room R;
+    protected bool locked = false;
+    protected PuzzleRoom R;
     private AudioClip solvedSound;
     private AudioSource audioSource;
     // the PuzzleRoom will lock all doors upon entry till you solve it
     
     public void Awake() {
         base.Awake();
+        // add puzzle component in RoomGenerator.Get.
         // 85% chance that it's the block puzzle.  15% chance that it's the rabbit puzzle.
         //pt = (Random.value < 0.85f ? PuzzleType.Two : PuzzleType.Three);
-        switch(pt) {
-            case PuzzleType.Two:
-                this.gameObject.AddComponent<PuzzleTwo>();
-                break;
-            case PuzzleType.Three:
-                this.gameObject.AddComponent<PuzzleThree>();
-                break;
-            case PuzzleType.Four:
-                this.gameObject.AddComponent<PuzzleFour>();
-                break;
-            default:
-                break;
-        }
         //this.gameObject.AddComponent<PuzzleOne>();
 
     }
 
     public new void Start()
     {
-        R = this.GetComponent<Room>();
+        R = this.GetComponent<PuzzleRoom>();
         Player = GameObject.FindWithTag("Player");
         solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
         audioSource = gameObject.AddComponent<AudioSource>();
@@ -55,7 +43,7 @@ public class PuzzleRoom : Room
         audioSource.PlayOneShot(solvedSound,1.0f);
     }
 
-    private new void OnTriggerEnter(Collider other)
+    protected new void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == Player)
         {
@@ -67,7 +55,7 @@ public class PuzzleRoom : Room
         }
     }
     
-    private void OnTriggerExit(Collider other) {
+    protected void OnTriggerExit(Collider other) {
         if(other.gameObject == Player) {
             PlayerInRoom = false;
         }

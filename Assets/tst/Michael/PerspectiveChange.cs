@@ -10,14 +10,12 @@ using UnityEngine;
 
 public class PerspectiveChange : MonoBehaviour {
 
-    GameObject player;
     Camera cam;
     KeyCode toggle = KeyCode.Z;
     float thirdPersonDistance;
     bool firstPerson = false;
 
 	void Start () {
-        player = GameObject.FindWithTag("Player");
         cam = Camera.main;
         thirdPersonDistance = cam.GetComponent<vThirdPersonCamera>().defaultDistance;
 		
@@ -29,8 +27,7 @@ public class PerspectiveChange : MonoBehaviour {
 	void Update () {
         if(Input.GetKeyDown(toggle)) {
             if(!firstPerson) {
-                cam.GetComponent<vThirdPersonCamera>().defaultDistance = -0.5f;
-
+                cam.GetComponent<vThirdPersonCamera>().defaultDistance = -1f;
                 firstPerson = true;
             }
             else {

@@ -49,7 +49,7 @@ public class WallTransparency : MonoBehaviour {
     // but apparently they're necessary for changing a material's rendering mode from
     // Opaque to Transparent, and vice versa.
     //
-    //After rendering mode is changed, just change material's alpha value incrementally till it's faded out/in.
+    // After rendering mode is changed, just change material's alpha value incrementally till it's faded out/in.
     //
     private void FadeOut() {
         foreach(Material mat in mats) {

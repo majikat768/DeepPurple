@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 64325493354733664}
   - component: {fileID: 23596320010577442}
   - component: {fileID: 114276770336102036}
+  - component: {fileID: 114823005773394826}
+  - component: {fileID: 54625098536999578}
   m_Layer: 0
   m_Name: FloorTile
   m_TagString: Untagged
@@ -84,6 +86,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1625336325701776}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54625098536999578
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1625336325701776}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1
 --- !u!64 &64325493354733664
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -126,3 +143,14 @@ MonoBehaviour:
   m_VoxelSize: 0.05
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &114823005773394826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1625336325701776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725f3bed20542ce42b0b26beeb0cc433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
