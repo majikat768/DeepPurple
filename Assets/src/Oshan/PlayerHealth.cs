@@ -18,9 +18,15 @@ public class PlayerHealth : MonoBehaviour
 		print(playerHealth);
 	}
 
+	public void setHealth()
+	{
+		playerHealth += 2;
+	}
+
 	void OnCollisionEnter(Collision _collision)
 	{
-		if(_collision.gameObject.tag == "TestCube")
+
+		if(_collision.gameObject.tag == "Enemy")
 		{
 			playerHealth -= damage;
 			print("Enemy just touched me, please help " + playerHealth);
@@ -31,7 +37,13 @@ public class PlayerHealth : MonoBehaviour
 				return;
 			}
 		}
+
+		if(_collision.gameObject.tag == "healthPotion")
+		{
+			setHealth();
+		}
 	}
+
 
 	public int getPlayerHealth()
 	{
