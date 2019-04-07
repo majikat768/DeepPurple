@@ -19,7 +19,9 @@ public class LevelGenerator : Singleton<LevelGenerator>
 {
     // Prevent not singleton initialization
     protected LevelGenerator() { }
-    
+
+    [SerializeField]
+    public Generator defaultGenerator = Generator.TFRACTAL;
     public const int roomSize = 32;
 
     /// <summary>
@@ -32,7 +34,7 @@ public class LevelGenerator : Singleton<LevelGenerator>
 
     public void Start()
     {
-        LevelGenerator.Instance.generateLevel(Generator.TFRACTAL);
+        LevelGenerator.Instance.generateLevel(defaultGenerator);
     }
 
     /// <summary>
