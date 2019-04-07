@@ -265,6 +265,7 @@ public class LevelGenerator : Singleton<LevelGenerator>
             // connection to any of the other rooms. This shouldn't be possible
             if (possibleLocs.Count > 6)
             {
+		possibleLocs.RemoveAll(x => Vector2Int.Distance(x, vector) > 1);
                 bossRoomLocs.AddRange(possibleLocs);
             }
         }
@@ -313,7 +314,9 @@ public class LevelGenerator : Singleton<LevelGenerator>
         for (int i = 0; i < length; i++)
         {
             var vec = new Vector2Int(x, y);
-            dictionary[vec] = RandomRoomType();
+	    if (!dictionary.ContainsKey(vec)) {
+            	dictionary[vec] = RandomRoomType();
+	    }
             switch (direction)
             {
                 case 0:
