@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// if the animator is set to "moving", set the robot (i mean rabbit) navmesh agent destination to a random location in the room.
 public class Robot : MonoBehaviour {
 
     NavMeshAgent agent;

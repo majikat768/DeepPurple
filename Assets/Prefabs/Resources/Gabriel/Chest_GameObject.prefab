@@ -150,4 +150,4 @@ MonoBehaviour:
   offset_Z: 0
   scale: {x: 0, y: 0, z: 0}
   durationTime: 4
-  confetti: {fileID: 0}
+  confetti: {fileID: 1218972260283062, guid: cbece21096a584d628f99296e7d52c8d, type: 2}

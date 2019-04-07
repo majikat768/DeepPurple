@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 23540742576651208}
   - component: {fileID: 64447103187754522}
   - component: {fileID: 114652324029300486}
+  - component: {fileID: 114526177481357420}
+  - component: {fileID: 54342085419056956}
   m_Layer: 0
   m_Name: Floor_004
   m_TagString: Untagged
@@ -85,6 +87,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156881648048032}
   m_Mesh: {fileID: 4300090, guid: fe8bb5221257840c2805e380fc94544a, type: 3}
+--- !u!54 &54342085419056956
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156881648048032}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1
 --- !u!64 &64447103187754522
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -99,6 +116,17 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300090, guid: fe8bb5221257840c2805e380fc94544a, type: 3}
+--- !u!114 &114526177481357420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156881648048032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725f3bed20542ce42b0b26beeb0cc433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114652324029300486
 MonoBehaviour:
   m_ObjectHideFlags: 1

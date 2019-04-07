@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 23312834401867644}
   - component: {fileID: 64414795312664108}
   - component: {fileID: 114443850107805648}
+  - component: {fileID: 114532607783745076}
+  - component: {fileID: 54326598762927498}
   m_Layer: 0
   m_Name: Floor_001
   m_TagString: Untagged
@@ -84,6 +86,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1979544736827636}
   m_Mesh: {fileID: 4300096, guid: fe8bb5221257840c2805e380fc94544a, type: 3}
+--- !u!54 &54326598762927498
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1979544736827636}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1
 --- !u!64 &64414795312664108
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -126,3 +143,14 @@ MonoBehaviour:
   m_VoxelSize: 0.05
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &114532607783745076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1979544736827636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725f3bed20542ce42b0b26beeb0cc433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

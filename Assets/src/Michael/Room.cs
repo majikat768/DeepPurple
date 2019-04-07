@@ -3,6 +3,20 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+/*
+ * Default constructor for Room.
+ * The Init function creates the floor and ceiling and adds a collider trigger to each room 
+ * (for detecting player entering/exiting).
+ *
+ * Contains a SetLighting function, for setting color and intensity of room lights;
+ * OnTriggerExit/onTriggerEnter which toggles lights when player enters, and toggles boolean variable PlayerInRoom;
+ * GetWalls/BuildWall, builds walls between each corner,
+ * GetInnerWalls which builds the inner walls,
+ * and Decorate which adds objects (including teleporters).
+ * and get/set for room size and zero coordinate.
+ *
+ */
+
 public class Room : MonoBehaviour
 {
     public bool initialized = false;
@@ -12,15 +26,15 @@ public class Room : MonoBehaviour
     public int complexity = 3;
     public List<GameObject> DoorList;
     public List<GameObject> FloorTiles;
-    protected GameObject Wall;
-    protected GameObject Column;
-    protected GameObject Portal;
-    protected GameObject Door;
-    protected GameObject Block; 
-    protected GameObject Console;
-    protected GameObject Panel;
+    protected static GameObject Wall;
+    protected static GameObject Column;
+    protected static GameObject Portal;
+    protected static GameObject Door;
+    protected static GameObject Block;
+    protected static GameObject Console;
+    protected static GameObject Panel;
     protected static GameObject FloorTile;
-    protected GameObject WallLight; 
+    protected static GameObject WallLight;
     protected GameObject Player;
     [SerializeField]
     protected Vector3 Zero;
@@ -33,16 +47,16 @@ public class Room : MonoBehaviour
 
     public void Awake()
     {
-        this.gameObject.transform.position = Zero;
-        FloorTile = RoomGenerator.FloorTile;
         Wall = RoomGenerator.Wall;
         Column = RoomGenerator.Column;
         Portal = RoomGenerator.Portal;
         Door = RoomGenerator.Door;
         Block = RoomGenerator.Block;
-        WallLight = RoomGenerator.WallLight;
         Console = RoomGenerator.Console;
         Panel = RoomGenerator.Panel;
+        FloorTile = RoomGenerator.FloorTile;
+        WallLight = RoomGenerator.WallLight;
+        this.gameObject.transform.position = Zero;
         DoorList = new List<GameObject>();
         FloorTiles = new List<GameObject>();
         Player = GameObject.FindWithTag("Player");
@@ -62,6 +76,9 @@ public class Room : MonoBehaviour
 
 
     public void Init() {
+        if(size == Vector3.zero)
+            size = RoomGenerator.GetSize();
+
         initialized = true;
         this.RoomBounds = new Bounds(new Vector3(size.x / 2, size.y / 2, size.z / 2), size);
 
@@ -134,6 +151,7 @@ public class Room : MonoBehaviour
         //Ceiling.GetComponent<Light>().intensity = intensity;
     }
 
+    //turn lights on or off when player enters or leaves.
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
@@ -151,6 +169,7 @@ public class Room : MonoBehaviour
         }
     }
 
+    //call BuildWall for each outer wall.
     public void GetWalls()
     {
         BuildWall(Zero, Zero+new Vector3(size.x, 0, 0), size.y);
@@ -158,6 +177,8 @@ public class Room : MonoBehaviour
         BuildWall(Zero+new Vector3(size.x, 0, 0), Zero+new Vector3(size.x, 0, size.z), size.y);
         BuildWall(Zero+new Vector3(0, 0, size.z), Zero+new Vector3(size.x, 0, size.z), size.y);
 
+        // Find's a random point along outer wall, and finds point on wall directly opposite.
+        // Enter recursive function GetInnerWalls with these parameters....
         Transform start = Walls.transform.GetChild(Random.Range(0, Walls.transform.childCount - 1));
         Vector3 dir = start.TransformDirection(Vector3.forward)*((start.position.x == Zero.x || start.position.z == Zero.z+size.z ? 1 : -1));
         Vector3 startpoint = start.position + 
@@ -175,13 +196,15 @@ public class Room : MonoBehaviour
         Decorate();
     }
 
+    // this function just makes it look prettier.  and adds teleporters.
     public void Decorate() {
         GameObject console,panel, portal, column;
         foreach(GameObject door in DoorList) {
             float doorX = door.GetComponent<Renderer>().bounds.size.x;
+            float doorY = door.GetComponent<Renderer>().bounds.size.y;
             float doorZ = door.GetComponent<Renderer>().bounds.size.z;
             console = GameObject.Instantiate(Console,
-                    door.transform.position - (doorX > doorZ ? new Vector3(doorX,size.y/2,0) : new Vector3(0,size.y/2,doorZ)),
+                    door.transform.position - (doorX > doorZ ? new Vector3(doorX,doorY/2,0) : new Vector3(0,doorY/2,doorZ)),
                     door.transform.rotation, 
                     this.transform);
             console.transform.Rotate(door.transform.position.z > Zero.z+size.z/2 || door.transform.position.x > Zero.x+size.x/2 ? new Vector3(0,180,0) : Vector3.zero);
@@ -209,6 +232,7 @@ public class Room : MonoBehaviour
         */
     }
 
+    // Build a wall between start and end of height height, if doors == true then search for doors and build walls between them.
     public void BuildWall(Vector3 start, Vector3 end,float height,bool doors = true)
     {
         Vector3 wBounds;
@@ -284,6 +308,9 @@ public class Room : MonoBehaviour
 
     }
 
+    //Build wall between start and endhit,
+    // then find a random point between the two, increase recursion depth variable,
+    // and start again.
     public void GetInnerWalls(Vector3 start, RaycastHit endHit, int depth)
     {
         bool built = false;
@@ -292,6 +319,7 @@ public class Room : MonoBehaviour
         if (Vector3.Distance(start, end) < 4)   return;
         RaycastHit hit,hit2;
         Vector3 dir;
+        // if end point is a Door, build a wall 2/3 of the way from start towards end.
         foreach(Collider o in Physics.OverlapBox(endHit.point, new Vector3(2,2,2))) {
             if(o.transform.name == "Door") {
                 BuildWall(start,Vector3.Lerp(start,end,0.7f),size.y/2,false);
@@ -299,6 +327,7 @@ public class Room : MonoBehaviour
             }
         }
 
+        // if end point is not a door, build a wall 1/3 of the way out from start, and 1/3 of the way back from end.
         if(!built) {
             BuildWall(start, Vector3.Lerp(start, end, 0.3f), size.y / 2,false);
             BuildWall(end, Vector3.Lerp(end, start, 0.3f), size.y / 2,false);

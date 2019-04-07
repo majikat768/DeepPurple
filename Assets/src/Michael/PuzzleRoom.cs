@@ -2,27 +2,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// base puzzle class provides boolean variable for solved, and when player enters and it's unsolved, lock the doors.
+// attaches a specific puzzle script to room. puzzle script changes "solved" variable when some condition is met.
+
 public class PuzzleRoom : Room
 {
+    // only puzzles two and three are currently complete.  so i'll choose randomly between those two.
+    
+    public enum PuzzleType { Two, Three, Four, Five };
+    [SerializeField]
+    public PuzzleType pt = PuzzleType.Four;
     public bool solved = false;
-    private bool locked = false;
-    private Room R;
+    protected bool locked = false;
+    protected PuzzleRoom R;
     private AudioClip solvedSound;
     private AudioSource audioSource;
     // the PuzzleRoom will lock all doors upon entry till you solve it
     
-    public void Awake() {
+    public new void Awake() {
         base.Awake();
-        this.gameObject.AddComponent<PuzzleTwo>();
+        // add puzzle component in RoomGenerator.Get.
+        // 85% chance that it's the block puzzle.  15% chance that it's the rabbit puzzle.
+        //pt = (Random.value < 0.85f ? PuzzleType.Two : PuzzleType.Three);
         //this.gameObject.AddComponent<PuzzleOne>();
-        //this.gameObject.AddComponent<PuzzleThree>();
 
     }
 
     public new void Start()
     {
-        R = this.GetComponent<Room>();
-        Player = GameObject.FindWithTag("Player");
+        R = this.GetComponent<PuzzleRoom>();
         solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
@@ -34,7 +42,7 @@ public class PuzzleRoom : Room
         audioSource.PlayOneShot(solvedSound,1.0f);
     }
 
-    private new void OnTriggerEnter(Collider other)
+    protected new void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == Player)
         {
@@ -46,7 +54,7 @@ public class PuzzleRoom : Room
         }
     }
     
-    private void OnTriggerExit(Collider other) {
+    protected void OnTriggerExit(Collider other) {
         if(other.gameObject == Player) {
             PlayerInRoom = false;
         }

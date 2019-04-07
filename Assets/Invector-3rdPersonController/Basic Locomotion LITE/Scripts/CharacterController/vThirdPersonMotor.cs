@@ -84,7 +84,7 @@ namespace Invector.CharacterController
         protected float slopeLimit = 45f;       
         [Tooltip("Apply extra gravity when the character is not grounded")]
         [SerializeField]
-        protected float extraGravity = -10f;
+        public float extraGravity = 0f;
         protected float groundDistance;
         public RaycastHit groundHit;
 

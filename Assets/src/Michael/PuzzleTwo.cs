@@ -1,25 +1,25 @@
 using UnityEngine;
 
-public class PuzzleTwo : MonoBehaviour {
+// spawns a box, and a target tile.
+// Player must move the box on to the target tile to solve the room.
+//
+
+public class PuzzleTwo : PuzzleRoom {
 
     private Inventory inventory;
-    private bool solved;
     private GameObject box;
     private GameObject TargetTile;
     private GameObject FloorTile;
-    private Vector3 Zero, size;
-    private PuzzleRoom R;
 
     public void Awake() {
+        base.Awake();
         //this.GetComponent<Room>().complexity = -1;
     }
 
     public void Start()
     {
+        base.Start();
         FloorTile = RoomGenerator.FloorTile;
-        R = this.GetComponent<PuzzleRoom>();
-        Zero = R.GetZero();
-        size = R.GetSize();
         //inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
 
         Vector3 SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), size.y / 2, Random.Range(2, size.z-3));
@@ -56,6 +56,10 @@ public class PuzzleTwo : MonoBehaviour {
         TargetTile.name = "Target";
 		
 	}
+
+    // The box also repels walls, so it won't get stuck in a corner;
+    // and after it's solved, the box turns green
+    // and  always moves towards the target, giving it a magnetic like effect.
 
 	void FixedUpdate () {
         if (!R.solved) 
