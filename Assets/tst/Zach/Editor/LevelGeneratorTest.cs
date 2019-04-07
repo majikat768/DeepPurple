@@ -9,8 +9,7 @@ public class LevelGeneratorTest {
 
 	[Test]
 	public void LevelGeneratorTFractalHasStart() {
-        GameObject gameObject = new GameObject();
-        LevelGenerator lg = gameObject.AddComponent<LevelGenerator>();
+        LevelGenerator lg = LevelGenerator.Instance;
         var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
         bool foundStart = false;
         foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
@@ -28,8 +27,7 @@ public class LevelGeneratorTest {
     [Test]
     public void LevelGeneratorTFractalHasBoss()
     {
-        GameObject gameObject = new GameObject();
-        LevelGenerator lg = gameObject.AddComponent<LevelGenerator>();
+        LevelGenerator lg = LevelGenerator.Instance;
         var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
         bool foundBoss = false;
         foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
@@ -47,8 +45,7 @@ public class LevelGeneratorTest {
     [Test]
     public void LevelGeneratorTFractalHasWinnablePath()
     {
-        GameObject gameObject = new GameObject();
-        LevelGenerator lg = gameObject.AddComponent<LevelGenerator>();
+        LevelGenerator lg = LevelGenerator.Instance;
         var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
 
         var visited = new List<Vector2Int>();
@@ -88,6 +85,15 @@ public class LevelGeneratorTest {
         }
 
         Assert.Fail();
+    }
+
+    [Test]
+    public void LevelGeneratorTFractal1000IterationTest() {
+	    for (int i = 0; i < 10; i++) {
+		    LevelGeneratorTFractalHasStart();
+		    LevelGeneratorTFractalHasBoss();
+		    LevelGeneratorTFractalHasWinnablePath();
+	    }
     }
 
 }
