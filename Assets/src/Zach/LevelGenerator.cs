@@ -27,7 +27,7 @@ public class LevelGenerator : Singleton<LevelGenerator>
     /// </summary>
     public enum Generator
     {
-        LINEAR, RANDOM, SQUARE, TFRACTAL
+        LINEAR, RANDOM, SQUARE, TFRACTAL, LINEAR_TEST
     }
 
     public void Start()
@@ -73,6 +73,8 @@ public class LevelGenerator : Singleton<LevelGenerator>
                 return RoomGeneratorRandom();
             case Generator.TFRACTAL:
                 return RoomGeneratorTFractal();
+	    case Generator.LINEAR_TEST:
+		return RoomGeneratorLinearTest();
         }
         return null;
     }
@@ -363,6 +365,22 @@ public class LevelGenerator : Singleton<LevelGenerator>
         TFractalRecursive(ref dictionary, x, y, newLeft, (int)(length * Random.Range(0.6f, 0.9f)));
         TFractalRecursive(ref dictionary, x, y, direction, (int)(length * Random.Range(0.6f, 0.9f)));
         TFractalRecursive(ref dictionary, x, y, newRight, (int)(length * Random.Range(0.6f, 0.9f)));
+    }
+
+    /// <summary>
+    /// Simple fast generator used for game testing purposes. Not intended to be
+    /// used in actual game play. Just generates a start room and 3 combat rooms in
+    /// a row. This level does not have a boss room and is not beatable. We use
+    /// this system to ensure that nav meshes get baked into our test levels.
+    /// </summary>
+    /// <returns>Dictionary of coordinates and corresponding room types</returns>
+    public Dictionary<Vector2Int, RoomGenerator.RoomType> RoomGeneratorLinearTest() {
+	var dictionary = new Dictionary<Vector2Int, RoomGenerator.RoomType>();
+	dictionary[new Vector2Int(0, 0)] = RoomGenerator.RoomType.Start;
+	dictionary[new Vector2Int(0, 1)] = RoomGenerator.RoomType.Combat;
+	dictionary[new Vector2Int(0, 2)] = RoomGenerator.RoomType.Combat;
+	dictionary[new Vector2Int(0, 3)] = RoomGenerator.RoomType.Combat;
+	return dictionary;
     }
 
     /// <summary>
