@@ -247,7 +247,7 @@ public class LevelGenerator : Singleton<LevelGenerator>
             var vector = room.Key;
 
             // Add all coordinates North, South, East, West, North East, North West,
-            // South East, and South West of the current room iteration
+            // South East, and South West, 2 North, 2 South, 2 East, 2 West of the current room iteration
             possibleLocs.Add(new Vector2Int(vector.x, vector.y + 1));
             possibleLocs.Add(new Vector2Int(vector.x, vector.y - 1));
             possibleLocs.Add(new Vector2Int(vector.x + 1, vector.y));
@@ -256,6 +256,10 @@ public class LevelGenerator : Singleton<LevelGenerator>
             possibleLocs.Add(new Vector2Int(vector.x - 1, vector.y + 1));
             possibleLocs.Add(new Vector2Int(vector.x + 1, vector.y - 1));
             possibleLocs.Add(new Vector2Int(vector.x - 1, vector.y - 1));
+	    possibleLocs.Add(new Vector2Int(vector.x, vector.y + 2));
+	    possibleLocs.Add(new Vector2Int(vector.x, vector.y - 2));
+	    possibleLocs.Add(new Vector2Int(vector.x + 2, vector.y));
+	    possibleLocs.Add(new Vector2Int(vector.x - 2, vector.y));
 
             // Remove any rooms from possibleLocs that are already in the dictionary
             // A room will already be put there, so the boss room can't go there.
@@ -263,7 +267,7 @@ public class LevelGenerator : Singleton<LevelGenerator>
             // Only attach boss room to rooms with degree 1
             // Degree zero would imply that the room is an "island" with no
             // connection to any of the other rooms. This shouldn't be possible
-            if (possibleLocs.Count > 6)
+            if (possibleLocs.Count > 9)
             {
 		possibleLocs.RemoveAll(x => Vector2Int.Distance(x, vector) > 1);
                 bossRoomLocs.AddRange(possibleLocs);
@@ -288,7 +292,7 @@ public class LevelGenerator : Singleton<LevelGenerator>
     /// direction parameter. Calculate the direction of west and east relative
     /// to the direction that the line segment was originally moving. For example,
     /// if the original line segment was moving west, turning right would leave you
-    /// facing south and turning left would leave you facing north. A simple modulus
+    /// facing north and turning left would leave you facing south. A simple modulus
     /// calculation is done to determine new direction. Once the new directions have
     /// been calulated, recursively repeat these steps by moving left, forward, and 
     /// right. The magnitude of each new line segment is calculated using direction 

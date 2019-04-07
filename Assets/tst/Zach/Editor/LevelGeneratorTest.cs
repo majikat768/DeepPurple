@@ -86,14 +86,38 @@ public class LevelGeneratorTest {
         Assert.Fail();
     }
 
-    //[Test]
-    //public void 
+    [Test]
+    public void LevelGeneratorTFractalBossRoomAtEndOfCorridor() {
+        LevelGenerator lg = LevelGenerator.Instance;
+        var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
+	var vertex = new Vector2Int(0, 0);
+	foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms) {
+            if (room.Value == RoomGenerator.RoomType.Boss) {
+		vertex = room.Key;
+	    }
+	}
+	// No boss room found
+	if (vertex.x == 0 && vertex.y == 0) Assert.Fail();
+	var possibleLocs = new List<Vector2Int>();
+        possibleLocs.Add(new Vector2Int(vertex.x, vertex.y + 1)); // North
+        possibleLocs.Add(new Vector2Int(vertex.x, vertex.y - 1)); // South
+        possibleLocs.Add(new Vector2Int(vertex.x + 1, vertex.y)); // East
+        possibleLocs.Add(new Vector2Int(vertex.x - 1, vertex.y)); // West
+	possibleLocs.RemoveAll(x => !rooms.ContainsKey(x));
+	if (possibleLocs.Count > 1) {
+            Debug.Log(vertex);
+	    Debug.Log(possibleLocs[0]);
+	    Debug.Log(possibleLocs[1]);
+	    Assert.Fail();
+	}
+    }
 
     [Test]
     public void LevelGeneratorTFractal100IterationTest() {
 	    for (int i = 0; i < 100; i++) {
 		    LevelGeneratorTFractalHasStart();
 		    LevelGeneratorTFractalHasBoss();
+		    LevelGeneratorTFractalBossRoomAtEndOfCorridor();
 		    LevelGeneratorTFractalHasWinnablePath();
 	    }
     }
