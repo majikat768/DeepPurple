@@ -58,7 +58,6 @@ public class LevelGeneratorTest {
             
             if (!visited.Contains(vertex))
             {
-                Debug.Log(vertex);
                 visited.Add(vertex);
             }
 
@@ -87,9 +86,12 @@ public class LevelGeneratorTest {
         Assert.Fail();
     }
 
+    //[Test]
+    //public void 
+
     [Test]
-    public void LevelGeneratorTFractal1000IterationTest() {
-	    for (int i = 0; i < 10; i++) {
+    public void LevelGeneratorTFractal100IterationTest() {
+	    for (int i = 0; i < 100; i++) {
 		    LevelGeneratorTFractalHasStart();
 		    LevelGeneratorTFractalHasBoss();
 		    LevelGeneratorTFractalHasWinnablePath();

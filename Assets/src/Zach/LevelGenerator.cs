@@ -314,7 +314,9 @@ public class LevelGenerator : Singleton<LevelGenerator>
         for (int i = 0; i < length; i++)
         {
             var vec = new Vector2Int(x, y);
-            dictionary[vec] = RandomRoomType();
+	    if (!dictionary.ContainsKey(vec)) {
+            	dictionary[vec] = RandomRoomType();
+	    }
             switch (direction)
             {
                 case 0:
