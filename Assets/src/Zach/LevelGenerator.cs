@@ -15,9 +15,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator : Singleton<LevelGenerator>
 {
-
+    // Prevent not singleton initialization
+    protected LevelGenerator() { }
+    
     public const int roomSize = 32;
 
     /// <summary>
@@ -30,7 +32,7 @@ public class LevelGenerator : MonoBehaviour
 
     public void Start()
     {
-        generateLevel(Generator.RANDOM);
+        LevelGenerator.Instance.generateLevel(Generator.TFRACTAL);
     }
 
     /// <summary>
