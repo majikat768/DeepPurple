@@ -6,8 +6,6 @@
 /// </summary>
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    // Check to see if we're about to be destroyed.
-    private static bool m_ShuttingDown = false;
     private static object m_Lock = new object();
     private static T m_Instance;
  
@@ -18,13 +16,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
-            if (m_ShuttingDown)
-            {
-                Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
-                    "' already destroyed. Returning null.");
-                return null;
-            }
- 
             lock (m_Lock)
             {
                 if (m_Instance == null)
@@ -41,24 +32,12 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                         singletonObject.name = typeof(T).ToString() + " (Singleton)";
  
                         // Make instance persistent.
-                        //DontDestroyOnLoad(singletonObject);
+                        DontDestroyOnLoad(singletonObject);
                     }
                 }
  
                 return m_Instance;
             }
         }
-    }
- 
- 
-    private void OnApplicationQuit()
-    {
-        m_ShuttingDown = true;
-    }
- 
- 
-    private void OnDestroy()
-    {
-        m_ShuttingDown = true;
     }
 }      
