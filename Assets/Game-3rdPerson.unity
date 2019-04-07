@@ -1379,6 +1379,35 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78a09eb3c6f75e741a38ca61699514bf, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &258428277 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 148850, guid: 78a09eb3c6f75e741a38ca61699514bf, type: 2}
+  m_PrefabInternal: {fileID: 258428276}
+--- !u!114 &258428278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 258428277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29ec783f47d76646ad0285ae8c14143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thirdPersonMotor: {fileID: 0}
+  playerSpeed: 0
+--- !u!114 &258428279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 258428277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237527333d015465fbaec850d691ba83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: 10
 --- !u!1001 &454516043
 Prefab:
   m_ObjectHideFlags: 0
@@ -1521,6 +1550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b541265219debd04b83226f700a2e4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultGenerator: 3
 --- !u!4 &800110175
 Transform:
   m_ObjectHideFlags: 0
