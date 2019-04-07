@@ -25,7 +25,7 @@ public class CombatRoom : Room
             /*
             GameObject e = GameObject.Instantiate(Block, SpawnPoint, Quaternion.identity,enemies.transform);
             e.name = "Enemy";
-            RoomGenerator.EnemyList.Add(e);
+            RoomGerator.EnemyList.Add(e);ne
             e.AddComponent<BasicEnemy>();
             e.GetComponent<Renderer>().material.SetColor("_Color",Color.red);
             BasicEnemy eScript = e.GetComponent<BasicEnemy>();

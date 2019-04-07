@@ -15,9 +15,10 @@ public class EnemyManager : MonoBehaviour {
     // Use this for initialization
 
     void Start () {
+        room = this.transform.parent.gameObject;
        //if( enemy_t == "basic")
        if(SpawnPoints == null) {
-           SpawnPoints = this.GetComponent<CombatRoom>().SpawnPoints;
+            Debug.LogError("No spawn points were passed to enemy manager");
        }
         enemy = Resources.Load<GameObject>("Robert/Soldier");
         Spawn();

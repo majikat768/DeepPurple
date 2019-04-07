@@ -1,11 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class BasicEnemy : MonoBehaviour, IAttackable
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Actions))]
+public class BasicEnemy : MonoBehaviour, IDamageable
 {
 
     private GameObject player = null;
+    private GameObject rifle_1;
+    private NavMeshAgent agent;
+
+    public Transform rightGunBone;
+    public Transform leftGunBone;
+    public GameObject weapon;
+
+
+
     public int health = 100;
 
     //Max distance an enemy will begin moving torward player
@@ -18,13 +30,18 @@ public class BasicEnemy : MonoBehaviour, IAttackable
 
     //stores the actions class for animations
     private Actions action;
+
     void Awake()
     {
+
     }
     void Start()
     {
-        action = this.gameObject.AddComponent<Actions>();
+        agent = GetComponent<NavMeshAgent>();
+        action = this.gameObject.GetComponent<Actions>();
+        attachWeapon();
         player = GameObject.FindWithTag("Player");
+        
     }
 
     // Update is called once per frame
@@ -67,5 +84,14 @@ public class BasicEnemy : MonoBehaviour, IAttackable
         {
             action.Death();
         }
+    }
+
+    //Attaches a gun to each enemy when it is created
+    private void attachWeapon()
+    {
+        GameObject rifle_1 = (GameObject)Instantiate(weapon);
+        rifle_1.transform.parent = rightGunBone;
+        rifle_1.transform.localPosition = Vector3.zero;
+        rifle_1.transform.localRotation = Quaternion.Euler(90, 0, 0);
     }
 }

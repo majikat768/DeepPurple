@@ -440,7 +440,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4797509294569516}
   - component: {fileID: 137841655664159784}
-  - component: {fileID: 64862303015487184}
   m_Layer: 0
   m_Name: Soldier
   m_TagString: Untagged
@@ -623,9 +622,9 @@ GameObject:
   - component: {fileID: 4300684236101448}
   - component: {fileID: 95330813144807740}
   - component: {fileID: 114738005230778250}
-  - component: {fileID: 114071693855232518}
-  - component: {fileID: 64995465228081054}
   - component: {fileID: 114169891355615442}
+  - component: {fileID: 64995465228081054}
+  - component: {fileID: 195089397229268618}
   - component: {fileID: 54208424098477726}
   m_Layer: 0
   m_Name: Soldier
@@ -1450,24 +1449,10 @@ Rigidbody:
   m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!64 &64862303015487184
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1605184652194526}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: a55b75e1bbafd1241b488997bb65464c, type: 3}
 --- !u!64 &64995465228081054
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1491,7 +1476,7 @@ Animator:
   m_GameObject: {fileID: 1741284471910564}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b6c33e1d6632025468fb37a04e312606, type: 3}
-  m_Controller: {fileID: 9100000, guid: e4d38f097ea35254fb4b833d568bb089, type: 2}
+  m_Controller: {fileID: 9100000, guid: dffbd9326394a8d47a87a1e2aec70a59, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1499,28 +1484,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114071693855232518
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1741284471910564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9aa840a3854ebd47b920d1a5c7d693f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rightGunBone: {fileID: 4302047026783404}
-  leftGunBone: {fileID: 4582401643981050}
-  arsenal:
-  - name: Empty
-    rightGun: {fileID: 0}
-    leftGun: {fileID: 0}
-    controller: {fileID: 9100000, guid: e4d38f097ea35254fb4b833d568bb089, type: 2}
-  - name: Rifle
-    rightGun: {fileID: 100000, guid: d992a232642f7574b80a75c2ca4b4cb8, type: 2}
-    leftGun: {fileID: 0}
-    controller: {fileID: 9100000, guid: dffbd9326394a8d47a87a1e2aec70a59, type: 2}
 --- !u!114 &114169891355615442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1532,6 +1495,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd7cb5df0d24204da5c04f791e55887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rightGunBone: {fileID: 4302047026783404}
+  leftGunBone: {fileID: 4582401643981050}
+  weapon: {fileID: 100000, guid: d992a232642f7574b80a75c2ca4b4cb8, type: 2}
   health: 100
   moveMax: 7
   moveMin: 3
@@ -1639,3 +1605,24 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.051279515, y: -0.010891005, z: 0.00000020861626}
     m_Extent: {x: 0.46885136, y: 0.09929618, z: 0.27795073}
   m_DirtyAABB: 0
+--- !u!195 &195089397229268618
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1741284471910564}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
