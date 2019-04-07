@@ -109,14 +109,12 @@ public static class RoomGenerator //: MonoBehaviour
                 float rand = Random.value;
                 if(rand < 0.1f)
                     r = newroom.AddComponent<PuzzleRabbits>();
-                else if(rand < 0.4f)
+                else if(rand < 0.5f)
                     r = newroom.AddComponent<PuzzleBox>();
                 else if(rand < 0.6f)
                     r = newroom.AddComponent<PuzzlePlatforms>();
                 else
                     r = newroom.AddComponent<PuzzleLowGravity>();
-                //newroom.AddComponent<PuzzleOne>();
-                //newroom.AddComponent<PuzzleTwo>();
                 newroom.name = "Puzzle Room";
                 break;
             default:
