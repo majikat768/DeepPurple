@@ -27,6 +27,7 @@ public class CharacterPanel : MonoBehaviour {
 
 		//foreach (PlayerController.Arsenal a in controller.arsenal)
 			//CreateWeaponButton(a.name);
+		//	CreateWeaponButton(a.name);
 
 		CreateActionButton("Stay");
 		CreateActionButton("Walk");

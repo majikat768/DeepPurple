@@ -24,6 +24,7 @@ public class Trampoline : MonoBehaviour {
             Vector3 velo = playerRB.velocity;
             playerRB.velocity = Vector3.zero;
             playerRB.AddForce(new Vector3(BounceForce,-velo.y*BounceForce,0),ForceMode.Impulse);
+            Debug.Log("bounce");
         }
     }
 }

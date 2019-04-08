@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.217
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21037742, g: 0.23674381, b: 0.2782264, a: 0.217}
+  m_IndirectSpecularColor: {r: 0.21037742, g: 0.23674378, b: 0.27822632, a: 0.217}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1421,6 +1421,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114274219667832920, guid: 84d1dc563ffa547dea120698b8ececf4,
+        type: 2}
+      propertyPath: xMouseSensitivity
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114274219667832920, guid: 84d1dc563ffa547dea120698b8ececf4,
+        type: 2}
+      propertyPath: yMouseSensitivity
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84d1dc563ffa547dea120698b8ececf4, type: 2}
   m_IsPrefabParent: 0
@@ -1475,6 +1485,23 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
+--- !u!1 &413739881 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1034267594732308, guid: c2ec9949163f0254a885d7479bbe9212,
+    type: 2}
+  m_PrefabInternal: {fileID: 1153480547}
+--- !u!114 &413739884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 413739881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f401fa3291097fd43a04a9ac82f42777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserBeamLauncher: {fileID: 0}
 --- !u!1 &442826829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,6 +1751,91 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &845618464 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1543670132810786, guid: 84d1dc563ffa547dea120698b8ececf4,
+    type: 2}
+  m_PrefabInternal: {fileID: 248987813}
+--- !u!82 &845618470
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 845618464}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d1fd32b748deb445f8bb8c90557a86e7, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!4 &957412666 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4957115746437570, guid: 8e49a2dc03682433b888a39a0e93a471,
@@ -1753,7 +1865,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 995219047}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccd346c18b4a0d4cb3e48b02db57ac5, type: 3}
+  m_Script: {fileID: 11500000, guid: fc785cf9c1d2ab44c8ae6e417929bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
@@ -1767,6 +1879,8 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
+  pt: 2
+  solved: 0
 --- !u!4 &995219049
 Transform:
   m_ObjectHideFlags: 0
@@ -1819,7 +1933,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114908579595537708, guid: c2ec9949163f0254a885d7479bbe9212, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c2ec9949163f0254a885d7479bbe9212, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1205248876 stripped
