@@ -26,7 +26,11 @@ public class CharacterPanel : MonoBehaviour {
 		controller = character.GetComponent<PlayerController> ();
 
 		//foreach (PlayerController.Arsenal a in controller.arsenal)
+<<<<<<< HEAD
 			//CreateWeaponButton(a.name);
+=======
+		//	CreateWeaponButton(a.name);
+>>>>>>> 89ad0d3214926efb59d52ad2273fb62bd430da83
 
 		CreateActionButton("Stay");
 		CreateActionButton("Walk");
