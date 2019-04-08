@@ -18,7 +18,7 @@ public class Trampoline : MonoBehaviour {
 		
 	}
 
-    void OnTriggerEnter(Collider other) {
+    void OnCollisionEnter(Collision other) {
         if(other.gameObject == player) {
             Rigidbody playerRB = player.GetComponent<Rigidbody>();
             Vector3 velo = playerRB.velocity;

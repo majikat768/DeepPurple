@@ -52,7 +52,6 @@ public class PuzzleLowGravity : PuzzleRoom {
             SnitchList.Add(snitch);
         }
 
-
     	R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),size.y*6,false);
 	    R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),size.y*6,false);
 	    R.BuildWall(Zero + new Vector3(size.x,size.y,0),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
@@ -78,6 +77,15 @@ public class PuzzleLowGravity : PuzzleRoom {
         sh.position = new Vector3(size.x/2,Floor.transform.position.y+Vector3.Distance(Ceiling.transform.position,Floor.transform.position)/2,size.z/2);
         sh.scale = this.GetComponent<Collider>().bounds.size;
         sh.randomDirectionAmount= 1;
+
+        foreach(Transform w in R.Walls.transform) {
+            w.GetComponent<Collider>().material.dynamicFriction = 0.3f;
+            w.GetComponent<Collider>().material.staticFriction = 0.3f;
+            w.GetComponent<Collider>().material.bounciness = 1f;
+        }
+        Floor.GetComponent<Collider>().material.dynamicFriction = 0.3f;
+        Floor.GetComponent<Collider>().material.staticFriction = 0.3f;
+        Floor.GetComponent<Collider>().material.bounciness = 1f;
 
         GameObject Butterfly = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Butterfly (Animated)/Butterfly"),Zero+new Vector3(Random.Range(4,size.x-5),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y/4),Random.Range(4,size.z-5)),Quaternion.identity,this.transform);
     }
