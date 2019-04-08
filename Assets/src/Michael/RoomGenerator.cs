@@ -210,7 +210,7 @@ public static class RoomGenerator //: MonoBehaviour
         // build the walls and turn on the lights.
         foreach(Room r in RoomList) {
             r.GetWalls();
-            r.SetLighting(Cyan);
+            r.SetLighting(Amber);
         }
     }
 

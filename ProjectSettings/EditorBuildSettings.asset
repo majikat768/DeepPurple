@@ -6,14 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Main Menu.unity
-    guid: 1e7a8d3a21299ad4f89a74f551c78865
+    path: Assets/Menu.unity
+    guid: ad82f65b503994a5086604fe67d60685
   - enabled: 1
     path: Assets/Game-3rdPerson.unity
-    guid: f2e6a4d0849f9450f9c3ed242c72c1c5
-  - enabled: 0
-    path: Assets/Game.unity
-    guid: 02b7e975cfddec74c9072b9101fc4f0c
-  - enabled: 0
-    path: Assets/tst/Michael/TestCase.unity
-    guid: 7fa1f72bb54686940ba1e34ce2075815
+    guid: f80f7eb7f4127409d86e98cd4da0c45c

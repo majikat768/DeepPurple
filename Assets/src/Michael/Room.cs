@@ -155,7 +155,7 @@ public class Room : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
-            this.SetLighting(RoomGenerator.Cyan, 1);
+            this.SetLighting(RoomGenerator.Amber, 1);
             PlayerInRoom = true;
             RoomGenerator.PlayerRoom = this;
         }
