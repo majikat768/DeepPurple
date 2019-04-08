@@ -5,21 +5,29 @@ using UnityEngine;
 public class LaserBeamLauncher : MonoBehaviour 
 {
 
-	public laserBeam laserBeamLauncher;
+	public ParticleSystem laserBeamLauncher;
 
 
 	// Use this for initialization
 	void Start () 
 	{
+        laserBeamLauncher = this.GetComponent<ParticleSystem>();
 			
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Input.GetButton("Fire1"))
+		if(Input.GetButtonDown("Fire1"))
 		{
-			laserBeamLauncher.Emit(1);
+            Debug.Log("fire.");
+            laserBeamLauncher.Play();
+            //laserBeamLauncher.Emit(1);
 		}
+		if(Input.GetButtonUp("Fire1"))
+        {
+            laserBeamLauncher.Stop();
+            //laserBeamLauncher.Pause();
+        }
 	}
 }

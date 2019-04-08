@@ -5,7 +5,7 @@ using UnityEngine;
 public class LaserLauncher : MonoBehaviour 
 {
 
-	public laserParticle laserLauncher;
+	//public laserParticle laserLauncher;
 	// Use this for initialization
 	void Start () 
 	{
