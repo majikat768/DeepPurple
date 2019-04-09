@@ -31,7 +31,7 @@ public class tstLaserBeamLauncher : MonoBehaviour
             }
 		}
 
-		if(Input.GetButtonUp("Fire1"))
+		if(Input.GetButtonUp("Fire2"))
 		{
 		    laserBeamLauncher.Stop();
 		    //laserBeamLauncher.Pause();

@@ -18,13 +18,13 @@ public class LaserBeamLauncher : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Input.GetButtonDown("Fire1"))
+		if(Input.GetButtonDown("Fire2"))
 		{
             Debug.Log("fire.");
             laserBeamLauncher.Play();
             //laserBeamLauncher.Emit(1);
 		}
-		if(Input.GetButtonUp("Fire1"))
+		if(Input.GetButtonUp("Fire2"))
         {
             laserBeamLauncher.Stop();
             //laserBeamLauncher.Pause();
