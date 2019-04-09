@@ -155,7 +155,6 @@ public class PuzzlePlatforms : PuzzleRoom {
         trampoline = GameObject.Instantiate(Trampoline);
         trampoline.transform.position = new Vector3(p8.transform.position.x,Zero.y+1,p8.transform.position.z);
         trampoline.transform.parent = this.transform;
-        trampoline.GetComponent<ParticleSystem>().Stop();
 
         GameObject key = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Hoop"));
         key.transform.position = trampoline.transform.position + new Vector3(0,(p8.transform.position.y+trampoline.transform.position.y)/2,0)-new Vector3(trampoline.GetComponent<Renderer>().bounds.size.x/2,0,0);
@@ -192,7 +191,6 @@ public class PuzzlePlatforms : PuzzleRoom {
             foreach(GameObject p in Platforms) 
                 AddCoin(p.transform);
             Camera.main.fieldOfView = 100;
-        //trampoline.GetComponent<ParticleSystem>().Play();
         }
     }
 
@@ -202,7 +200,6 @@ public class PuzzlePlatforms : PuzzleRoom {
         {
             base.OnTriggerEnter(other);
             Camera.main.fieldOfView = FOV;
-        trampoline.GetComponent<ParticleSystem>().Stop();
         }
     }
     public void Solve(bool s) { solved = s; }

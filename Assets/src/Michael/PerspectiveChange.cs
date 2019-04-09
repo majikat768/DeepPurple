@@ -10,15 +10,15 @@ using UnityEngine;
 
 public class PerspectiveChange : MonoBehaviour {
 
-    Camera cam;
+    vThirdPersonCamera cam;
     KeyCode toggle = KeyCode.Z;
     float maxZoomOut;
     float maxZoomIn;
     bool firstPerson = false;
 
 	void Start () {
-        cam = Camera.main;
-        maxZoomOut = cam.GetComponent<vThirdPersonCamera>().defaultDistance;
+        cam = Camera.main.GetComponent<vThirdPersonCamera>();
+        maxZoomOut = cam.defaultDistance;
         maxZoomIn = -1;
 		
 	}
@@ -29,22 +29,22 @@ public class PerspectiveChange : MonoBehaviour {
 	void Update () {
         if(Input.GetKeyDown(toggle)) {
             if(!firstPerson) {
-                cam.GetComponent<vThirdPersonCamera>().defaultDistance = maxZoomIn;
+                cam.defaultDistance = maxZoomIn;
                 firstPerson = true;
             }
             else {
-                cam.GetComponent<vThirdPersonCamera>().defaultDistance = maxZoomOut;
+                cam.defaultDistance = maxZoomOut;
                 firstPerson = false;
             }
         }
 
-        cam.GetComponent<vThirdPersonCamera>().defaultDistance -= Input.mouseScrollDelta.y;
-        if(cam.GetComponent<vThirdPersonCamera>().defaultDistance > maxZoomOut*2) {
-            cam.GetComponent<vThirdPersonCamera>().defaultDistance = maxZoomOut*2;
+        cam.defaultDistance -= Input.mouseScrollDelta.y;
+        if(cam.defaultDistance > maxZoomOut*2) {
+            cam.defaultDistance = maxZoomOut*2;
             firstPerson = false;
         }
-        if(cam.GetComponent<vThirdPersonCamera>().defaultDistance < maxZoomIn) {
-            cam.GetComponent<vThirdPersonCamera>().defaultDistance = maxZoomIn;
+        if(cam.defaultDistance < maxZoomIn) {
+            cam.defaultDistance = maxZoomIn;
             firstPerson = true;
         }
 		
