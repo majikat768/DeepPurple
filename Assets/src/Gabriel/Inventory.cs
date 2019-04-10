@@ -9,7 +9,6 @@ public class Inventory : MonoBehaviour {
 	//Singleton Pattern
 	//Will be able to access this with Inventory.instance
 	public static Inventory instance;
-	
 	void Awake()
 	{
 		if(instance != null)
