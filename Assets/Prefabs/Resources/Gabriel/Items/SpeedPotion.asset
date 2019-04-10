@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Name: SpeedPotion
   m_EditorClassIdentifier: 
   name: Speed Potion
-  icon: {fileID: 21300000, guid: 3fd7ca4ba16f14f0b971a27a804277c7, type: 3}
-  model: {fileID: 1068740009129870, guid: 7db162292b6e244e186a4282e13a023a, type: 2}
+  icon: {fileID: 21300000, guid: 5bff69a2df019443a89a6db84d9c58f7, type: 3}
   isCurrency: 0
-  isWeapon: 0
-  isConsumable: 1
-  damage: 0
+  model: {fileID: 1068740009129870, guid: 7db162292b6e244e186a4282e13a023a, type: 2}

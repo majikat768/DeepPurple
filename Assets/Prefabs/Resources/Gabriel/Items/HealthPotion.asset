@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Name: HealthPotion
   m_EditorClassIdentifier: 
   name: HealthPotion
-  icon: {fileID: 21300000, guid: 3d1d462efb4fc4ea7a69d076d9d3a0a2, type: 3}
+  icon: {fileID: 21300000, guid: d93681fea5c3d472ca1ba22b716cafc4, type: 3}
   isCurrency: 0
   model: {fileID: 1759743547545802, guid: c78b224ab8f5d45849d270c691f33e40, type: 2}
