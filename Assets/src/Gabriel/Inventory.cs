@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Inventory is the main script that manages the Inventory
+
 public class Inventory : MonoBehaviour {
 
-	#region Singleton
-
+	//Singleton Pattern
+	//Will be able to access this with Inventory.instance
 	public static Inventory instance;
 	
 	void Awake()
@@ -18,17 +20,19 @@ public class Inventory : MonoBehaviour {
 		instance = this;
 	}
 
-	#endregion
-
+	//delegate is similar to a signal, as when 
+	//triggered methods listening for this delegate will be called
 	public delegate void OnItemChanged();
 	public OnItemChanged OnItemChangedCallBack;
 
-	//inventory variables
+	//Inventory variables
 	int space = 35;
 	public int money = 0;
 
+	//Data structure to hold the items
 	public List<Item> items = new List<Item>();
 
+	//Adds item to inventory
 	public bool Add(Item item)
 	{
 		if(!item.isCurrency)
@@ -41,6 +45,7 @@ public class Inventory : MonoBehaviour {
 			items.Add(item);
 			if (OnItemChangedCallBack != null)
 			{
+				//triggering delegate
 				OnItemChangedCallBack.Invoke();
 			}
 		}
@@ -49,12 +54,14 @@ public class Inventory : MonoBehaviour {
 			money++;
 			if (OnItemChangedCallBack != null)
 			{
+				//triggering delegate
 				OnItemChangedCallBack.Invoke();
 			}
 		}
 		return true;
 	}
 
+	//Removes item from the inventory
 	public void Remove (Item item)
 	{
 		items.Remove(item);
