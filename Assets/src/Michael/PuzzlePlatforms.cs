@@ -127,13 +127,13 @@ public class PuzzlePlatforms : PuzzleRoom {
         Platforms.Add(p4);
 
         GameObject p5 = GameObject.Instantiate(Platform);
-        p5.transform.position = Vector3.Lerp(p4.transform.position,new Vector3(p4.transform.position.x+1,p4.transform.position.y+5,Zero.z+size.z/1),0.2f);
+        p5.transform.position = Vector3.Lerp(p4.transform.position,new Vector3(p4.transform.position.x+1,p4.transform.position.y+5,Zero.z+size.z/1),0.1f);
         p5.transform.localScale = new Vector3(2,0.2f,2.2f);
         p5.transform.parent = this.transform;
         Platforms.Add(p5);
 
         GameObject p6 = GameObject.Instantiate(Platform);
-        p6.transform.position = Vector3.Lerp(p5.transform.position,new Vector3(p5.transform.position.x+1,p5.transform.position.y+5,Zero.z+size.z/1),0.2f);
+        p6.transform.position = Vector3.Lerp(p5.transform.position,new Vector3(p5.transform.position.x+1,p5.transform.position.y+5,Zero.z+size.z/1),0.1f);
         p6.transform.localScale = new Vector3(2,0.2f,2.2f);
         p6.transform.parent = this.transform;
         Platforms.Add(p6);
