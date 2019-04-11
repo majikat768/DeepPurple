@@ -14,4 +14,4 @@ MonoBehaviour:
   name: Currency
   icon: {fileID: 0}
   isCurrency: 1
-  model: {fileID: 1648760683655026, guid: 9686184b272934518a4effd7672b03f0, type: 2}
+  model: {fileID: 100000, guid: 8808bb6cebfcb4cbc801f2cf8c038c3a, type: 3}
