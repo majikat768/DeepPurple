@@ -23,11 +23,12 @@ public class tstLaserBeamLauncher : MonoBehaviour
 		    Debug.Log("fire.");
 		    laserBeamLauncher.Play();
 
-            // instead of Destroy, try 'enemy.health--' or something
+            // instead of Destroy, should be 'enemy.health--' or something.
+            // setting Death trigger on enemy's Animator calls Death function
             RaycastHit hit;
             if(Physics.Raycast(this.transform.position,this.transform.forward,out hit)) {
                 if(hit.transform.tag == "Enemy")
-                    Destroy(hit.collider.gameObject);
+                    hit.transform.GetComponent<Animator>().SetTrigger("Death");
             }
 		}
 
