@@ -21,6 +21,7 @@ public class PuzzleRoom : Room
     
     public new void Awake() {
         base.Awake();
+        lightColor = RoomGenerator.Red;
         // add puzzle component in RoomGenerator.Get.
         // 85% chance that it's the block puzzle.  15% chance that it's the rabbit puzzle.
         //pt = (Random.value < 0.85f ? PuzzleType.Two : PuzzleType.Three);
@@ -50,7 +51,7 @@ public class PuzzleRoom : Room
             locked = true;
             foreach(GameObject d in R.DoorList)
                 d.GetComponent<OpenDoor>().Lock();
-            R.SetLighting(RoomGenerator.Red,1);
+            R.SetLighting(lightColor,2);
         }
     }
     
@@ -67,9 +68,10 @@ public class PuzzleRoom : Room
             locked = false;
             foreach (GameObject d in R.DoorList)
                 d.GetComponent<OpenDoor>().Unlock();
-            R.SetLighting(RoomGenerator.LightGreen,1);
-            
+            lightColor = RoomGenerator.LightGreen;
+            SetLighting(lightColor,2);
         }
+
     }
 
 

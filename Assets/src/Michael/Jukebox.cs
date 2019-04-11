@@ -21,7 +21,7 @@ public class Jukebox : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(!audioSource.isPlaying) {
-            audioSource.PlayOneShot(songs[Random.Range(0,numSongs-1)]);
+            audioSource.PlayOneShot(songs[Random.Range(0,numSongs)]);
         }
 		
 	}

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.217
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21037742, g: 0.23674378, b: 0.27822632, a: 0.217}
+  m_IndirectSpecularColor: {r: 0.17151129, g: 0.17554322, b: 0.16389659, a: 0.217}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
+  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -2496,6 +2497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
+  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -2520,7 +2522,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &442826830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2534,6 +2536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
+  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -2648,7 +2651,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &670545355
 Light:
   m_ObjectHideFlags: 0
@@ -2727,6 +2730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
+  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -2801,6 +2805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
+  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -2811,7 +2816,7 @@ MonoBehaviour:
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
   pt: 2
-  solved: 0
+  solved: 1
 --- !u!4 &995219049
 Transform:
   m_ObjectHideFlags: 0
@@ -2980,6 +2985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
+  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -3046,6 +3052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
+  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -3169,6 +3176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
+  visited: 0
   testbuild: 1
   complexity: 3
   DoorList: []
@@ -3178,7 +3186,6 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  numEnemies: 2
 --- !u!1001 &2036990126
 Prefab:
   m_ObjectHideFlags: 0

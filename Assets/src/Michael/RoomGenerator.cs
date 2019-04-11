@@ -42,8 +42,8 @@ public static class RoomGenerator //: MonoBehaviour
     public static Color Amber = new Color(1.0f, 0.82f, 0.39f);
     public static Color Cyan = new Color(0.47f, 1, 1);
     public static Color Fuschia = new Color(0.87f, 0.39f, 1);
-    public static Color Red = new Color(0.87f, 0.39f, 0.39f);
-    public static Color LightGreen = new Color(0.4f, 1, 0.4f);
+    public static Color Red = new Color(0.97f, 0.19f, 0.19f);
+    public static Color LightGreen = new Color(0.2f, 1, 0.2f);
 
     // these aren't really used
     public static RoomType rt;
@@ -210,7 +210,7 @@ public static class RoomGenerator //: MonoBehaviour
         // build the walls and turn on the lights.
         foreach(Room r in RoomList) {
             r.GetWalls();
-            r.SetLighting(Amber);
+            r.SetLighting(Cyan,0);
         }
     }
 

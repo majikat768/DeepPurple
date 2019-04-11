@@ -106,11 +106,14 @@ public class vThirdPersonCamera : MonoBehaviour
     {
         if (target == null || targetLookAt == null) return;
 
-        CameraMovement();
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            if(Cursor.lockState == CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.None;
+            else
+                Cursor.lockState = CursorLockMode.Locked;
         }
+
+        CameraMovement();
     }
 
 

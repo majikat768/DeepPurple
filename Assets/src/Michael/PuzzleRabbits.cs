@@ -50,6 +50,7 @@ public class PuzzleRabbits : PuzzleRoom {
                 Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
                 Rabbits.Remove(Rabbits[0]);
                 R.solved = true;
+                R.PlaySolvedSound();
             }
 
         }
