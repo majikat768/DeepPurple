@@ -6,6 +6,9 @@ public class InventoryUI : MonoBehaviour {
 
 	public Transform itemsParent;
 	public TextMeshProUGUI textMoney;
+	public TextMeshProUGUI textHealth;
+	public TextMeshProUGUI textDamage;
+	PlayerHealth HP;
 
 	Inventory inventory;
 
@@ -26,6 +29,7 @@ public class InventoryUI : MonoBehaviour {
 		slots = itemsParent.GetComponentsInChildren<InventorySlot>();
 
 		inventoryUI.SetActive(!inventoryUI.activeSelf);
+		HP = GetComponent<PlayerHealth>();
 	}
 	
 	void Update () {
@@ -34,6 +38,8 @@ public class InventoryUI : MonoBehaviour {
 		{
 			inventoryUI.SetActive(!inventoryUI.activeSelf);
 		}
+	    textHealth.text = HP.getPlayerHealth().ToString();
+		textDamage.text = HP.getDamage().ToString();
 	}
 
 	void UpdateUI ()

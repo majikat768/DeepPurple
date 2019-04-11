@@ -18,9 +18,22 @@ public class PlayerHealth : MonoBehaviour
 		print(playerHealth);
 	}
 
-	public void setHealth()
+	public void addHealth(int hp)
 	{
-		playerHealth += 2;
+		playerHealth += hp;
+	}
+	public int getPlayerHealth()
+	{
+		return playerHealth;
+	}
+
+	public void addDamage(int dam)
+	{
+		damage += dam;
+	}
+	public int getDamage()
+	{
+		return damage;
 	}
 
 	void OnCollisionEnter(Collision _collision)
@@ -38,16 +51,11 @@ public class PlayerHealth : MonoBehaviour
 			}
 		}
 
-		if(_collision.gameObject.tag == "healthPotion")
+		//TO DO:  Don't need this as inventory handles all of this
+		/* if(_collision.gameObject.tag == "healthPotion")
 		{
-			setHealth();
-		}
-	}
-
-
-	public int getPlayerHealth()
-	{
-		return playerHealth;
+			addHealth();
+		}*/
 	}
 
 }
