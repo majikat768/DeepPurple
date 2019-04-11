@@ -8,7 +8,7 @@ public class InventoryUI : MonoBehaviour {
 	public TextMeshProUGUI textMoney;
 	public TextMeshProUGUI textHealth;
 	public TextMeshProUGUI textDamage;
-	PlayerHealth HP;
+	public PlayerHealth HP;
 
 	Inventory inventory;
 

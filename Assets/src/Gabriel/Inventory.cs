@@ -70,5 +70,10 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
+	public int getScore()
+	{
+		return money;
+	}
+
 
 }
