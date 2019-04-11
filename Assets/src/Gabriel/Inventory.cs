@@ -75,5 +75,10 @@ public class Inventory : MonoBehaviour {
 		return money;
 	}
 
+	public int incScore(int value)
+	{
+		money += value;
+	}
+
 
 }
