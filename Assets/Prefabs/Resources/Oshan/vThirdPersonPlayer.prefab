@@ -1096,7 +1096,6 @@ GameObject:
   - component: {fileID: 114379700081496674}
   - component: {fileID: 54088359762251642}
   - component: {fileID: 136677958842847342}
-  - component: {fileID: 114911595110241268}
   - component: {fileID: 114018103991093772}
   m_Layer: 0
   m_Name: vThirdPersonPlayer
@@ -2688,17 +2687,6 @@ MonoBehaviour:
     can help you start your project.\n \nBest regards, \nInvector Team\n\nvStore:
     https://sellfy.com//invector\nvForum: http://invector.proboards.com/\r\nvWebsite:
     http://www.invector.xyz/"
---- !u!114 &114911595110241268
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1827708621996528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df0d433aae8a4a318a2f9045a489df2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &136677958842847342
 CapsuleCollider:
   m_ObjectHideFlags: 1

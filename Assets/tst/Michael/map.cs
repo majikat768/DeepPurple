@@ -34,7 +34,9 @@ public class map : MonoBehaviour {
 		
 	}
 
+    /*
     void OnGUI() {
         GUI.Label(new Rect(10,10,300,300),"Press M for map\n\nUse scroll wheel or press Z to adjust view");
     }
+    */
 }
