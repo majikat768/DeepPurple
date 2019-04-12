@@ -9,6 +9,7 @@ public class PuzzleRoom : Room
 {
     // only puzzles two and three are currently complete.  so i'll choose randomly between those two.
     
+    Inventory inventory;
     public enum PuzzleType { Two, Three, Four, Five };
     [SerializeField]
     public PuzzleType pt = PuzzleType.Four;
@@ -21,6 +22,7 @@ public class PuzzleRoom : Room
     
     public new void Awake() {
         base.Awake();
+        inventory = Inventory.instance;
         lightColor = RoomGenerator.Red;
         // add puzzle component in RoomGenerator.Get.
         // 85% chance that it's the block puzzle.  15% chance that it's the rabbit puzzle.
@@ -70,6 +72,7 @@ public class PuzzleRoom : Room
                 d.GetComponent<OpenDoor>().Unlock();
             lightColor = RoomGenerator.LightGreen;
             SetLighting(lightColor,2);
+            inventory.incScore(5);
         }
 
     }

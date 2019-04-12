@@ -35,7 +35,11 @@ public class BossRoom : Room
     void Update() {
         if(BossMan == null && !bossDead) {
             bossDead = true;
-            Exit.GetComponent<CapsuleCollider>().isTrigger = true;
+            Exit.AddComponent<CapsuleCollider>().isTrigger = true;
+            Exit.GetComponent<CapsuleCollider>().center = Vector3.zero;
+            Exit.GetComponent<CapsuleCollider>().radius = 2;
+            Exit.GetComponent<CapsuleCollider>().height = 2;
+            
             ExitPS.Play();
         }
     }
