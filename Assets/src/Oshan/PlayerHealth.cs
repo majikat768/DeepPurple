@@ -18,9 +18,28 @@ public class PlayerHealth : MonoBehaviour
 		print(playerHealth);
 	}
 
+	public void addHealth(int hp)
+	{
+		playerHealth += hp;
+	}
+	public int getPlayerHealth()
+	{
+		return playerHealth;
+	}
+
+	public void addDamage(int dam)
+	{
+		damage += dam;
+	}
+	public int getDamage()
+	{
+		return damage;
+	}
+
 	void OnCollisionEnter(Collision _collision)
 	{
-		if(_collision.gameObject.tag == "TestCube")
+
+		if(_collision.gameObject.tag == "Enemy")
 		{
 			playerHealth -= damage;
 			print("Enemy just touched me, please help " + playerHealth);
@@ -31,11 +50,12 @@ public class PlayerHealth : MonoBehaviour
 				return;
 			}
 		}
-	}
 
-	public int getPlayerHealth()
-	{
-		return playerHealth;
+		//TO DO:  Don't need this as inventory handles all of this
+		/* if(_collision.gameObject.tag == "healthPotion")
+		{
+			addHealth();
+		}*/
 	}
 
 }

@@ -261,7 +261,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 80, y: -30, z: 0}
 --- !u!1 &800110173
 GameObject:
@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b541265219debd04b83226f700a2e4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultGenerator: 3
 --- !u!4 &800110175
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +302,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1411050921
 Prefab:
@@ -1652,6 +1653,16 @@ Prefab:
     - target: {fileID: 14300000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
       propertyPath: m_Radius
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 198678048223447216, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 2}
+      propertyPath: ShapeModule.radius.value
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 198678048223447216, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 2}
+      propertyPath: randomSeed
+      value: 1148691738
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}

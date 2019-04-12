@@ -13,13 +13,13 @@ public class WallTransparency : MonoBehaviour {
     Color col;
     Camera cam;
     GameObject player,w;
-    List<GameObject> hits;
+    List<Collider> hits;
     float FadeSpeed = 2;
 
 	// Use this for initialization
 	void Start () {
         cam = Camera.main;
-        hits = new List<GameObject>();
+        hits = new List<Collider>();
         player = GameObject.FindWithTag("Player");
         mats = this.GetComponent<Renderer>().materials;
 	
@@ -30,13 +30,13 @@ public class WallTransparency : MonoBehaviour {
         if(player == null)
             player = GameObject.FindWithTag("Player");
         hits.Clear();
-        Vector3 dir = player.transform.position - cam.transform.position;
+        Vector3 dir = (player.transform.position+new Vector3(0,1,0)) - cam.transform.position;
         Debug.DrawLine(cam.transform.position,player.transform.position,Color.white,0.1f);
 
-        foreach(RaycastHit hit in Physics.RaycastAll(cam.transform.position,dir,Mathf.Infinity)) 
-            hits.Add(hit.transform.gameObject);
+        foreach(RaycastHit hit in Physics.RaycastAll(cam.transform.position,dir,Vector3.Distance(cam.transform.position,player.transform.position+new Vector3(0,1,0)))) 
+            hits.Add(hit.transform.GetComponent<Collider>());
 
-        if(hits.Contains(this.gameObject)) {
+        if(hits.Contains(this.GetComponent<Collider>())) {
             FadeOut();
         }
         else {

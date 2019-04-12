@@ -21,6 +21,7 @@ public class Room : MonoBehaviour
 {
     public bool initialized = false;
     public bool PlayerInRoom = false;
+    public bool visited = false;
     public bool testbuild = false;
     private Bounds RoomBounds;
     public int complexity = 3;
@@ -45,6 +46,7 @@ public class Room : MonoBehaviour
     public GameObject Floor;
     public GameObject Ceiling;
 
+    protected Color lightColor;
     public void Awake()
     {
         Wall = RoomGenerator.Wall;
@@ -63,6 +65,7 @@ public class Room : MonoBehaviour
         Walls = new GameObject("Walls");
         Walls.transform.parent = this.gameObject.transform;
         RoomGenerator.RoomList.Add(this);
+        lightColor = RoomGenerator.Cyan;
 
         if(testbuild) {
             RoomGenerator.BuildDoors();
@@ -139,13 +142,14 @@ public class Room : MonoBehaviour
     }
 
 
-    public void SetLighting(Color c, float intensity = 0)
+    public void SetLighting(Color c, float intensity = 4)
     {
         foreach(Transform w in this.Walls.transform) {
-            Transform l = w.transform.Find("Light");
+            Transform l = w.transform.Find("Roof_Light_003");
             l.gameObject.GetComponent<Light>().color = c;
             l.gameObject.GetComponent<Light>().intensity = intensity;
-            l.GetComponent<Renderer>().material.SetColor("_EmissionColor",c*intensity);
+            l.GetComponent<Renderer>().material.SetColor("_EmissionColor",c);
+            l.GetComponent<Renderer>().material.SetColor("_Color",c);
         }
         //Ceiling.GetComponent<Light>().color = c; 
         //Ceiling.GetComponent<Light>().intensity = intensity;
@@ -155,8 +159,9 @@ public class Room : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
-            this.SetLighting(RoomGenerator.Cyan, 1);
+            this.SetLighting(lightColor, 2);
             PlayerInRoom = true;
+            visited = true;
             RoomGenerator.PlayerRoom = this;
         }
     }
@@ -165,6 +170,7 @@ public class Room : MonoBehaviour
         if (other.gameObject == Player)
         {
             this.SetLighting(RoomGenerator.Cyan, 0.0f);
+            lightColor = RoomGenerator.Fuschia;
             PlayerInRoom = false;
         }
     }
@@ -180,7 +186,7 @@ public class Room : MonoBehaviour
         // Find's a random point along outer wall, and finds point on wall directly opposite.
         // Enter recursive function GetInnerWalls with these parameters....
         Transform start = Walls.transform.GetChild(Random.Range(0, Walls.transform.childCount - 1));
-        Vector3 dir = start.TransformDirection(Vector3.forward)*((start.position.x == Zero.x || start.position.z == Zero.z+size.z ? 1 : -1));
+        Vector3 dir = start.forward;
         Vector3 startpoint = start.position + 
             (start.position.x > start.position.z ? 
              new Vector3(Random.Range(-start.GetComponent<Renderer>().bounds.size.x/3,start.GetComponent<Renderer>().bounds.size.x/3),0,0) : 
@@ -220,6 +226,7 @@ public class Room : MonoBehaviour
         portal = GameObject.Instantiate(Portal,Zero+new Vector3(size.x,0,size.z),Portal.transform.rotation,this.transform);
         portal.transform.position -= new Vector3(portal.GetComponent<CapsuleCollider>().radius*2,0,portal.GetComponent<CapsuleCollider>().radius*2);
         portal.GetComponent<Teleporter>().SetHeight(this.size.y);
+        portal.name = "Teleporter";
         RoomGenerator.TeleporterList.Add(portal);
 
         /*
@@ -260,24 +267,16 @@ public class Room : MonoBehaviour
                         w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, this.gameObject.transform.rotation, Walls.transform);
                         wBounds = w.GetComponent<Renderer>().bounds.size;
                         w.transform.LookAt(end);
-                        w.transform.Rotate(0, 90, 0);
+                        w.transform.Rotate(0, 90*(w.transform.position.z == Zero.z || w.transform.position.x == Zero.x+size.x ? -1 : 1), 0);
                         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart, SegmentEnd) / wBounds.x, height / wBounds.y, 1);
                         w.name = "Wall";
                         w.GetComponent<NavMeshObstacle>().size = wBounds;
                         w.gameObject.SetActive(false);
                         w.gameObject.SetActive(true);
 
-                        l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
-                        l.transform.localScale += new Vector3(0,0,8);
-                        //l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
-                        //l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
-                        l.name = "Light";
-                        
-
                         SegmentStart = o.GetComponent<Renderer>().bounds.ClosestPoint(end);
                         SegmentStart = new Vector3(SegmentStart.x, 0, SegmentStart.z);
                         SegmentEnd = SegmentStart;
-                        //o.name = "nDoor";
                         t = 0.0f;
                         lastDoor = o.transform.position;
                         break;
@@ -292,16 +291,11 @@ public class Room : MonoBehaviour
         wBounds = w.GetComponent<Renderer>().bounds.size;
         w.name = "Wall";
         w.transform.LookAt(end);
-        w.transform.Rotate(0, 90, 0);
+        w.transform.Rotate(0, 90*(w.transform.position.z == Zero.z || w.transform.position.x == Zero.x+size.x ? -1 : 1), 0);
         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart,SegmentEnd)/wBounds.x, height/wBounds.y, 1);
         w.GetComponent<NavMeshObstacle>().size = wBounds;
 
-        l = GameObject.Instantiate(WallLight,w.transform.position + new Vector3(0,height*0.75f,0),w.transform.rotation,w.transform);
         dir = (w.transform.TransformDirection(Vector3.forward)*((w.transform.position.x == Zero.x || w.transform.position.z == Zero.z+size.z ? 1 : -1))).normalized;
-        l.transform.localScale += new Vector3(0,0,8);
-        //l.transform.position += dir*Mathf.Min(w.GetComponent<Renderer>().bounds.size.z,w.GetComponent<Renderer>().bounds.size.x)/2;
-        //l.GetComponent<Light>().lightmapBakeType = LightmapBakeType.Baked;
-        l.name = "Light";
 
         w.gameObject.SetActive(false);
         w.gameObject.SetActive(true);

@@ -13,13 +13,11 @@ public class Interactable : MonoBehaviour {
 	public virtual void Interact()
 	{
 		// This method is meant to be overwritten
-
 		Debug.Log("Interacting with " + transform.name);
 	}
 
 	void Update()
 	{
-        //return; // TODO: Distance calculation is too expensive to be run every single update. Find workaround.
 		float distance = Vector3.Distance(player.position, transform.position);
 		if(distance <= radius)
 		{

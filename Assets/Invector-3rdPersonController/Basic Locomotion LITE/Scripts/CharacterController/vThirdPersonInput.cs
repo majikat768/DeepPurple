@@ -75,7 +75,7 @@ namespace Invector.CharacterController
 
         protected virtual void InputHandle()
         {
-            ExitGameInput();
+            //ExitGameInput();
             CameraInput();
 
             if (!cc.lockMovement)
@@ -121,7 +121,7 @@ namespace Invector.CharacterController
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (!Cursor.visible)
-                    Cursor.visible = true;
+                    Cursor.visible = Cursor.visible;
                 else
                     Application.Quit();
             }

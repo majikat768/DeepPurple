@@ -11,7 +11,7 @@
  * room position.
  * 
  */
-
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +19,9 @@ public class LevelGenerator : Singleton<LevelGenerator>
 {
     // Prevent not singleton initialization
     protected LevelGenerator() { }
-    
+
+    [SerializeField]
+    public Generator defaultGenerator = Generator.TFRACTAL;
     public const int roomSize = 32;
 
     /// <summary>
@@ -27,12 +29,12 @@ public class LevelGenerator : Singleton<LevelGenerator>
     /// </summary>
     public enum Generator
     {
-        LINEAR, RANDOM, SQUARE, TFRACTAL
+        LINEAR, RANDOM, SQUARE, TFRACTAL, LINEAR_TEST
     }
 
     public void Start()
     {
-        LevelGenerator.Instance.generateLevel(Generator.TFRACTAL);
+        LevelGenerator.Instance.generateLevel(defaultGenerator);
     }
 
     /// <summary>
@@ -73,6 +75,8 @@ public class LevelGenerator : Singleton<LevelGenerator>
                 return RoomGeneratorRandom();
             case Generator.TFRACTAL:
                 return RoomGeneratorTFractal();
+	    case Generator.LINEAR_TEST:
+		return RoomGeneratorLinearTest();
         }
         return null;
     }
@@ -266,13 +270,33 @@ public class LevelGenerator : Singleton<LevelGenerator>
             possibleLocs.RemoveAll(x => dictionary.ContainsKey(x));
             // Only attach boss room to rooms with degree 1
             // Degree zero would imply that the room is an "island" with no
-            // connection to any of the other rooms. This shouldn't be possible
+            // connection to any of the other rooms. This shouldn't be possible.
+	    // This system checks 12 points around the target room and removes
+	    // any rooms that already exist in the dictionary. This first pass
+	    // filtering will get rid of any situation where the boss room
+	    // isn't at the end of a corridor.
             if (possibleLocs.Count > 9)
             {
+		// This second pass filtering removes any possible locations that
+		// are farther than 1 unit away from the room that the boss room
+		// will be attached to. This is done to prevent the boss room
+		// from being an island.
 		possibleLocs.RemoveAll(x => Vector2Int.Distance(x, vector) > 1);
                 bossRoomLocs.AddRange(possibleLocs);
             }
         }
+	// Sort potential boss rooms by distance from start room
+	// We do this to try to make sure the boss room is as far from the start as possible.
+	bossRoomLocs = bossRoomLocs.OrderBy(x => -x.magnitude).ToList();
+	// Possible boss room locations are now ordered from greatest distance to smallest
+	// Take only the first 1/10th of the list to cut out possible boss room locations
+	// that are close to the start room.
+	int newSize = bossRoomLocs.Count / 10;
+	// Set possible boss room locations to a sub range of the first newSize elements
+	// or if that integer divison results in a new size of zero, just take the first
+	// element in the list which represents that farthest possible distance a boss room
+	// can be from the starting location.
+	bossRoomLocs = bossRoomLocs.GetRange(0, newSize < 1 ? 1 : newSize);
         // Select a random room from all the possible boss room locations that we just calculated
         dictionary[bossRoomLocs[Random.Range(0, bossRoomLocs.Count)]] = RoomGenerator.RoomType.Boss;
         return dictionary;
@@ -318,6 +342,7 @@ public class LevelGenerator : Singleton<LevelGenerator>
         for (int i = 0; i < length; i++)
         {
             var vec = new Vector2Int(x, y);
+	    // Dont overwrite a room that already exists
 	    if (!dictionary.ContainsKey(vec)) {
             	dictionary[vec] = RandomRoomType();
 	    }
@@ -342,6 +367,22 @@ public class LevelGenerator : Singleton<LevelGenerator>
         TFractalRecursive(ref dictionary, x, y, newLeft, (int)(length * Random.Range(0.6f, 0.9f)));
         TFractalRecursive(ref dictionary, x, y, direction, (int)(length * Random.Range(0.6f, 0.9f)));
         TFractalRecursive(ref dictionary, x, y, newRight, (int)(length * Random.Range(0.6f, 0.9f)));
+    }
+
+    /// <summary>
+    /// Simple fast generator used for game testing purposes. Not intended to be
+    /// used in actual game play. Just generates a start room and 3 combat rooms in
+    /// a row. This level does not have a boss room and is not beatable. We use
+    /// this system to ensure that nav meshes get baked into our test levels.
+    /// </summary>
+    /// <returns>Dictionary of coordinates and corresponding room types</returns>
+    public Dictionary<Vector2Int, RoomGenerator.RoomType> RoomGeneratorLinearTest() {
+	var dictionary = new Dictionary<Vector2Int, RoomGenerator.RoomType>();
+	dictionary[new Vector2Int(0, 0)] = RoomGenerator.RoomType.Start;
+	dictionary[new Vector2Int(0, 1)] = RoomGenerator.RoomType.Combat;
+	dictionary[new Vector2Int(0, 2)] = RoomGenerator.RoomType.Combat;
+	dictionary[new Vector2Int(0, 3)] = RoomGenerator.RoomType.Combat;
+	return dictionary;
     }
 
     /// <summary>

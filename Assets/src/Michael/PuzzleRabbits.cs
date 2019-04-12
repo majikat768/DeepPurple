@@ -47,10 +47,10 @@ public class PuzzleRabbits : PuzzleRoom {
         if (!R.solved) 
         {
             if(Vector3.Distance(Rabbits[0].transform.position,Player.transform.position) < 1) {
-                //Destroy(Rabbits[0].gameObject);
                 Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
                 Rabbits.Remove(Rabbits[0]);
                 R.solved = true;
+                R.PlaySolvedSound();
             }
 
         }
@@ -61,6 +61,7 @@ public class PuzzleRabbits : PuzzleRoom {
         }
 
 	}
+
     public void Solve(bool s) { solved = s; }
     public bool isSolved() { return solved; }
 

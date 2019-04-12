@@ -10,7 +10,7 @@ public class Trampoline : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    player = GameObject.FindWithTag("Player");	
-        BounceForce = player.GetComponent<Rigidbody>().mass;
+        BounceForce = player.GetComponent<Rigidbody>().mass/1.25f;
 	}
 	
 	// Update is called once per frame
@@ -18,12 +18,13 @@ public class Trampoline : MonoBehaviour {
 		
 	}
 
-    void OnTriggerEnter(Collider other) {
+    void OnCollisionEnter(Collision other) {
         if(other.gameObject == player) {
             Rigidbody playerRB = player.GetComponent<Rigidbody>();
             Vector3 velo = playerRB.velocity;
             playerRB.velocity = Vector3.zero;
             playerRB.AddForce(new Vector3(BounceForce,-velo.y*BounceForce,0),ForceMode.Impulse);
+            Debug.Log("bounce");
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+//Used to update the individual slots of the inventory
+
 public class InventorySlot : MonoBehaviour {
 
+	//icon is used to display the sprite for the item
 	public Image icon;
 	public Button removeButton;
 
@@ -11,7 +14,6 @@ public class InventorySlot : MonoBehaviour {
 	public void AddItem(Item newItem)
 	{
 		item = newItem;
-
 		icon.sprite = item.icon;
 		icon.enabled = true;
 		removeButton.interactable = true;
@@ -30,6 +32,7 @@ public class InventorySlot : MonoBehaviour {
 		if(item != null)
 		{
 			item.Use();
+			Inventory.instance.Remove(item);
 		}
 	}
 

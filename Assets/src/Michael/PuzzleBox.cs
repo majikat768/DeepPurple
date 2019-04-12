@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class PuzzleBox : PuzzleRoom {
 
-    private Inventory inventory;
     private GameObject box;
     private GameObject TargetTile;
     private GameObject FloorTile;
@@ -20,7 +19,6 @@ public class PuzzleBox : PuzzleRoom {
     {
         base.Start();
         FloorTile = RoomGenerator.FloorTile;
-        //inventory = GameObject.Find("GameManager").GetComponent<Inventory>();
 
         Vector3 SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), size.y / 2, Random.Range(2, size.z-3));
         box = GameObject.Instantiate(
