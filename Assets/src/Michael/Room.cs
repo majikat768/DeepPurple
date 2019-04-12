@@ -193,7 +193,7 @@ public class Room : MonoBehaviour
              new Vector3(0,0,Random.Range(-start.GetComponent<Renderer>().bounds.size.z/3,start.GetComponent<Renderer>().bounds.size.z/3)));
 
         RaycastHit hit;
-        Debug.DrawRay(start.position+new Vector3(0,size.y/2,0), dir*64,Color.red,10);
+        //Debug.DrawRay(start.position+new Vector3(0,size.y/2,0), dir*64,Color.red,10);
         if (Physics.Raycast(startpoint + new Vector3(0, size.y / 2, 0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
         {
             GetInnerWalls(startpoint, hit, 0);
@@ -340,8 +340,8 @@ public class Room : MonoBehaviour
         Vector3 newStart = Vector3.Lerp(start, end, Random.Range(0.2f, 0.8f));
         dir = Vector3.Cross(start+new Vector3(0,1,0), end+new Vector3(0,1,0));
         dir = new Vector3(dir.x, 0, dir.z).normalized;
-        Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), dir, Color.green, 10);
-        Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), -dir, Color.blue, 10);
+        //Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), dir, Color.green, 10);
+        //Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), -dir, Color.blue, 10);
         if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), dir, out hit, Mathf.Infinity, RoomGenerator.WallMask))
         {
             if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RoomGenerator.WallMask))

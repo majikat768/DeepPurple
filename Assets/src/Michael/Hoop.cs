@@ -10,7 +10,6 @@ public class Hoop : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         R = this.transform.parent.GetComponent<PuzzleRoom>();
-        Debug.Log(R);
         player = GameObject.FindWithTag("Player");
 		
 	}

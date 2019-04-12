@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 public class Exit : MonoBehaviour {
     ParticleSystem ps;
     GameObject Player;
+    Inventory inventory;
 
     float speedStep = 0.01f;
 
     void Start() {
+        inventory = Inventory.instance;
         ps = this.GetComponent<ParticleSystem>();
         ps.Stop();
         Player = GameObject.FindWithTag("Player");
@@ -24,7 +26,13 @@ public class Exit : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         if(other.gameObject == Player) {
-            SceneManager.LoadScene(0);
+            inventory.GetComponent<GH_Finalscore>().showScore();
+        }
+    }
+
+    void OnTriggerExit(Collider other) {
+        if(other.gameObject == Player) {
+            inventory.GetComponent<GH_Finalscore>().showScore();
         }
     }
 }

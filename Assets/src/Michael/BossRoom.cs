@@ -35,6 +35,7 @@ public class BossRoom : Room
     void Update() {
         if(BossMan == null && !bossDead) {
             bossDead = true;
+            Exit.GetComponent<CapsuleCollider>().isTrigger = true;
             ExitPS.Play();
         }
     }

@@ -17,11 +17,12 @@ public class GH_Finalscore : MonoBehaviour {
 	void Update()
 	{
 		textScore.text = inv.getScore().ToString();
-		//Testing
+		/*//Testing
 		if(Input.GetKeyDown(KeyCode.Z))
 		{
 			showScore();
 		}
+        */
 	}
 
 	public void showScore()
