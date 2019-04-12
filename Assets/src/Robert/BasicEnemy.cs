@@ -7,7 +7,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Actions))]
 public class BasicEnemy : MonoBehaviour, IDamageable
 {
-
+    private static int count = 0;
+    private int id;
     private GameObject player = null;
     private GameObject rifle_1;
     private NavMeshAgent agent;
@@ -37,6 +38,9 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     }
     void Start()
     {
+        //store the amount of enmies on the map
+        id = count++;
+
         agent = GetComponent<NavMeshAgent>();
         action = this.gameObject.GetComponent<Actions>();
         attachWeapon();
@@ -52,9 +56,13 @@ public class BasicEnemy : MonoBehaviour, IDamageable
             player = GameObject.FindWithTag("Player");
         }
         Vector3 playerPos = player.transform.position;
-        float distPlayer = Vector3.Distance(transform.position, playerPos);
 
-        if(distPlayer <= moveMax && distPlayer >= moveMin)
+        float distPlayer = Vector3.Distance(transform.position, playerPos);
+        agent.destination = player.transform.position;
+
+        Debug.Log("enemy:" + id+ " agent.speed:"+ agent.speed);
+        /*
+        if (distPlayer <= moveMax && distPlayer >= moveMin)
         {
             action.Aiming();
             transform.LookAt(playerPos);
@@ -73,7 +81,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         {
             action.Stay();
         }
-
+        */
     }
 
     public void takeDamage(DamageSource damageSource)
