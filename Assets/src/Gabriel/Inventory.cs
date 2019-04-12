@@ -75,9 +75,10 @@ public class Inventory : MonoBehaviour {
 		return money;
 	}
 
-	public int incScore(int value)
+	public void incScore(int value)
 	{
 		money += value;
+		OnItemChangedCallBack.Invoke();
 	}
 
 
