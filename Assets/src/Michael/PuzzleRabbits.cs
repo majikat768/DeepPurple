@@ -21,6 +21,7 @@ public class PuzzleRabbits : PuzzleRoom {
     public void Start()
     {
         base.Start();
+        ShowInstructions("catch the pink rabbit");
         rabbitReference = Resources.Load("Michael/Rabbits/Prefabs/Rabbit 1") as GameObject;
         Rabbits = new List<GameObject>();
         numRabbits = (int)size.magnitude/2;
@@ -50,6 +51,7 @@ public class PuzzleRabbits : PuzzleRoom {
                 Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
                 Rabbits.Remove(Rabbits[0]);
                 R.solved = true;
+                inventory.incScore(5);
                 R.PlaySolvedSound();
             }
 

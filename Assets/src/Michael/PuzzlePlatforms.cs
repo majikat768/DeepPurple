@@ -31,6 +31,7 @@ public class PuzzlePlatforms : PuzzleRoom {
         base.Start();
         roomCollider = this.GetComponent<BoxCollider>();
 
+        ShowInstructions("fall through the ring of fire");
         Destroy(this.transform.Find("Ceiling").gameObject);
         R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),size.y*6,false);
         R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),size.y*6,false);

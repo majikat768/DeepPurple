@@ -6,7 +6,7 @@ public class PuzzleLowGravity : PuzzleRoom {
 
     private bool gravityOff;
     BoxCollider roomCollider;
-    public float speed = 2;
+    public float speed = 1;
     Vector3 defaultGravity;
     float PlayerExtraGravity;
     ParticleSystem ps;
@@ -36,6 +36,7 @@ public class PuzzleLowGravity : PuzzleRoom {
         base.Start();
         roomCollider = this.GetComponent<BoxCollider>();
 
+        ShowInstructions("catch the fireballs");
         Floor.transform.position = Zero+new Vector3(size.x/2,-size.y*6,size.z/2);
         Ceiling.transform.position = Zero+new Vector3(size.x/2,size.y*7,size.z/2);
 
@@ -50,7 +51,7 @@ public class PuzzleLowGravity : PuzzleRoom {
         bubble.SetActive(false);
         
         for(int i = 0; i < numTargets; i++) {
-            GameObject snitch = GameObject.Instantiate(Snitch,Zero+new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y),Random.Range(1,size.z-2)),Quaternion.identity,R.transform);
+            GameObject snitch = GameObject.Instantiate(Snitch,Zero+new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y+2,Ceiling.transform.position.y-2),Random.Range(1,size.z-2)),Quaternion.identity,R.transform);
             SnitchList.Add(snitch);
         }
 
@@ -90,7 +91,10 @@ public class PuzzleLowGravity : PuzzleRoom {
             Player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward.normalized*fwd*speed,ForceMode.Impulse);
             Player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.right.normalized*h*speed,ForceMode.Impulse);
         }
-        if(SnitchList.Count == 0)   solved = true;
+        if(SnitchList.Count == 0 && !solved) {
+            solved = true;
+            inventory.incScore(10);
+        }
 		
 	}
 
@@ -107,7 +111,7 @@ public class PuzzleLowGravity : PuzzleRoom {
             bubble.SetActive(true);
 
             foreach(Transform o in shapes.transform) {
-                o.position = Zero + new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y),Random.Range(1,size.z-2));
+                o.position = Zero + new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y+2,Ceiling.transform.position.y-2),Random.Range(1,size.z-2));
                 o.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized,ForceMode.Impulse);
                 o.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized,ForceMode.Impulse);
             }

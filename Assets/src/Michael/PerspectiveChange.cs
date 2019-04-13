@@ -18,6 +18,7 @@ public class PerspectiveChange : MonoBehaviour {
 
 	void Start () {
         cam = Camera.main.GetComponent<vThirdPersonCamera>();
+        cam.height = 2f;
         maxZoomOut = cam.defaultDistance;
         maxZoomIn = -1;
 		

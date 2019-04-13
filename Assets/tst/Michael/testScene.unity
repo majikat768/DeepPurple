@@ -1705,7 +1705,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 745875548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f78a8881c10b964583599a300305877, type: 3}
+  m_Script: {fileID: 11500000, guid: d2463c8d17d4b44b88c33ca3008d4715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
@@ -1722,9 +1722,6 @@ MonoBehaviour:
   Ceiling: {fileID: 0}
   pt: 2
   solved: 0
-  speed: 2
-  SnitchList: []
-  inventory: {fileID: 0}
 --- !u!4 &745875550
 Transform:
   m_ObjectHideFlags: 0
@@ -1780,7 +1777,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 995219047}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc785cf9c1d2ab44c8ae6e417929bca0, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f78a8881c10b964583599a300305877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
@@ -1796,7 +1793,9 @@ MonoBehaviour:
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
   pt: 2
-  solved: 1
+  solved: 0
+  speed: 1
+  SnitchList: []
 --- !u!4 &995219049
 Transform:
   m_ObjectHideFlags: 0

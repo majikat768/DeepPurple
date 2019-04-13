@@ -11,7 +11,7 @@ public class CombatRoom : Room
     public new void Start()
     {
         enemies = new GameObject("enemies");
-        enemies.AddComponent<EnemyManager>();
+        enemies.gameObject.AddComponent<EnemyManager>();
         // the Combat Room will have enemies spawn.
 
         enemies.transform.parent = this.transform;

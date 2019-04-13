@@ -10,7 +10,7 @@ public class Snitch : MonoBehaviour {
     GameObject player;
     Vector3 target,Zero,size;
     TextMeshProUGUI points;
-    float speed = 0.1f;
+    float speed = 0.05f;
 
 	// Use this for initialization
 	void Start () {
