@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /*
- * Default constructor for Room.
- * The Init function creates the floor and ceiling and adds a collider trigger to each room 
+ * Base class for Room.
+ * The Init function creates the floor and ceiling, and adds a collider trigger to each room 
  * (for detecting player entering/exiting).
  *
- * Contains a SetLighting function, for setting color and intensity of room lights;
+ * Contains a SetLighting function, for setting color and brightness of room lights;
  * OnTriggerExit/onTriggerEnter which toggles lights when player enters, and toggles boolean variable PlayerInRoom;
  * GetWalls/BuildWall, builds walls between each corner,
  * GetInnerWalls which builds the inner walls,
@@ -21,7 +21,6 @@ public class Room : MonoBehaviour
 {
     public bool initialized = false;
     public bool PlayerInRoom = false;
-    public bool visited = false;
     public bool testbuild = false;
     private Bounds RoomBounds;
     public int complexity = 3;
@@ -47,7 +46,8 @@ public class Room : MonoBehaviour
     public GameObject Ceiling;
 
     protected Color lightColor;
-    public void Awake()
+
+    protected void Awake()
     {
         Wall = RoomGenerator.Wall;
         Column = RoomGenerator.Column;
@@ -73,7 +73,7 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void Start()
+    protected virtual void Start() 
     {
     }
 
@@ -156,21 +156,19 @@ public class Room : MonoBehaviour
     }
 
     //turn lights on or off when player enters or leaves.
-    private void OnTriggerEnter(Collider other) {
+    protected virtual void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
             this.SetLighting(lightColor, 2);
             PlayerInRoom = true;
-            visited = true;
-            RoomGenerator.PlayerRoom = this;
         }
     }
 
-    private void OnTriggerExit(Collider other) {
+    protected virtual void OnTriggerExit(Collider other) {
         if (other.gameObject == Player)
         {
             this.SetLighting(RoomGenerator.Cyan, 0.0f);
-            lightColor = RoomGenerator.Fuschia;
+            lightColor = RoomGenerator.Amber;
             PlayerInRoom = false;
         }
     }

@@ -8,7 +8,7 @@ public class CombatRoom : Room
     public List<Vector3> SpawnPoints;
     //public GameObject[] spawnPoints;
 
-    public new void Start()
+    protected override void Start()
     {
         enemies = new GameObject("enemies");
         enemies.gameObject.AddComponent<EnemyManager>();

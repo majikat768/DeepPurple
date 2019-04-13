@@ -1,9 +1,9 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleLowGravity : PuzzleRoom {
-
     private bool gravityOff;
     BoxCollider roomCollider;
     public float speed = 1;
@@ -17,8 +17,10 @@ public class PuzzleLowGravity : PuzzleRoom {
     int numShapes = 11;
     GameObject shapes;
     public List<GameObject> SnitchList;
+    AudioSource ambienceSource;
+    AudioClip echo;
 
-	new void Awake () {
+	protected new void Awake () {
         base.Awake();
         shapes = new GameObject("shapes");
         shapes.transform.parent = this.transform;
@@ -29,10 +31,12 @@ public class PuzzleLowGravity : PuzzleRoom {
         defFOV = Camera.main.fieldOfView;
         FOV = 100;
         Snitch = Resources.Load<GameObject>("Michael/GoldenSnitch");
+        ambienceSource = this.gameObject.AddComponent<AudioSource>();
+        echo = Resources.Load<AudioClip>("Michael/Audio/FloatingAmbience");
 		
 	}
 
-    new void Start() {
+    protected override void Start() {
         base.Start();
         roomCollider = this.GetComponent<BoxCollider>();
 
@@ -78,7 +82,6 @@ public class PuzzleLowGravity : PuzzleRoom {
         GenerateSparkles();
         GenerateShapes();
 
-        GameObject Butterfly = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Butterfly (Animated)/Butterfly"),Zero+new Vector3(Random.Range(4,size.x-5),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y/4),Random.Range(4,size.z-5)),Quaternion.identity,this.transform);
     }
 	
 	// Update is called once per frame
@@ -90,6 +93,10 @@ public class PuzzleLowGravity : PuzzleRoom {
             bubble.transform.position = Player.transform.position+new Vector3(0,Player.GetComponent<CapsuleCollider>().height/2,0);
             Player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward.normalized*fwd*speed,ForceMode.Impulse);
             Player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.right.normalized*h*speed,ForceMode.Impulse);
+            if(!ambienceSource.isPlaying) {
+                ambienceSource.pitch = Random.Range(0.5f,2.0f);
+                ambienceSource.PlayOneShot(echo,Random.Range(0.5f,1.0f));
+            }
         }
         if(SnitchList.Count == 0 && !solved) {
             solved = true;
@@ -98,7 +105,7 @@ public class PuzzleLowGravity : PuzzleRoom {
 		
 	}
 
-    new void OnTriggerEnter(Collider other) {
+    protected override void OnTriggerEnter(Collider other) {
         if(other.gameObject == Player) {
             ps.Play();
             Camera.main.fieldOfView = FOV;
@@ -112,14 +119,13 @@ public class PuzzleLowGravity : PuzzleRoom {
 
             foreach(Transform o in shapes.transform) {
                 o.position = Zero + new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y+2,Ceiling.transform.position.y-2),Random.Range(1,size.z-2));
-                o.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized,ForceMode.Impulse);
-                o.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized,ForceMode.Impulse);
+                o.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized*2,ForceMode.Impulse);
+                o.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized*2,ForceMode.Impulse);
             }
         }
     }
-    new void OnTriggerExit(Collider other) {
+    protected override void OnTriggerExit(Collider other) {
         if(other.gameObject == Player) {
-            //Destroy(bubble);
             bubble.transform.position = Vector3.zero;
             ps.Stop();
             base.OnTriggerExit(other);
@@ -150,12 +156,15 @@ public class PuzzleLowGravity : PuzzleRoom {
     }
 
     void GenerateShapes() {
-        GameObject[] shapesList = Resources.LoadAll<GameObject>("Michael/Shapes/");
+        GameObject[] shapesList = Resources.LoadAll<GameObject>("Michael/Shapes/").Concat(Resources.LoadAll<GameObject>("Kyle/Items/Invulnerability")).ToArray();
         for(int i = 0; i < numShapes; i++) {
             GameObject shapeRef = shapesList[Random.Range(0,shapesList.Length)];
             GameObject s = GameObject.Instantiate(shapeRef);
             s.transform.position = Zero+size/2;
+            s.transform.localScale = new Vector3(1,1,1);
             s.transform.parent = shapes.transform;
+
+            GameObject Butterfly = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Butterfly (Animated)/Butterfly"),Zero+new Vector3(Random.Range(4,size.x-5),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y/4),Random.Range(4,size.z-5)),Quaternion.identity,this.transform);
         }
     }
 

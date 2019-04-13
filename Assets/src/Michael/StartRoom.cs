@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StartRoom : Room
 {
-    public new void Start()
+    protected override void Start()
     {
 
         // the Start Room will have the player character spawn in it.

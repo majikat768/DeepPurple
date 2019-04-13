@@ -6,20 +6,31 @@ using UnityEngine.AI;
  * 
  * RoomGenerator is more like RoomManager;
  * Keeps a reference to every object I have to instantiate (floor, walls, doors, objects, lights),
- * a List of every Room object, defines Room Types,
+ * a List of every Room object, 
+ * defines Room Types,
  *
  * contains a Get function to create a Room object, 
  * and a BuildDoors function which connects bordering rooms then builds walls around each room.
  *
  * also has a get/set function for room size and room coordinates, 
- * but those also exist in Room.cs and should be used instead to get/set for individual rooms, not from here.
+ * but those also exist in Room.cs, and should be used from Room.cs instead to get/set for individual rooms, not from here.
+ *
+ * the Get() function here is not really necessary; the LevelGenerator could just add an empty GameObject, 
+ *
+ * * *
+ *
+ * This was going to utilize a Singleton pattern, 
+ * but I don't think it actually is because no instance is ever actually instantiated; it's just 100% static.
+ * I don't think there's a reason an instance of this class ever needs to be instantiated.
  *
  */
 
 
 public static class RoomGenerator //: MonoBehaviour
 {
-    // Declare all the object references I'll be using; gets passed down to Room class
+    // Declare all the object references I'll be using; gets passed down to Room class.  
+    // I think there might be a better way to handle this, but this works fine and doesn't appear to affect memory usage or anything
+    
     public static Room PlayerRoom;
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat, None };
     public static List<GameObject> TeleporterList = new List<GameObject>();
@@ -45,7 +56,7 @@ public static class RoomGenerator //: MonoBehaviour
     public static Color Red = new Color(0.97f, 0.19f, 0.19f);
     public static Color LightGreen = new Color(0.2f, 1, 0.2f);
 
-    // these aren't really used
+    // these aren't really used anymore
     public static RoomType rt;
     public static Room r;
 
@@ -54,6 +65,7 @@ public static class RoomGenerator //: MonoBehaviour
 
     private static void Awake()
     {
+        // Layer Mask for WallTransparency, to allow RayCast between camera and player to detect walls.
         WallLayer = 8;
         WallMask = 1 << WallLayer;
         
@@ -127,7 +139,7 @@ public static class RoomGenerator //: MonoBehaviour
         
         // I'll comment out the lines below, 
         // then in LevelGenerator we can add in something like: 
-        //  r = GetComponent<RoomGenerator>().Get(Zero,rt);
+        //  GameObject r = RoomGenerator.Get(Zero,rt);
         //  r.SetSize(vector3 dimensions);
         //  ...other room attributes to be added later....
         //  r.Init();
@@ -137,18 +149,19 @@ public static class RoomGenerator //: MonoBehaviour
         return newroom;
     }
 
+
+    /*
+    *    checks each Room's box collider for intersecting box colliders attached to other rooms.
+    *    finds overlapping wall sections, finds exact center of overlap, and puts a door there.
+    *    it does this for every room. 
+    *    finally it calls the BuildWall function for every room, which puts up walls between all the doors.
+    *
+    */
     public static void BuildDoors()
     {
         foreach(Room room2 in RoomList) 
             if(! room2.initialized) room2.Init();
 
-        //checks each Room's box collider for nearby box colliders attached to other rooms,
-        //finds overlapping wall sections and puts Door objects there
-        // this function checks each wall collider for another collider close by,
-        // indicating it's next to another room.
-        // it finds where the room edges overlap, puts a Doorway there.
-        // finally it calls the BuildWall function, which puts up walls between all the doors.
-        // I'm adding doors to two different rooms, so i have to do DoorList.Add on the correct room...fix this
         GameObject d;
         Vector3 dBounds;
         float doorWidth = 2.5f;
@@ -209,33 +222,16 @@ public static class RoomGenerator //: MonoBehaviour
         }
 
         //after all the doorways between rooms are found,
-        // build the walls and turn on the lights.
+        // build the walls and turn off the lights.
         foreach(Room r in RoomList) {
             r.GetWalls();
             r.SetLighting(Cyan,0);
         }
     }
 
-        /*
-    public static void Rebuild() {
-        Debug.Log("rebuilding");
-        foreach(Room r in RoomList) {
-            foreach(Transform o in r.gameObject.transform)
-                DestroyImmediate(o.gameObject);
-
-            foreach(GameObject d in r.DoorList)
-                DestroyImmediate(d);
-            r.DoorList.Clear();
-            r.Awake();
-            r.Init();
-        }
-
-        BuildDoors();
-    }
-    */
-
     public static void BakeNavMesh()
     {
+        // this actually doesn't need to be it's own function.  but it's already implemented in LevelGenerator, so ¯\_(ツ)_/¯
         NavMeshSurface surface = RoomList[0].transform.Find("Floor").GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
         /*
@@ -248,6 +244,7 @@ public static class RoomGenerator //: MonoBehaviour
     }
 
 
+    // the Size and Zero here are default Zeros, not for specific rooms; so these shouldn't really be used.
     public static Vector3 GetSize() { return size; }
     public static void SetSize(float x, float y, float z) {
         size = new Vector3(x,y,z);

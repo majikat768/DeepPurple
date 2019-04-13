@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.217
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17151129, g: 0.17554322, b: 0.16389659, a: 0.217}
+  m_IndirectSpecularColor: {r: 0.21037742, g: 0.23674378, b: 0.27822632, a: 0.217}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 186880541}
   - component: {fileID: 186880542}
   m_Layer: 0
-  m_Name: GameObject (5)
+  m_Name: Combat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,12 +155,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
-  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
   FloorTiles: []
-  Zero: {x: 8, y: 0, z: 44}
+  Zero: {x: 8, y: 0, z: 48}
   size: {x: 24, y: 4, z: 32}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
@@ -168,6 +167,22 @@ MonoBehaviour:
   numEnemies: 2
   enemies: {fileID: 0}
   SpawnPoints: []
+--- !u!1 &192537278 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1827708621996528, guid: 8e49a2dc03682433b888a39a0e93a471,
+    type: 2}
+  m_PrefabInternal: {fileID: 1508989727}
+--- !u!114 &192537279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 192537278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df0d433aae8a4a318a2f9045a489df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &248987813
 Prefab:
   m_ObjectHideFlags: 0
@@ -217,6 +232,11 @@ Prefab:
       propertyPath: yMouseSensitivity
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114274219667832920, guid: 84d1dc563ffa547dea120698b8ececf4,
+        type: 2}
+      propertyPath: cullingLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84d1dc563ffa547dea120698b8ececf4, type: 2}
   m_IsPrefabParent: 0
@@ -230,7 +250,7 @@ GameObject:
   - component: {fileID: 341014172}
   - component: {fileID: 341014173}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,7 +282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
-  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -272,60 +291,6 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
---- !u!1 &442826829
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 442826831}
-  - component: {fileID: 442826830}
-  m_Layer: 0
-  m_Name: GameObject (7)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &442826830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 442826829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64618943afc6d4c77b6ffb3034551820, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialized: 0
-  PlayerInRoom: 0
-  visited: 0
-  testbuild: 0
-  complexity: 3
-  DoorList: []
-  FloorTiles: []
-  Zero: {x: 32, y: 4, z: 56}
-  size: {x: 16, y: 4, z: 12}
-  Walls: {fileID: 0}
-  Floor: {fileID: 0}
-  Ceiling: {fileID: 0}
-  pt: 0
-  solved: 0
---- !u!4 &442826831
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 442826829}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &448204218
 Prefab:
   m_ObjectHideFlags: 0
@@ -1616,6 +1581,57 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b87cffec587a74743a6977ef15adca53, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &650777409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 650777411}
+  - component: {fileID: 650777410}
+  m_Layer: 0
+  m_Name: Treasure
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &650777410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 650777409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ccd346c18b4a0d4cb3e48b02db57ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialized: 0
+  PlayerInRoom: 0
+  testbuild: 0
+  complexity: 3
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 64, y: 0, z: 20}
+  size: {x: 8, y: 4, z: 8}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+--- !u!4 &650777411
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 650777409}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 62.1697, y: 6.7890625, z: 19.938843}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &670545354
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,7 +1647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &670545355
 Light:
   m_ObjectHideFlags: 0
@@ -1642,7 +1658,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -1691,7 +1707,7 @@ GameObject:
   - component: {fileID: 745875550}
   - component: {fileID: 745875549}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Turrets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1710,7 +1726,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
-  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -1720,7 +1735,6 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  pt: 2
   solved: 0
 --- !u!4 &745875550
 Transform:
@@ -1763,7 +1777,7 @@ GameObject:
   - component: {fileID: 995219049}
   - component: {fileID: 995219048}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: Rabbits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1777,25 +1791,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 995219047}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f78a8881c10b964583599a300305877, type: 3}
+  m_Script: {fileID: 11500000, guid: fc785cf9c1d2ab44c8ae6e417929bca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
-  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
   FloorTiles: []
   Zero: {x: 0, y: 0, z: 24}
-  size: {x: 48, y: 4, z: 20}
+  size: {x: 48, y: 4, z: 24}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  pt: 2
   solved: 0
-  speed: 1
-  SnitchList: []
 --- !u!4 &995219049
 Transform:
   m_ObjectHideFlags: 0
@@ -1930,14 +1940,39 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1689684602}
-  - component: {fileID: 1689684603}
+  - component: {fileID: 1689684601}
   m_Layer: 0
-  m_Name: GameObject (3)
+  m_Name: Floating
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1689684601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1689684600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f78a8881c10b964583599a300305877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialized: 0
+  PlayerInRoom: 0
+  testbuild: 0
+  complexity: 3
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 48, y: 0, z: 4}
+  size: {x: 16, y: 4, z: 24}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  solved: 0
+  speed: 1
+  SnitchList: []
 --- !u!4 &1689684602
 Transform:
   m_ObjectHideFlags: 0
@@ -1951,32 +1986,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1689684603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1689684600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cc868fe1aef25d4fa892819138a73b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialized: 0
-  PlayerInRoom: 0
-  visited: 0
-  testbuild: 0
-  complexity: 3
-  DoorList: []
-  FloorTiles: []
-  Zero: {x: 48, y: 0, z: 4}
-  size: {x: 16, y: 4, z: 24}
-  Walls: {fileID: 0}
-  Floor: {fileID: 0}
-  Ceiling: {fileID: 0}
-  numEnemies: 2
-  enemies: {fileID: 0}
-  SpawnPoints: []
 --- !u!1 &1866962119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1985,26 +1994,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1866962121}
-  - component: {fileID: 1866962120}
   - component: {fileID: 1866962122}
   m_Layer: 0
-  m_Name: GameObject (4)
+  m_Name: Platformer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1866962120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1866962119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d9527db14724e329df8ac523fd6342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1866962121
 Transform:
   m_ObjectHideFlags: 0
@@ -2031,7 +2028,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
-  visited: 0
   testbuild: 0
   complexity: 3
   DoorList: []
@@ -2041,7 +2037,6 @@ MonoBehaviour:
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
-  pt: 2
   solved: 0
 --- !u!1001 &1922013296
 Prefab:
@@ -2123,7 +2118,7 @@ GameObject:
   - component: {fileID: 1929334710}
   - component: {fileID: 1929334711}
   m_Layer: 0
-  m_Name: GameObject (6)
+  m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2140,7 +2135,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1929334711
 MonoBehaviour:
@@ -2155,16 +2150,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   PlayerInRoom: 0
-  visited: 0
   testbuild: 1
   complexity: 3
   DoorList: []
   FloorTiles: []
-  Zero: {x: 32, y: 0, z: 44}
+  Zero: {x: 32, y: 0, z: 48}
   size: {x: 16, y: 4, z: 24}
   Walls: {fileID: 0}
   Floor: {fileID: 0}
   Ceiling: {fileID: 0}
+--- !u!1 &1997098001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1997098003}
+  - component: {fileID: 1997098002}
+  m_Layer: 0
+  m_Name: Box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1997098002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1997098001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d69b2a819a0f24a8e054670d972ee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialized: 0
+  PlayerInRoom: 0
+  testbuild: 0
+  complexity: 3
+  DoorList: []
+  FloorTiles: []
+  Zero: {x: 64, y: 0, z: -4}
+  size: {x: 24, y: 4, z: 24}
+  Walls: {fileID: 0}
+  Floor: {fileID: 0}
+  Ceiling: {fileID: 0}
+  solved: 0
+--- !u!4 &1997098003
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1997098001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.062988, y: 4.4140625, z: 3.65625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2036990126
 Prefab:
   m_ObjectHideFlags: 0

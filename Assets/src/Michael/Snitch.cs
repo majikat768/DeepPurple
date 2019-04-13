@@ -9,12 +9,10 @@ public class Snitch : MonoBehaviour {
     static Inventory inventory;
     GameObject player;
     Vector3 target,Zero,size;
-    TextMeshProUGUI points;
     float speed = 0.05f;
 
 	// Use this for initialization
 	void Start () {
-        points = GameObject.Find("HUD").GetComponent<InventoryUI>().textMoney;
         inventory = Inventory.instance;
 	    R = this.transform.parent.GetComponent<PuzzleLowGravity>();	
         Zero = R.GetZero();
@@ -37,8 +35,7 @@ public class Snitch : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if(other.gameObject == player) {
             R.SnitchList.Remove(this.gameObject);
-            inventory.money++;
-            points.text = inventory.money.ToString();
+            inventory.incScore(1);
             Destroy(this.gameObject);
             R.PlaySolvedSound();
         }

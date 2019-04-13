@@ -4,10 +4,18 @@ using System.Collections.Generic;
 public class Turret : MonoBehaviour {
     float scanSpeed;
     ParticleSystem laser;
+    AudioClip scanner, fire;
+    AudioSource audioSource;
+    bool seesPlayer = false;
 
     public void Start() {
         laser = GetComponent<ParticleSystem>();
         scanSpeed =20;
+        audioSource = this.GetComponent<AudioSource>();
+        audioSource.pitch = 1.5f;
+        scanner = Resources.Load<AudioClip>("Michael/Audio/LaserScan");
+        fire = Resources.Load<AudioClip>("Michael/Audio/HeavyLaser");
+
     }
 
     void FixedUpdate() {
@@ -22,6 +30,12 @@ public class Turret : MonoBehaviour {
         shape.shapeType = ParticleSystemShapeType.ConeVolume;
         shape.length = Vector3.Distance(hit.point,laser.transform.position);
         transform.Rotate(0,scanSpeed*Time.deltaTime,0);
+        if(seesPlayer) {
+            audioSource.Stop();
+            seesPlayer = false;
+        }
+        if(!audioSource.isPlaying)
+            audioSource.PlayOneShot(scanner,1.0f);
     }
 
     public void Target() {
@@ -31,6 +45,12 @@ public class Turret : MonoBehaviour {
         main.startSpeed = 50;
         shape.shapeType = ParticleSystemShapeType.Cone;
         main.startColor = new Color(1,0,0);
+        if(!seesPlayer) {
+            audioSource.Stop();
+            seesPlayer = true;
+        }
+        if(!audioSource.isPlaying)
+            audioSource.PlayOneShot(fire,1.0f);
     }
 
 }

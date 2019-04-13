@@ -14,8 +14,7 @@ public class PuzzleLasers : PuzzleRoom {
         Lasers = new List<GameObject>();
     }
 
-    new void Start() {
-        base.Start();
+    public void Start() {
         CenterOfRoom = Zero+size/2;
 
         for(int i = 0; i < numLasers; i++) {

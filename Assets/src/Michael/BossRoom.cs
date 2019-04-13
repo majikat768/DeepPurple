@@ -9,7 +9,7 @@ public class BossRoom : Room
     Vector3 SpawnPoint;
     bool bossDead;
 
-    public new void Start()
+    protected override void Start()
     {
         base.Start();
         exit = Resources.Load<GameObject>("Michael/Exit");
@@ -24,6 +24,7 @@ public class BossRoom : Room
 
         BossMan = GameObject.Instantiate(boss, SpawnPoint, Quaternion.identity, this.transform);
         BossMan.AddComponent<BasicEnemy>();
+        BossMan.name = "Boss";
         BasicEnemy eScript = BossMan.GetComponent<BasicEnemy>();
         eScript.moveMax = 7;
         eScript.moveMin = 3;
@@ -32,6 +33,7 @@ public class BossRoom : Room
 
         Destroy(this.transform.Find("Teleporter").gameObject);
     }
+
     void Update() {
         if(BossMan == null && !bossDead) {
             bossDead = true;

@@ -8,6 +8,7 @@ public class PuzzlePlatforms : PuzzleRoom {
     GameObject Platform; 
     GameObject Trampoline; 
     GameObject Coin;
+    GameObject Potion;
     private float FOV;
     private List<MovingPlatform> MovingPlatforms;
     private List<GameObject> Platforms;
@@ -15,7 +16,7 @@ public class PuzzlePlatforms : PuzzleRoom {
     private BoxCollider roomCollider;
     GameObject p8;
 
-    public new void Awake()
+    protected new void Awake()
     {
         base.Awake();
         MovingPlatforms = new List<MovingPlatform>();
@@ -24,19 +25,20 @@ public class PuzzlePlatforms : PuzzleRoom {
         Platform = Resources.Load<GameObject>("Michael/platform");
         Trampoline = Resources.Load<GameObject>("Michael/Trampoline");
         Coin = Resources.Load<GameObject>("Gabriel/Items/GameObjects/CurrencyItem");
+        Potion = Resources.Load<GameObject>("Kyle/Items/Invulnerability");
         complexity = -1;
     }
-    public new void Start()
+    protected override void Start()
     {
         base.Start();
         roomCollider = this.GetComponent<BoxCollider>();
 
-        ShowInstructions("fall through the ring of fire");
+        ShowInstructions("leap through the ring of fire");
         Destroy(this.transform.Find("Ceiling").gameObject);
-        R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),size.y*6,false);
-        R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),size.y*6,false);
-        R.BuildWall(Zero + new Vector3(size.x,size.y,0),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
-        R.BuildWall(Zero + new Vector3(0,size.y,size.z),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
+        BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),size.y*6,false);
+        BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),size.y*6,false);
+        BuildWall(Zero + new Vector3(size.x,size.y,0),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
+        BuildWall(Zero + new Vector3(0,size.y,size.z),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
 
         roomCollider.center = new Vector3(size.x/2,size.y*7/2,size.z/2);    
         roomCollider.size = new Vector3(roomCollider.size.x,roomCollider.size.y*7,roomCollider.size.z);
@@ -128,19 +130,19 @@ public class PuzzlePlatforms : PuzzleRoom {
         Platforms.Add(p4);
 
         GameObject p5 = GameObject.Instantiate(Platform);
-        p5.transform.position = Vector3.Lerp(p4.transform.position,new Vector3(p4.transform.position.x+1,p4.transform.position.y+5,Zero.z+size.z/1),0.1f);
+        p5.transform.position = Vector3.Lerp(p4.transform.position,new Vector3(p4.transform.position.x+1,p4.transform.position.y+8,Zero.z+size.z/1),0.1f);
         p5.transform.localScale = new Vector3(2,0.2f,2.2f);
         p5.transform.parent = this.transform;
         Platforms.Add(p5);
 
         GameObject p6 = GameObject.Instantiate(Platform);
-        p6.transform.position = Vector3.Lerp(p5.transform.position,new Vector3(p5.transform.position.x+1,p5.transform.position.y+5,Zero.z+size.z/1),0.1f);
+        p6.transform.position = Vector3.Lerp(p5.transform.position,new Vector3(p5.transform.position.x+1,p5.transform.position.y+8,Zero.z+size.z/1),0.1f);
         p6.transform.localScale = new Vector3(2,0.2f,2.2f);
         p6.transform.parent = this.transform;
         Platforms.Add(p6);
 
         GameObject p7 = GameObject.Instantiate(Platform);
-        p7.transform.position = p6.transform.position+new Vector3(0,0,p7.GetComponent<Renderer>().bounds.size.z*2);
+        p7.transform.position = p6.transform.position+new Vector3(0,1,p7.GetComponent<Renderer>().bounds.size.z*2);
         p7.transform.localScale = new Vector3(3,0.2f,3);
         p7.transform.parent = this.transform;
         Platforms.Add(p7);
@@ -159,6 +161,7 @@ public class PuzzlePlatforms : PuzzleRoom {
 
         GameObject key = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Hoop"));
         key.transform.position = trampoline.transform.position + new Vector3(0,(p8.transform.position.y+trampoline.transform.position.y)/2,0)-new Vector3(trampoline.GetComponent<Renderer>().bounds.size.x/2,0,0);
+        AddItem(key.transform,Potion);
         key.transform.parent = this.transform;
 
         foreach(GameObject p in Platforms) {
@@ -166,8 +169,8 @@ public class PuzzlePlatforms : PuzzleRoom {
         }
     }
 
-    public void AddCoin(Transform platform) {
-        GameObject c = GameObject.Instantiate(Coin);
+    public void AddItem(Transform platform,GameObject itemRef) {
+        GameObject c = GameObject.Instantiate(itemRef);
         c.transform.position = platform.position + new Vector3(0,platform.gameObject.GetComponent<Renderer>().bounds.size.y+c.GetComponent<Renderer>().bounds.size.y,0);
         c.name = "Coin";
         c.transform.parent = this.transform;
@@ -184,13 +187,13 @@ public class PuzzlePlatforms : PuzzleRoom {
         return ramp;
     }
 
-    public new void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == Player)
         {
             base.OnTriggerEnter(other);
             foreach(GameObject p in Platforms) 
-                AddCoin(p.transform);
+                AddItem(p.transform,Coin);
             Camera.main.fieldOfView = 100;
         }
     }

@@ -10,12 +10,12 @@ public class PuzzleBox : PuzzleRoom {
     private GameObject TargetTile;
     private GameObject FloorTile;
 
-    public void Awake() {
+    protected void Awake() {
         base.Awake();
         //this.GetComponent<Room>().complexity = -1;
     }
 
-    public void Start()
+    protected override void Start()
     {
         base.Start();
         FloorTile = RoomGenerator.FloorTile;

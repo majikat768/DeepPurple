@@ -9,12 +9,8 @@ using TMPro;
 
 public class PuzzleRoom : Room
 {
-    // only puzzles two and three are currently complete.  so i'll choose randomly between those two.
     
     protected Inventory inventory;
-    public enum PuzzleType { Two, Three, Four, Five };
-    [SerializeField]
-    public PuzzleType pt = PuzzleType.Four;
     public bool solved = false;
     protected bool locked = false;
     protected PuzzleRoom R;
@@ -29,13 +25,13 @@ public class PuzzleRoom : Room
         base.Awake();
         text = new GameObject("Text");
         text.transform.parent = this.transform;
-        inventory = Inventory.instance;
         lightColor = RoomGenerator.Red;
 
     }
 
-    public new void Start()
+    protected override void Start()
     {
+        Debug.Log("puzzlestart");
         R = this.GetComponent<PuzzleRoom>();
         TMP = text.AddComponent<TextMeshProUGUI>();
         TMP.margin = new Vector4(10,0,0,10);
@@ -77,7 +73,7 @@ public class PuzzleRoom : Room
         audioSource.PlayOneShot(solvedSound,1.0f);
     }
 
-    protected new void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == Player)
         {
@@ -85,18 +81,19 @@ public class PuzzleRoom : Room
             if(!solved) {
                 text.SetActive(true);
                 StartCoroutine(FadeText(textCanvas, 0f, 1f, 3f));
+                locked = true;
+                foreach(GameObject d in R.DoorList)
+                    d.GetComponent<OpenDoor>().Lock();
             }
-            locked = true;
-            foreach(GameObject d in R.DoorList)
-                d.GetComponent<OpenDoor>().Lock();
             R.SetLighting(lightColor,2);
         }
     }
     
-    protected void OnTriggerExit(Collider other) {
+    protected override void OnTriggerExit(Collider other) {
         if(other.gameObject == Player) {
+            this.SetLighting(lightColor,0);
             PlayerInRoom = false;
-            StartCoroutine(FadeText(textCanvas,textCanvas.alpha,0f,1f));
+            StartCoroutine(FadeText(textCanvas,1f,0f,1f));
         }
     }
 
@@ -106,6 +103,7 @@ public class PuzzleRoom : Room
 
     public void Update()
     {
+        if(inventory == null)   inventory = Inventory.instance;
         if (solved && locked)
         {
             locked = false;

@@ -14,11 +14,11 @@ public class PuzzleRabbits : PuzzleRoom {
     private GameObject rabbitReference;
     private List<GameObject> Rabbits;
 
-    public void Awake() {
+    protected void Awake() {
         base.Awake();
     }
 
-    public void Start()
+    protected override void Start()
     {
         base.Start();
         ShowInstructions("catch the pink rabbit");
@@ -37,7 +37,7 @@ public class PuzzleRabbits : PuzzleRoom {
 	}
 
 	void FixedUpdate () {
-        if(R.PlayerInRoom) {
+        if(PlayerInRoom) {
             foreach(GameObject rabbit in Rabbits) 
                 rabbit.GetComponent<Animator>().SetBool("moving",true);
         }
@@ -45,19 +45,19 @@ public class PuzzleRabbits : PuzzleRoom {
             foreach(GameObject rabbit in Rabbits) 
                 rabbit.GetComponent<Animator>().SetBool("moving",false);
 
-        if (!R.solved) 
+        if (!solved) 
         {
             if(Vector3.Distance(Rabbits[0].transform.position,Player.transform.position) < 1) {
                 Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
                 Rabbits.Remove(Rabbits[0]);
-                R.solved = true;
+                solved = true;
                 inventory.incScore(5);
-                R.PlaySolvedSound();
+                PlaySolvedSound();
             }
 
         }
 
-        if(R.solved) 
+        if(solved) 
         {
 
         }

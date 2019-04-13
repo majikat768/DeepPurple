@@ -9,7 +9,7 @@ public class map : MonoBehaviour {
     Rect mapLoc;
     KeyCode toggle;
     GameObject player;
-    float camHeight = 12;
+    float camHeight = 48;
 
 	// Use this for initialization
 	void Start () {
@@ -25,12 +25,19 @@ public class map : MonoBehaviour {
         mapCam.gameObject.transform.rotation = Quaternion.Euler(90,0,0);
 
         mapCam.enabled = false;
+
+        GameObject PlayerPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        PlayerPoint.transform.position = mapCam.transform.position + new Vector3(0,-2,0);
+        PlayerPoint.GetComponent<Renderer>().material.SetColor("_Color",new Color(0,1,0));
+        PlayerPoint.transform.localScale = new Vector3(2,2,2);
+        PlayerPoint.transform.parent = mapCam.gameObject.transform;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        Vector3 playerPos = player.transform.position;
         if(Input.GetKeyDown(toggle)) mapCam.enabled = !mapCam.enabled;
-        mapCam.gameObject.transform.position = player.transform.position + new Vector3(0,camHeight,0);
+        mapCam.gameObject.transform.position = new Vector3(playerPos.x,camHeight,playerPos.z);
 		
 	}
 
