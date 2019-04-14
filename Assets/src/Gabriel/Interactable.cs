@@ -1,6 +1,14 @@
-﻿using UnityEngine;
+﻿/*
+*  Interactable.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: This class is used to detect interactions with the player
+*  in a designated area.  Other classes should inherit from this file.
+*/
 
-public class Interactable : MonoBehaviour {
+using UnityEngine;
+
+public class Interactable : MonoBehaviour 
+{
 
 	// how close the player needs to come in order to interact with an object
 	public float radius = 3f;

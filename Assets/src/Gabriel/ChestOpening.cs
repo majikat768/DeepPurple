@@ -1,8 +1,16 @@
-﻿using System.Collections;
+﻿/*
+*  ChestOpening.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: This is the basics for opening a chest and should be
+*  used by Kyle to import the correct item into the chest.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestOpening : Interactable {
+public class ChestOpening : Interactable 
+{
 
 	public Vector3 scale;
 	public float durationTime;

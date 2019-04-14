@@ -1,8 +1,16 @@
-﻿using System.Collections;
+﻿/*
+*  TESTING_PASSFAIL.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: Used for test scene to determine if the fps drops below
+*  a certain point. (Drops below 5fps)
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TESTING_PASSFAIL : MonoBehaviour {
+public class TESTING_PASSFAIL : MonoBehaviour 
+{
 	
 	// Update is called once per frame
 	void Update () 

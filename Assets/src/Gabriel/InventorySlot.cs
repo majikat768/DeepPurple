@@ -1,9 +1,17 @@
-﻿using UnityEngine;
+﻿/*
+*  InventorySlot.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: These are the slots for the inventory that change based
+*  on the item assigned to the slot.
+*/
+
+using UnityEngine;
 using UnityEngine.UI;
 
 //Used to update the individual slots of the inventory
 
-public class InventorySlot : MonoBehaviour {
+public class InventorySlot : MonoBehaviour 
+{
 
 	//icon is used to display the sprite for the item
 	public Image icon;

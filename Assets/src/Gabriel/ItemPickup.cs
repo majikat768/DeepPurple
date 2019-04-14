@@ -1,6 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+*  ItemPickup.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: This is attached to any prefab item.  As this is how
+*  an item gets properly picked up and added to the inventory system.
+*/using UnityEngine;
 
-public class ItemPickup : Interactable {
+public class ItemPickup : Interactable 
+{
 
 	public Item item;
 
