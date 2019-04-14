@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,33 +7,30 @@ using TMPro;
 
 // base puzzle class provides boolean variable for solved, and when player enters and it's unsolved, lock the doors.
 // attaches a specific puzzle script to room. puzzle script changes "solved" variable when some condition is met.
+    // the PuzzleRoom will lock all doors upon entry till you solve it
 
 public class PuzzleRoom : Room
 {
     
     protected Inventory inventory;
+    protected String instructions;
     public bool solved = false;
     protected bool locked = false;
-    protected PuzzleRoom R;
     private AudioClip solvedSound;
     private AudioSource audioSource;
-    GameObject text;
+    private GameObject text;
+    protected float TimeLimit;
     TextMeshProUGUI TMP; 
     CanvasGroup textCanvas;
-    // the PuzzleRoom will lock all doors upon entry till you solve it
     
-    public new void Awake() {
+    protected override void Awake() {
         base.Awake();
         text = new GameObject("Text");
         text.transform.parent = this.transform;
-        lightColor = RoomGenerator.Red;
+        solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
 
-    }
-
-    protected override void Start()
-    {
-        Debug.Log("puzzlestart");
-        R = this.GetComponent<PuzzleRoom>();
         TMP = text.AddComponent<TextMeshProUGUI>();
         TMP.margin = new Vector4(10,0,0,10);
         TMP.fontSize = 18;
@@ -40,9 +38,13 @@ public class PuzzleRoom : Room
         text.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
         textCanvas = text.AddComponent<CanvasGroup>();
         text.SetActive(false);
-        solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.playOnAwake = false;
+
+        lightColor = RoomGenerator.Red;
+    }
+
+    protected override void Start()
+    {
+        inventory = Inventory.instance;
     }
 
     public static IEnumerator FadeText(CanvasGroup canvas, float startAlpha, float endAlpha, float duration) {
@@ -82,13 +84,20 @@ public class PuzzleRoom : Room
                 text.SetActive(true);
                 StartCoroutine(FadeText(textCanvas, 0f, 1f, 3f));
                 locked = true;
-                foreach(GameObject d in R.DoorList)
+                foreach(GameObject d in DoorList)
                     d.GetComponent<OpenDoor>().Lock();
             }
-            R.SetLighting(lightColor,2);
+            SetLighting(lightColor,2);
         }
     }
     
+    void LateUpdate() {
+        if(PlayerInRoom && !solved) {
+            ShowInstructions(instructions + '\n' + TimeLimit.ToString("#0.00"));
+            if(TimeLimit > 0)   TimeLimit -= Time.deltaTime;
+        }
+    }
+
     protected override void OnTriggerExit(Collider other) {
         if(other.gameObject == Player) {
             this.SetLighting(lightColor,0);
@@ -97,22 +106,30 @@ public class PuzzleRoom : Room
         }
     }
 
-    protected void ShowInstructions(System.String txt) {
-        text.GetComponent<TextMeshProUGUI>().text = txt;
+    protected void ShowInstructions(String txt) {
+        text.GetComponent<TextMeshProUGUI>().text = txt; 
     }
 
-    public void Update()
+    protected virtual void Update()
     {
         if(inventory == null)   inventory = Inventory.instance;
         if (solved && locked)
-        {
-            locked = false;
-            StartCoroutine(FadeText(textCanvas,1f,0f,1f));
-            foreach (GameObject d in R.DoorList)
-                d.GetComponent<OpenDoor>().Unlock();
-            lightColor = RoomGenerator.LightGreen;
-            SetLighting(lightColor,2);
-        }
+            UnlockRoom();
+        if(!solved)
+            CheckSolveConditions();
 
     }
+    
+    protected virtual void CheckSolveConditions() {}
+
+    protected void UnlockRoom() {
+        StartCoroutine(FadeText(textCanvas,1f,0f,1f));
+        locked = false;
+        foreach (GameObject d in DoorList)
+            d.GetComponent<OpenDoor>().Unlock();
+        lightColor = RoomGenerator.LightGreen;
+        SetLighting(lightColor,2);
+    }
+
+    public float GetScore() { return TimeLimit; }
 }

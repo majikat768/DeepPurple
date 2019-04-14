@@ -18,6 +18,7 @@ public class PuzzleTurrets : PuzzleRoom {
 
     protected void Awake() {
         inventory = Inventory.instance;
+        TimeLimit = 60;
         complexity = -1;
         numBoxes = 3;
         numTurrets = 4;
@@ -27,9 +28,8 @@ public class PuzzleTurrets : PuzzleRoom {
 
     protected override void Start()
     {
+        instructions = "destroy the laser turrets";
         base.Start();
-        Debug.Log("turretstart");
-        ShowInstructions("destroy the laser turrets");
         turretRef = Resources.Load<GameObject>("Michael/Turret");
         boxRef = Resources.Load<GameObject>("Michael/Crate_004");
 
@@ -40,13 +40,14 @@ public class PuzzleTurrets : PuzzleRoom {
 
         }
         */
-        GameObject t = GameObject.Instantiate(turretRef,Zero+new Vector3(size.x/3,0,size.z/3),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
+
+        GameObject t = GameObject.Instantiate(turretRef,Zero+new Vector3(size.x/4,0,size.z/4),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
         turretList.Add(t);
-        t = GameObject.Instantiate(turretRef,Zero+new Vector3(2*size.x/3,0,size.z/3),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
+        t = GameObject.Instantiate(turretRef,Zero+new Vector3(3*size.x/4,0,size.z/4),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
         turretList.Add(t);
-        t = GameObject.Instantiate(turretRef,Zero+new Vector3(size.x/3,0,2*size.z/3),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
+        t = GameObject.Instantiate(turretRef,Zero+new Vector3(size.x/4,0,3*size.z/4),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
         turretList.Add(t);
-        t = GameObject.Instantiate(turretRef,Zero+new Vector3(2*size.x/3,0,2*size.z/3),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
+        t = GameObject.Instantiate(turretRef,Zero+new Vector3(3*size.x/4,0,3*size.z/4),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
         turretList.Add(t);
 
         GameObject b = GameObject.Instantiate(boxRef,Zero+new Vector3(size.x/2,1,size.z/4),Quaternion.identity,this.transform);
@@ -57,15 +58,16 @@ public class PuzzleTurrets : PuzzleRoom {
         
 	}
 
-	void FixedUpdate () {
+	protected override void Update () {
+        if(inventory == null)   inventory = Inventory.instance;
         if(PlayerInRoom) {
+
             RaycastHit hit;
             foreach(GameObject t in turretList) {
                 var ps = t.GetComponent<ParticleSystem>();
-                Debug.Log(t.transform.up.y < 0.75f);
-                if(t.transform.up.y < 0.75f) {
-                    Debug.Log("knocked over");
+                if(t.GetComponent<Turret>().isDead) {
                     ps.Stop();
+                    t.GetComponent<Renderer>().materials[1].SetColor("_Color",Color.black);
                     inventory.incScore(2);
                     turretList.Remove(t);
                 }
@@ -83,16 +85,18 @@ public class PuzzleTurrets : PuzzleRoom {
             }
         }
 
-        if(turretList.Count == 0) {
-            solved = true;
-        }
-        if(solved) 
-        {
-
-        }
+        if(!solved)
+            CheckSolveConditions();
 
 	}
 
+    protected override void CheckSolveConditions() {
+        if(turretList.Count == 0) {
+            solved = true;
+            inventory.incScore((int)TimeLimit);
+            UnlockRoom();
+        }
+    }
     public void Solve(bool s) { solved = s; }
     public bool isSolved() { return solved; }
 

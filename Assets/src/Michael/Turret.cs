@@ -7,10 +7,15 @@ public class Turret : MonoBehaviour {
     AudioClip scanner, fire;
     AudioSource audioSource;
     bool seesPlayer = false;
+    public bool isDead = false;
+    float KillTime; 
+    float KillCounter; 
 
     public void Start() {
+        KillTime = 2;
+        KillCounter = 0;
         laser = GetComponent<ParticleSystem>();
-        scanSpeed =20;
+        scanSpeed = 30;
         audioSource = this.GetComponent<AudioSource>();
         audioSource.pitch = 1.5f;
         scanner = Resources.Load<AudioClip>("Michael/Audio/LaserScan");
@@ -36,6 +41,9 @@ public class Turret : MonoBehaviour {
         }
         if(!audioSource.isPlaying)
             audioSource.PlayOneShot(scanner,1.0f);
+        if(KillCounter > KillTime) {
+            isDead = true;
+        }
     }
 
     public void Target() {
@@ -53,4 +61,11 @@ public class Turret : MonoBehaviour {
             audioSource.PlayOneShot(fire,1.0f);
     }
 
+    private void OnParticleCollision(GameObject p) {
+        if(p.name == "laserBeam") {
+            this.KillCounter += Time.deltaTime;
+            ParticleSystem Smoke = this.transform.Find("Smoke").GetComponent<ParticleSystem>();
+            if(!Smoke.isPlaying)    Smoke.Play();
+        }
+    }
 }

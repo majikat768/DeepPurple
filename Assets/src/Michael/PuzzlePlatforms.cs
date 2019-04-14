@@ -16,9 +16,11 @@ public class PuzzlePlatforms : PuzzleRoom {
     private BoxCollider roomCollider;
     GameObject p8;
 
-    protected new void Awake()
+    protected override void Awake()
     {
         base.Awake();
+        TimeLimit = 100;
+        instructions = "leap through the ring of fire";
         MovingPlatforms = new List<MovingPlatform>();
         Platforms = new List<GameObject>();
         FOV = Camera.main.fieldOfView;
@@ -30,10 +32,8 @@ public class PuzzlePlatforms : PuzzleRoom {
     }
     protected override void Start()
     {
-        base.Start();
         roomCollider = this.GetComponent<BoxCollider>();
 
-        ShowInstructions("leap through the ring of fire");
         Destroy(this.transform.Find("Ceiling").gameObject);
         BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),size.y*6,false);
         BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),size.y*6,false);
@@ -46,7 +46,7 @@ public class PuzzlePlatforms : PuzzleRoom {
         BuildPlatforms();
 	}
 
-	new void Update () {
+	protected override void Update () {
         base.Update();
         if(PlayerInRoom) {
             foreach(MovingPlatform p in MovingPlatforms) {

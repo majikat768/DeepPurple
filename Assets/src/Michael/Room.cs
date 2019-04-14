@@ -47,7 +47,7 @@ public class Room : MonoBehaviour
 
     protected Color lightColor;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         Wall = RoomGenerator.Wall;
         Column = RoomGenerator.Column;

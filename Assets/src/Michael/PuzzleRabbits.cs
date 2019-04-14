@@ -16,12 +16,13 @@ public class PuzzleRabbits : PuzzleRoom {
 
     protected void Awake() {
         base.Awake();
+        TimeLimit = 30;
+        instructions = "catch the pink rabbit";
     }
 
     protected override void Start()
     {
         base.Start();
-        ShowInstructions("catch the pink rabbit");
         rabbitReference = Resources.Load("Michael/Rabbits/Prefabs/Rabbit 1") as GameObject;
         Rabbits = new List<GameObject>();
         numRabbits = (int)size.magnitude/2;
@@ -36,8 +37,9 @@ public class PuzzleRabbits : PuzzleRoom {
         }
 	}
 
-	void FixedUpdate () {
+	protected override void Update () {
         if(PlayerInRoom) {
+
             foreach(GameObject rabbit in Rabbits) 
                 rabbit.GetComponent<Animator>().SetBool("moving",true);
         }
@@ -46,16 +48,7 @@ public class PuzzleRabbits : PuzzleRoom {
                 rabbit.GetComponent<Animator>().SetBool("moving",false);
 
         if (!solved) 
-        {
-            if(Vector3.Distance(Rabbits[0].transform.position,Player.transform.position) < 1) {
-                Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
-                Rabbits.Remove(Rabbits[0]);
-                solved = true;
-                inventory.incScore(5);
-                PlaySolvedSound();
-            }
-
-        }
+            CheckSolveConditions();
 
         if(solved) 
         {
@@ -63,6 +56,16 @@ public class PuzzleRabbits : PuzzleRoom {
         }
 
 	}
+    protected override void CheckSolveConditions() {
+        if(Vector3.Distance(Rabbits[0].transform.position,Player.transform.position) < 1) {
+            Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
+            Rabbits.Remove(Rabbits[0]);
+            solved = true;
+            inventory.incScore((int)TimeLimit);
+            PlaySolvedSound();
+            UnlockRoom();
+        }
+    }
 
     public void Solve(bool s) { solved = s; }
     public bool isSolved() { return solved; }

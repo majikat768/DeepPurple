@@ -24,7 +24,7 @@ public class Hoop : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if(other.gameObject == player) {
             if(!R.solved) {
-                inventory.incScore(8);
+                inventory.incScore((int)R.GetScore());
                 R.PlaySolvedSound();
                 R.solved = true;
             }
