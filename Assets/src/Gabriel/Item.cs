@@ -25,4 +25,8 @@ public class Item : ScriptableObject
 		Debug.Log("Using " + name);
 	}
 
+	public void doStatic()
+	{
+		Debug.Log("This is static binding");
+	}
 }
