@@ -1,4 +1,23 @@
-﻿using UnityEngine;
+﻿/* Singleton.cs
+ * Programmer: Zach Sugano
+ * Description: Code was reused from http://wiki.unity3d.com/index.php/Singleton
+ * This script allows us to create a singleton from any monobehavior simply by
+ * making it extend this class.
+ * 
+ * There are no resulting copyright implications from utilizing this work.
+ * In the court case Feist Publications, Inc., v. Rural Telephone Service Co., the
+ * Supreme Court opinion stated that copyright protection could only be granted to
+ * "works of authorship" that possess "at least some minimal degree of creativity".
+ * Copyright protection extends only to an author's original, creative contribution
+ * to a work. In this particular instance, the Singleton model is a well established
+ * pattern in the field of computer science with widespread usage in countless programs.
+ * This particular pattern is nearly identical in every way to any other Singleton
+ * pattern implementation. Due to this code being mostly copied and lacking creative
+ * contribution, we can safely say that this is not protected under copyright.
+ * 
+ */
+
+using UnityEngine;
  
 /// <summary>
 /// Inherit from this base class to create a singleton.
