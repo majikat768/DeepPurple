@@ -21,10 +21,17 @@ public enum GeneratorType
     LINEAR, RANDOM, SQUARE, TFRACTAL, LINEAR_TEST
 }
 
-public static class GeneratorTypeMethods {
+public static class GeneratorTypeMethods
+{
 
-	public static Generator GetGenerator(this GeneratorType generatorType) {
-		switch (generatorType)
+    /// <summary>
+    /// Returns a new instance of the generator determined by the GeneratorType enum
+    /// </summary>
+    /// <param name="generatorType">The generation pattern that you wish to use</param>
+    /// <returns>A new instance of the generator.</returns>
+    public static Generator GetGenerator(this GeneratorType generatorType)
+    {
+        switch (generatorType)
         {
             case GeneratorType.LINEAR:
                 return new GeneratorLinear();
@@ -32,11 +39,11 @@ public static class GeneratorTypeMethods {
                 return new GeneratorRandom();
             case GeneratorType.TFRACTAL:
                 return new GeneratorTFractal();
-	    	case GeneratorType.LINEAR_TEST:
-				return new GeneratorLinearTest();
+            case GeneratorType.LINEAR_TEST:
+                return new GeneratorLinearTest();
             default:
                 return new Generator();
         }
-	}
+    }
 
 }

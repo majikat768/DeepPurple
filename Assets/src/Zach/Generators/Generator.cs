@@ -10,18 +10,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Generator {
+public class Generator
+{
 
-	private GeneratorType GeneratorType;
+    private GeneratorType GeneratorType;
 
-	/// <summary>
+    /// <summary>
     /// This is the virtual function to be overriden by subclass generators. It defaults to
     /// generating a simple square room.
     /// The square pattern currently just creates a 5x5 array of rooms with the start room
     /// located at (0, 0) and the boss room at (4, 4).
     /// </summary>
     /// <returns>Dictionary of coordinates and corresponding room types</returns>
-	public virtual Dictionary<Vector2Int, RoomGenerator.RoomType> GetRooms() {
+    public virtual Dictionary<Vector2Int, RoomGenerator.RoomType> GetRooms()
+    {
         var dictionary = new Dictionary<Vector2Int, RoomGenerator.RoomType>();
         for (int x = 0; x < 5; x++)
         {

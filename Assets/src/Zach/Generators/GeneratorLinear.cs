@@ -8,9 +8,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneratorLinear : Generator {
+public class GeneratorLinear : Generator
+{
 
-	/// <summary>
+    /// <summary>
     /// The linear pattern creates a 25x1 array of rooms each connected in a single
     /// continuous line with the start room at (0, 0) and the end room at (24, 0)
     /// </summary>

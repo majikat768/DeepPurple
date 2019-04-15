@@ -10,9 +10,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneratorTFractal : Generator {
+public class GeneratorTFractal : Generator
+{
 
-	/// <summary>
+    /// <summary>
     /// The TFractal room generator creates the level based on a recursive fractal
     /// algorithm. The fractal pattern is loosely based off of the T-branching fractal
     /// which is sometimes referred to as an H tree. The most basic form of the
@@ -61,10 +62,10 @@ public class GeneratorTFractal : Generator {
             possibleLocs.Add(new Vector2Int(vector.x - 1, vector.y + 1));
             possibleLocs.Add(new Vector2Int(vector.x + 1, vector.y - 1));
             possibleLocs.Add(new Vector2Int(vector.x - 1, vector.y - 1));
-	    possibleLocs.Add(new Vector2Int(vector.x, vector.y + 2));
-	    possibleLocs.Add(new Vector2Int(vector.x, vector.y - 2));
-	    possibleLocs.Add(new Vector2Int(vector.x + 2, vector.y));
-	    possibleLocs.Add(new Vector2Int(vector.x - 2, vector.y));
+            possibleLocs.Add(new Vector2Int(vector.x, vector.y + 2));
+            possibleLocs.Add(new Vector2Int(vector.x, vector.y - 2));
+            possibleLocs.Add(new Vector2Int(vector.x + 2, vector.y));
+            possibleLocs.Add(new Vector2Int(vector.x - 2, vector.y));
 
             // Remove any rooms from possibleLocs that are already in the dictionary
             // A room will already be put there, so the boss room can't go there.
@@ -72,32 +73,32 @@ public class GeneratorTFractal : Generator {
             // Only attach boss room to rooms with degree 1
             // Degree zero would imply that the room is an "island" with no
             // connection to any of the other rooms. This shouldn't be possible.
-	    // This system checks 12 points around the target room and removes
-	    // any rooms that already exist in the dictionary. This first pass
-	    // filtering will get rid of any situation where the boss room
-	    // isn't at the end of a corridor.
+            // This system checks 12 points around the target room and removes
+            // any rooms that already exist in the dictionary. This first pass
+            // filtering will get rid of any situation where the boss room
+            // isn't at the end of a corridor.
             if (possibleLocs.Count > 9)
             {
-		// This second pass filtering removes any possible locations that
-		// are farther than 1 unit away from the room that the boss room
-		// will be attached to. This is done to prevent the boss room
-		// from being an island.
-		possibleLocs.RemoveAll(x => Vector2Int.Distance(x, vector) > 1);
+                // This second pass filtering removes any possible locations that
+                // are farther than 1 unit away from the room that the boss room
+                // will be attached to. This is done to prevent the boss room
+                // from being an island.
+                possibleLocs.RemoveAll(x => Vector2Int.Distance(x, vector) > 1);
                 bossRoomLocs.AddRange(possibleLocs);
             }
         }
-	// Sort potential boss rooms by distance from start room
-	// We do this to try to make sure the boss room is as far from the start as possible.
-	bossRoomLocs = bossRoomLocs.OrderBy(x => -x.magnitude).ToList();
-	// Possible boss room locations are now ordered from greatest distance to smallest
-	// Take only the first 1/10th of the list to cut out possible boss room locations
-	// that are close to the start room.
-	int newSize = bossRoomLocs.Count / 10;
-	// Set possible boss room locations to a sub range of the first newSize elements
-	// or if that integer divison results in a new size of zero, just take the first
-	// element in the list which represents that farthest possible distance a boss room
-	// can be from the starting location.
-	bossRoomLocs = bossRoomLocs.GetRange(0, newSize < 1 ? 1 : newSize);
+        // Sort potential boss rooms by distance from start room
+        // We do this to try to make sure the boss room is as far from the start as possible.
+        bossRoomLocs = bossRoomLocs.OrderBy(x => -x.magnitude).ToList();
+        // Possible boss room locations are now ordered from greatest distance to smallest
+        // Take only the first 1/10th of the list to cut out possible boss room locations
+        // that are close to the start room.
+        int newSize = bossRoomLocs.Count / 10;
+        // Set possible boss room locations to a sub range of the first newSize elements
+        // or if that integer divison results in a new size of zero, just take the first
+        // element in the list which represents that farthest possible distance a boss room
+        // can be from the starting location.
+        bossRoomLocs = bossRoomLocs.GetRange(0, newSize < 1 ? 1 : newSize);
         // Select a random room from all the possible boss room locations that we just calculated
         dictionary[bossRoomLocs[Random.Range(0, bossRoomLocs.Count)]] = RoomGenerator.RoomType.Boss;
         return dictionary;
@@ -143,10 +144,11 @@ public class GeneratorTFractal : Generator {
         for (int i = 0; i < length; i++)
         {
             var vec = new Vector2Int(x, y);
-	    // Dont overwrite a room that already exists
-	    if (!dictionary.ContainsKey(vec)) {
-            	dictionary[vec] = RandomRoomType();
-	    }
+            // Dont overwrite a room that already exists
+            if (!dictionary.ContainsKey(vec))
+            {
+                dictionary[vec] = RandomRoomType();
+            }
             switch (direction)
             {
                 case 0:

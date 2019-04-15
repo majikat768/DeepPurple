@@ -7,9 +7,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneratorRandom : Generator {
+public class GeneratorRandom : Generator
+{
 
-	/// <summary>
+    /// <summary>
     /// The random room generator generates the level without any type of design in mind.
     /// We begin at the start room coordinates (0, 0) and then begin the generation loop
     /// from there. Each loop, we select a random coordinate from the dictionary and move
@@ -37,7 +38,7 @@ public class GeneratorRandom : Generator {
                 Vector2Int vector = keys[Random.Range(0, keys.Count)];
                 // Pick a random direction
                 // 0 North, 1 East, 2 South, 3 West
-                int dir = Random.Range(0, 4); 
+                int dir = Random.Range(0, 4);
                 // Calculate new location based on direction
                 Vector2Int newLoc = new Vector2Int(vector.x, vector.y);
                 switch (dir)
