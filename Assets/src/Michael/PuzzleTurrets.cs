@@ -27,9 +27,8 @@ public class PuzzleTurrets : PuzzleRoom {
         base.Awake();
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         turretRef = Resources.Load<GameObject>("Michael/Turret");
         boxRef = Resources.Load<GameObject>("Michael/Crate_004");
 
@@ -89,7 +88,6 @@ public class PuzzleTurrets : PuzzleRoom {
     protected override void CheckSolveConditions() {
         if(turretList.Count == 0) {
             solved = true;
-            inventory.incScore((int)TimeLimit);
         }
     }
     public void Solve(bool s) { solved = s; }

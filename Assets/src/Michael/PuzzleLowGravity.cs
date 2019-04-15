@@ -20,7 +20,7 @@ public class PuzzleLowGravity : PuzzleRoom {
     AudioSource ambienceSource;
     AudioClip echo;
 
-	protected override void Awake () {
+	public override void Awake () {
         base.Awake();
         instructions = "catch the fireballs";
         TimeLimit = 200.0f;
@@ -38,8 +38,7 @@ public class PuzzleLowGravity : PuzzleRoom {
 		
 	}
 
-    protected override void Start() {
-        base.Start();
+    protected void Start() {
         roomCollider = this.GetComponent<BoxCollider>();
 
         Floor.transform.position = Zero+new Vector3(size.x/2,-size.y*6,size.z/2);
@@ -96,7 +95,7 @@ public class PuzzleLowGravity : PuzzleRoom {
             Player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.right.normalized*h*speed,ForceMode.Impulse);
             if(!ambienceSource.isPlaying) {
                 ambienceSource.pitch = Random.Range(0.5f,2.0f);
-                ambienceSource.PlayOneShot(echo,Random.Range(0.5f,1.0f));
+                ambienceSource.PlayOneShot(echo,Random.Range(0.5f,0.75f));
             }
         }
 	}
@@ -104,8 +103,6 @@ public class PuzzleLowGravity : PuzzleRoom {
     protected override void CheckSolveConditions() {
         if(SnitchList.Count == 0) {
             solved = true;
-            inventory.incScore((int)TimeLimit);
-            UnlockRoom();
         }
     }
 

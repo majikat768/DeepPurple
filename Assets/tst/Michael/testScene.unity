@@ -155,22 +155,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1cd606678b923492a88b22c0759a3650, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &192537278 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1827708621996528, guid: 8e49a2dc03682433b888a39a0e93a471,
-    type: 2}
-  m_PrefabInternal: {fileID: 1508989727}
---- !u!114 &192537279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 192537278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df0d433aae8a4a318a2f9045a489df2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &248987813
 Prefab:
   m_ObjectHideFlags: 0
@@ -209,21 +193,6 @@ Prefab:
     - target: {fileID: 4973711105978266, guid: 84d1dc563ffa547dea120698b8ececf4, type: 2}
       propertyPath: m_RootOrder
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114274219667832920, guid: 84d1dc563ffa547dea120698b8ececf4,
-        type: 2}
-      propertyPath: xMouseSensitivity
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114274219667832920, guid: 84d1dc563ffa547dea120698b8ececf4,
-        type: 2}
-      propertyPath: yMouseSensitivity
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114274219667832920, guid: 84d1dc563ffa547dea120698b8ececf4,
-        type: 2}
-      propertyPath: cullingLayer.m_Bits
-      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84d1dc563ffa547dea120698b8ececf4, type: 2}
@@ -1667,24 +1636,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &845618464 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1543670132810786, guid: 84d1dc563ffa547dea120698b8ececf4,
-    type: 2}
-  m_PrefabInternal: {fileID: 248987813}
---- !u!114 &845618471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 845618464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b344e7de433b42cca878f68f92fc5d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  songs: []
-  volume: 1
 --- !u!1001 &884005252
 Prefab:
   m_ObjectHideFlags: 0
@@ -2057,7 +2008,6 @@ MonoBehaviour:
   testbuild: 0
   complexity: -1
   DoorList: []
-  FloorTiles: []
   Zero: {x: 88, y: 0, z: -4}
   size: {x: 4, y: 4, z: 52}
   Walls: {fileID: 0}

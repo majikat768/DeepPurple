@@ -114,24 +114,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &93227336 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1543670132810786, guid: 84d1dc563ffa547dea120698b8ececf4,
-    type: 2}
-  m_PrefabInternal: {fileID: 152116249}
---- !u!114 &93227337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 93227336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b344e7de433b42cca878f68f92fc5d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  songs: []
-  volume: 1
 --- !u!1001 &152116249
 Prefab:
   m_ObjectHideFlags: 0
@@ -170,16 +152,6 @@ Prefab:
     - target: {fileID: 4973711105978266, guid: 84d1dc563ffa547dea120698b8ececf4, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114274219667832920, guid: 84d1dc563ffa547dea120698b8ececf4,
-        type: 2}
-      propertyPath: xMouseSensitivity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114274219667832920, guid: 84d1dc563ffa547dea120698b8ececf4,
-        type: 2}
-      propertyPath: yMouseSensitivity
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84d1dc563ffa547dea120698b8ececf4, type: 2}
@@ -2519,7 +2491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b541265219debd04b83226f700a2e4b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultGenerator: 3
+  defaultGenerator: 1
 --- !u!4 &800110175
 Transform:
   m_ObjectHideFlags: 0

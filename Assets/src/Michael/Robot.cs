@@ -29,8 +29,9 @@ public class Robot : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(animator.GetBool("moving")) {
-            if(!agent.hasPath || agent.remainingDistance < 2) {
-                agent.SetDestination(RoomZero + new Vector3(Random.Range(0,RoomSize.x),0,Random.Range(0,RoomSize.z)));
+            if(!agent.hasPath || agent.remainingDistance < 1) {
+                agent.SetDestination(RoomZero + new Vector3(Random.Range(2,RoomSize.x-2),0,Random.Range(2,RoomSize.z-2)));
+                Debug.Log(agent.remainingDistance);
             }
         }
         else

@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /*
+ * Programmer:  Michael the Atkinson
+ * Description:
  * RoomGenerator is more like RoomManager;
  * Keeps a reference to every object I have to instantiate (floor, walls, doors, objects, lights),
  * a List of every Room object, 
@@ -30,19 +32,16 @@ public static class RoomGenerator //: MonoBehaviour
     // Declare all the object references I'll be using; gets passed down to Room class.  
     // I think there might be a better way to handle this, but this works fine and doesn't appear to affect memory usage or anything
     
-    public static Room PlayerRoom;
+    public static Room playerRoom;
     public enum RoomType { Start, Boss, Treasure, Puzzle, Combat, None };
-    public static List<GameObject> TeleporterList = new List<GameObject>();
-    public static int WallLayer = 8;
-    public static int WallMask = 1 << WallLayer; 
-    public static List<Room> RoomList = new List<Room>();
-    public static List<GameObject> EnemyList = new List<GameObject>();
+    public static List<GameObject> teleporterList = new List<GameObject>();
+    public static int wallLayer = 8;
+    public static int wallMask = 1 << wallLayer; 
+    public static List<Room> roomList = new List<Room>();
     public static GameObject Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
     public static GameObject Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
-    public static GameObject Block = Resources.Load<GameObject>("Michael/Block");
     public static GameObject FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
     public static GameObject Ceiling = Resources.Load<GameObject>("Michael/Plane");
-    public static GameObject WallLight = Resources.Load<GameObject>("Michael/Roof_Light_003");
     public static GameObject Console = Resources.Load<GameObject>("Michael/Console_001");
     public static GameObject Panel = Resources.Load<GameObject>("Michael/Panel_001");
     public static GameObject Portal = Resources.Load<GameObject>("Michael/Portal 1");
@@ -89,11 +88,11 @@ public static class RoomGenerator //: MonoBehaviour
                 break;
             case RoomType.Puzzle:
                 float rand = Random.value;
-                if(rand < 0.1f)
+                if(rand < 0.2f)
                     r = newroom.AddComponent<PuzzleRabbits>();
-                else if(rand < 0.3f)
+                else if(rand < 0.4f)
                     r = newroom.AddComponent<PuzzleBox>();
-                else if(rand < 0.5f)
+                else if(rand < 0.6f)
                     r = newroom.AddComponent<PuzzlePlatforms>();
                 else if(rand < 0.8f)
                     r = newroom.AddComponent<PuzzleTurrets>();
@@ -116,7 +115,7 @@ public static class RoomGenerator //: MonoBehaviour
         //  r.Init();
         r.SetZero(Zero);
         //r.SetSize(size);
-        //RoomList.Add(r);
+        //roomList.Add(r);
         return newroom;
     }
 
@@ -130,18 +129,19 @@ public static class RoomGenerator //: MonoBehaviour
 
     public static void BuildDoors()
     {
-        foreach(Room room2 in RoomList) 
+        foreach(Room room2 in roomList) 
             if(! room2.initialized) room2.Init();
 
         GameObject d;
         Vector3 dBounds;
         float doorWidth = 2.5f;
 
-        foreach(Room room in RoomList)
+        foreach(Room room in roomList)
         {
             Bounds r1 = room.GetComponent<Collider>().bounds;
             foreach(Collider room2Collider in Physics.OverlapBox(r1.center,r1.size/2 )) {
                 if(room2Collider.GetComponent<Room>()) {
+                    Debug.Log("room");
                     Room room2 = room2Collider.GetComponent<Room>();
                     Bounds r2 = room2Collider.bounds;
                     // detect if r1 is touching r2 on r2's north, south, east, or west side.
@@ -165,8 +165,6 @@ public static class RoomGenerator //: MonoBehaviour
                         }
                     }
 
-                    /* else if(o.bounds.center.z + o.bounds.size.z/2 <= r1.center.z-r1.size.z/2)
-                        Debug.Log(roomCollider.name + " north of " + o.name); */
                     else if(r2.center.x + r2.size.x/2 <= r1.center.x - r1.size.x/2) {
                         
                         float SouthOverlapEdge = Mathf.Max(r1.center.z-r1.size.z/2,r2.center.z-r2.size.z/2);
@@ -194,7 +192,7 @@ public static class RoomGenerator //: MonoBehaviour
 
         //after all the doorways between rooms are found,
         // build the walls and turn off the lights.
-        foreach(Room r in RoomList) {
+        foreach(Room r in roomList) {
             r.GetWalls();
             r.SetLighting(Cyan,0);
         }
@@ -205,10 +203,10 @@ public static class RoomGenerator //: MonoBehaviour
     public static void BakeNavMesh()
     {
         // this actually doesn't need to be it's own function.  but it's already implemented in LevelGenerator, so ¯\_(ツ)_/¯
-        NavMeshSurface surface = RoomList[0].transform.Find("Floor").GetComponent<NavMeshSurface>();
+        NavMeshSurface surface = roomList[0].transform.Find("Floor").GetComponent<NavMeshSurface>();
         surface.BuildNavMesh();
         /*
-        foreach(Room r in RoomList) {
+        foreach(Room r in roomList) {
             NavMeshSurface surface = r.gameObject.transform.Find("Floor").GetComponent<NavMeshSurface>();
             //UnityEditor.AI.NavMeshBuilder.BuildNavMesh();
             surface.BuildNavMesh();
@@ -219,7 +217,8 @@ public static class RoomGenerator //: MonoBehaviour
 
     // the Size and Zero here are default Zeros, not for specific rooms; so these shouldn't really be used.
     public static Vector3 GetSize() { return size; }
-    public static void SetSize(float x, float y, float z) {
+    public static void SetSize(float x, float y, float z) 
+    {
         size = new Vector3(x,y,z);
     }
     public static Vector3 GetZero() { return Zero; }

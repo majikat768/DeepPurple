@@ -9,9 +9,8 @@ public class BossRoom : Room
     Vector3 SpawnPoint;
     bool bossDead;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         exit = Resources.Load<GameObject>("Michael/Exit");
         Exit = GameObject.Instantiate(exit);
         Exit.transform.parent = this.transform;
@@ -31,7 +30,12 @@ public class BossRoom : Room
         eScript.health = 300;
         //BossMan.transform.localScale = new Vector3(3.5f, 3.5f, 3.5f);
 
+        RoomGenerator.teleporterList.Remove(this.transform.Find("Teleporter").gameObject);
         Destroy(this.transform.Find("Teleporter").gameObject);
+
+        foreach(Transform w in Walls.transform) {
+            w.GetComponent<Renderer>().materials[0].SetColor("_Color",new Color(0.28f,0,0));
+        }
     }
 
     void Update() {

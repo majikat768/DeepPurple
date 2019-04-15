@@ -55,9 +55,11 @@ public class TestCase3 : MonoBehaviour {
             if(NavMesh.CalculatePath(start,end,NavMesh.AllAreas,path)) {
                 if(path.status == NavMeshPathStatus.PathComplete) {
                     line.positionCount = path.corners.Length;
+                    /*
                     for(int i = 0; i < path.corners.Length; i++) {
                         line.SetPosition(i,path.corners[i]);
                     }
+                    */
                     /*/
                     GameObject s = GameObject.CreatePrimitive(PrimitiveType.Quad);
                     s.transform.rotation = Quaternion.Euler(90,0,0);
@@ -89,10 +91,10 @@ public class TestCase3 : MonoBehaviour {
 
         if(z >= targetRoom.GetZero().z+targetRoom.GetSize().z-1 && x >= targetRoom.GetZero().x+targetRoom.GetSize().x-1) {
             if(!fail) {
-                foreach(Room r in RoomGenerator.RoomList)   DestroyImmediate(r.gameObject);
+                foreach(Room r in RoomGenerator.roomList)   DestroyImmediate(r.gameObject);
                 foreach(GameObject o in endpointMarkers)    DestroyImmediate(o);
                 endpointMarkers.Clear();
-                RoomGenerator.RoomList.Clear();
+                RoomGenerator.roomList.Clear();
                 complexity++;
                 timeToBuild = Time.realtimeSinceStartup;
                 BuildRoom();

@@ -40,7 +40,7 @@ public class Turret : MonoBehaviour {
             seesPlayer = false;
         }
         if(!audioSource.isPlaying)
-            audioSource.PlayOneShot(scanner,1.0f);
+            audioSource.PlayOneShot(scanner,0.5f);
         if(KillCounter > KillTime) {
             isDead = true;
         }

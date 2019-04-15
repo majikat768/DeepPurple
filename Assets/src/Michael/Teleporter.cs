@@ -48,9 +48,9 @@ public class Teleporter : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if(other == player.GetComponent<Collider>() && !justArrived) {
             if(Destination == null) {
-                Destination = RoomGenerator.TeleporterList[Random.Range(0,RoomGenerator.TeleporterList.Count-1)];
-                while(Destination == this.gameObject && RoomGenerator.TeleporterList.Count > 1)
-                    Destination = RoomGenerator.TeleporterList[Random.Range(0,RoomGenerator.TeleporterList.Count)];
+                Destination = RoomGenerator.teleporterList[Random.Range(0,RoomGenerator.teleporterList.Count-1)];
+                while(Destination == this.gameObject && RoomGenerator.teleporterList.Count > 1)
+                    Destination = RoomGenerator.teleporterList[Random.Range(0,RoomGenerator.teleporterList.Count)];
             }
             Debug.Log("player entered Teleporter");
             Destination.GetComponent<Teleporter>().justArrived = true;

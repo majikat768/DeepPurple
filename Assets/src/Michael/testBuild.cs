@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class testBuild : MonoBehaviour {
 
-    void Start() {
+    void Awake() {
         RoomGenerator.BuildDoors();
         RoomGenerator.BakeNavMesh();
     }

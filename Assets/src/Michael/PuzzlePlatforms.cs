@@ -18,7 +18,7 @@ public class PuzzlePlatforms : PuzzleRoom {
     GameObject hoop;
     ParticleSystem hoopFire;
 
-    protected override void Awake()
+    public override void Awake()
     {
         base.Awake();
         TimeLimit = 100;
@@ -31,7 +31,7 @@ public class PuzzlePlatforms : PuzzleRoom {
         Potion = Resources.Load<GameObject>("Kyle/Items/Invulnerability");
         complexity = -1;
     }
-    protected override void Start()
+    protected void Start()
     {
         instructions = "leap through the ring of fire";
         roomCollider = this.GetComponent<BoxCollider>();
@@ -217,7 +217,6 @@ public class PuzzlePlatforms : PuzzleRoom {
         if(hoop.GetComponent<Hoop>().solved) {
             solved = true;
             PlaySolvedSound();
-            inventory.incScore((int)GetScore());
         }
     }
 

@@ -20,9 +20,8 @@ public class PuzzleRabbits : PuzzleRoom {
         TimeLimit = 30;
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         rabbitReference = Resources.Load("Michael/Rabbits/Prefabs/Rabbit 1") as GameObject;
         Rabbits = new List<GameObject>();
         numRabbits = (int)size.magnitude/2;
@@ -58,7 +57,6 @@ public class PuzzleRabbits : PuzzleRoom {
             Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
             Rabbits.Remove(Rabbits[0]);
             solved = true;
-            inventory.incScore((int)TimeLimit);
             PlaySolvedSound();
             UnlockRoom();
         }

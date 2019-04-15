@@ -1,3 +1,16 @@
+/*
+ * Programmer:  Michael Atkinson
+ * Description:
+ * base puzzle class provides boolean variable for solved, and when player enters and it's unsolved, lock the doors.
+ * Decorator Pattern
+ * subclasses to this have to fill in the CheckSolveConditions() function, which this class will check in LateUpdate() to see if the room is solved.
+ * subclasses also have to fill in the instructions string, which will be sent from this class to the PuzzleCountdown instance, to be displayed on the screen.
+ * subclasses also have to fill in the instructions string, which will be sent from this class to the PuzzleCountdown instance, to be displayed on the screen.
+ * attaches a specific puzzle script to room. puzzle script changes "solved" variable when some condition is met.
+ * the PuzzleRoom will lock all doors upon entry till you solve it
+ *
+ */
+
 using System.Collections.Generic;
 using System;
 using System.Collections;
@@ -5,19 +18,10 @@ using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
 
-// base puzzle class provides boolean variable for solved, and when player enters and it's unsolved, lock the doors.
-// Decorator Pattern
-// subclasses to this have to fill in the CheckSolveConditions() function, which this class will check in LateUpdate() to see if the room is solved.
-// subclasses also have to fill in the instructions string, which will be sent from this class to the PuzzleCountdown instance, to be displayed on the screen.
-// subclasses also have to fill in the instructions string, which will be sent from this class to the PuzzleCountdown instance, to be displayed on the screen.
-// attaches a specific puzzle script to room. puzzle script changes "solved" variable when some condition is met.
-// the PuzzleRoom will lock all doors upon entry till you solve it
-
 public class PuzzleRoom : Room
 {
-    
-    protected Inventory inventory;
-    protected PuzzleCountdown countdown;
+    protected Inventory inventory = Inventory.instance;
+    protected PuzzleCountdown countdown = PuzzleCountdown.instance;
     protected String instructions;
     public bool solved = false;
     protected bool locked = false;
@@ -25,7 +29,7 @@ public class PuzzleRoom : Room
     private AudioSource audioSource;
     protected float TimeLimit;
     
-    protected override void Awake() {
+    public override void Awake() {
         addPortal = false;
         base.Awake();
         solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
@@ -33,12 +37,6 @@ public class PuzzleRoom : Room
         audioSource.playOnAwake = false;
 
         lightColor = RoomGenerator.Red;
-    }
-
-    protected override void Start()
-    {
-        inventory = Inventory.instance;
-        countdown = PuzzleCountdown.instance;
     }
 
     public void PlaySolvedSound()
@@ -82,6 +80,7 @@ public class PuzzleRoom : Room
                 StartCoroutine(countdown.FadeText(1f, 0f, 3f));
                 Debug.Log("solved");
                 UnlockRoom();
+                inventory.incScore((int)TimeLimit);
             }
         }
         if(locked && !PlayerInRoom) UnlockRoom();

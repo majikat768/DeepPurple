@@ -46,14 +46,14 @@ public class Room : MonoBehaviour
 
     public virtual void Awake()
     {
-        Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
-        Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
-        FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
-        Ceiling = Resources.Load<GameObject>("Michael/Plane");
-        Console = Resources.Load<GameObject>("Michael/Console_001");
-        Panel = Resources.Load<GameObject>("Michael/Panel_001");
-        Portal = Resources.Load<GameObject>("Michael/Portal 1");
-        Column =  Resources.Load<GameObject>("Michael/Wall_2_Column");
+        GameObject Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
+        GameObject Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
+        GameObject FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
+        GameObject Ceiling = Resources.Load<GameObject>("Michael/Plane");
+        GameObject Console = Resources.Load<GameObject>("Michael/Console_001");
+        GameObject Panel = Resources.Load<GameObject>("Michael/Panel_001");
+        GameObject Portal = Resources.Load<GameObject>("Michael/Portal 1");
+        GameObject Column =  Resources.Load<GameObject>("Michael/Wall_2_Column");
         this.gameObject.transform.position = Zero;
         DoorList = new List<GameObject>();
         Player = GameObject.FindWithTag("Player");
@@ -132,12 +132,10 @@ public class Room : MonoBehaviour
     //call BuildWall for each outer wall.
     public void GetWalls()
     {
-        //Wall Width
-        float ww = Wall.GetComponent<Renderer>().bounds.size.z/2;
-        BuildWall(Zero+new Vector3(0,0,ww), Zero+new Vector3(size.x, 0, ww), size.y);
-        BuildWall(Zero+new Vector3(ww,0,0), Zero+new Vector3(ww, 0, size.z), size.y);
-        BuildWall(Zero+new Vector3(size.x-ww, 0, 0), Zero+new Vector3(size.x-ww, 0, size.z), size.y);
-        BuildWall(Zero+new Vector3(0, 0, size.z-ww), Zero+new Vector3(size.x, 0, size.z-ww), size.y);
+        BuildWall(Zero, Zero+new Vector3(size.x, 0, 0), size.y);
+        BuildWall(Zero, Zero+new Vector3(0, 0, size.z), size.y);
+        BuildWall(Zero+new Vector3(size.x, 0, 0), Zero+new Vector3(size.x, 0, size.z), size.y);
+        BuildWall(Zero+new Vector3(0, 0, size.z), Zero+new Vector3(size.x, 0, size.z), size.y);
 
         // Find's a random point along outer wall, and finds point on wall directly opposite.
         // Enter recursive function GetInnerWalls with these parameters....
@@ -209,7 +207,7 @@ public class Room : MonoBehaviour
             while (Vector3.Distance(SegmentEnd, end) > 0.1f)
             {
                 SegmentEnd = Vector3.Lerp(SegmentEnd, end, t);
-                foreach (Collider o in Physics.OverlapBox(new Vector3((SegmentEnd.x + SegmentStart.x) / 2, Zero.y+size.y / 2, (SegmentEnd.z + SegmentStart.z) / 2), new Vector3(Mathf.Abs(SegmentEnd.x - SegmentStart.x), size.y*0.75f, Mathf.Abs(SegmentEnd.z - SegmentStart.z))/2+new Vector3(1,1,1)))
+                foreach (Collider o in Physics.OverlapBox(new Vector3((SegmentEnd.x + SegmentStart.x) / 2, Zero.y+size.y / 2, (SegmentEnd.z + SegmentStart.z) / 2), new Vector3(Mathf.Abs(SegmentEnd.x - SegmentStart.x), size.y*0.75f, Mathf.Abs(SegmentEnd.z - SegmentStart.z))/2))
                 {
                     if (o.name == "Door" && lastDoor != o.transform.position)
                     {
@@ -218,7 +216,7 @@ public class Room : MonoBehaviour
                         w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, this.gameObject.transform.rotation, Walls.transform);
                         wBounds = w.GetComponent<Renderer>().bounds.size;
                         w.transform.LookAt(end);
-                        w.transform.Rotate(0, 90*(w.transform.position.z < Zero.z+size.z/2 || w.transform.position.x > Zero.x+size.x/2 ? -1 : 1), 0);
+                        w.transform.Rotate(0, 90*(w.transform.position.z == Zero.z || w.transform.position.x == Zero.x+size.x ? -1 : 1), 0);
                         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart, SegmentEnd) / wBounds.x, height / wBounds.y, 1);
                         w.name = "Wall";
                         w.GetComponent<NavMeshObstacle>().size = wBounds;
@@ -242,7 +240,7 @@ public class Room : MonoBehaviour
         wBounds = w.GetComponent<Renderer>().bounds.size;
         w.name = "Wall";
         w.transform.LookAt(end);
-        w.transform.Rotate(0, 90*(w.transform.position.z < Zero.z+size.z/2 || w.transform.position.x > Zero.x+size.x/2 ? -1 : 1), 0);
+        w.transform.Rotate(0, 90*(w.transform.position.z == Zero.z || w.transform.position.x == Zero.x+size.x ? -1 : 1), 0);
         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart,SegmentEnd)/wBounds.x, height/wBounds.y, 1);
         w.GetComponent<NavMeshObstacle>().size = wBounds;
 

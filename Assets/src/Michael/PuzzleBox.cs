@@ -17,9 +17,8 @@ public class PuzzleBox : PuzzleRoom {
         //this.GetComponent<Room>().complexity = -1;
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         FloorTile = RoomGenerator.FloorTile;
 
         Vector3 SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), size.y / 2, Random.Range(2, size.z-3));
@@ -41,14 +40,6 @@ public class PuzzleBox : PuzzleRoom {
 
         SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), FloorTile.GetComponent<Renderer>().bounds.size.y/2, Random.Range(2, size.z-3));
         TargetTile = GameObject.Instantiate(FloorTile, SpawnPoint, Quaternion.identity, this.gameObject.transform);
-        /*
-        TargetTile = FloorTiles[Random.Range(0,FloorTiles.Count)];
-        while(Mathf.Abs(TargetTile.transform.position.x-Zero.x) < 3.0f || 
-                Mathf.Abs(TargetTile.transform.position.x-(Zero.x+size.x)) < 3.0f ||
-                Mathf.Abs(TargetTile.transform.position.z-Zero.z) < 3.0f || 
-                Mathf.Abs(TargetTile.transform.position.z-(Zero.z+size.z)) < 3.0f)
-        TargetTile = FloorTiles[Random.Range(0,FloorTiles.Count)];
-        */
 
         TargetTile.GetComponent<Renderer>().materials[0].color = new Color(0.31f, 0.98f, 0.16f);
         Destroy(TargetTile.GetComponent<Collider>());
@@ -97,7 +88,6 @@ public class PuzzleBox : PuzzleRoom {
             solved = true;
             PlaySolvedSound();
             box.GetComponent<Renderer>().materials[0].color = new Color(0.6f, 0.8f, 0.2f);
-            UnlockRoom();
         }
     }
     public void Solve(bool s) { solved = s; }
