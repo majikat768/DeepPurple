@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/* Generator.cs
+ * Programmer: Zach Sugano
+ * Description: The generator class is a parent class with a virtual function to
+ * be overriden by subclasses for generating the rooms for a level. This generator
+ * functions as an example of dynamic binding.
+ * 
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +15,8 @@ public class Generator {
 	private GeneratorType GeneratorType;
 
 	/// <summary>
+    /// This is the virtual function to be overriden by subclass generators. It defaults to
+    /// generating a simple square room.
     /// The square pattern currently just creates a 5x5 array of rooms with the start room
     /// located at (0, 0) and the boss room at (4, 4).
     /// </summary>

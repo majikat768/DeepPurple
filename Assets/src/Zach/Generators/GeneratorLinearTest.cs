@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/* GeneratorLinearTest.cs
+ * Programmer: Zach Sugano
+ * Description: Generator subclass for creating a very simple test level.
+ * 
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

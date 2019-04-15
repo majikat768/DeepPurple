@@ -1,4 +1,11 @@
-﻿using System.Linq;
+﻿/* GeneratorTFractal.cs
+ * Programmer: Zach Sugano
+ * Description: Generator subclass for the main generator that is being used
+ * for the game. Based off of a T Fractal pattern.
+ * 
+ */
+
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

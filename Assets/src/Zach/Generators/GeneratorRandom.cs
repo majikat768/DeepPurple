@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/* GeneratorRandom.cs
+ * Programmer: Zach Sugano
+ * Description: Generator subclass for creating room layouts in a random order
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,4 +1,15 @@
-﻿using System.Collections;
+﻿/* GeneratorType.cs
+ * Programmer: Zach Sugano
+ * Description: Enumeration of all of the different level generators
+ * that can be invoked. Each enum as attached functions that can be
+ * used to get a new generator of the requested type. For example:
+ * 
+ * Generator generator = GeneratorType.TFRACTAL.GetGenerator();
+ * var rooms = generator.GetRooms();
+ * 
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

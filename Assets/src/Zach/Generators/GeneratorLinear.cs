@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/* GeneratorLinear.cs
+ * Programmer: Zach Sugano
+ * Description: Generator subclass for creating a simple line of rooms
+ * 
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
