@@ -17,6 +17,7 @@ public class PuzzleTurrets : PuzzleRoom {
     List<GameObject> turretList;
 
     protected void Awake() {
+        instructions = "destroy the laser turrets";
         inventory = Inventory.instance;
         TimeLimit = 60;
         complexity = -1;
@@ -28,7 +29,6 @@ public class PuzzleTurrets : PuzzleRoom {
 
     protected override void Start()
     {
-        instructions = "destroy the laser turrets";
         base.Start();
         turretRef = Resources.Load<GameObject>("Michael/Turret");
         boxRef = Resources.Load<GameObject>("Michael/Crate_004");
@@ -84,23 +84,18 @@ public class PuzzleTurrets : PuzzleRoom {
                 }
             }
         }
-
-        if(!solved)
-            CheckSolveConditions();
-
 	}
 
     protected override void CheckSolveConditions() {
         if(turretList.Count == 0) {
             solved = true;
             inventory.incScore((int)TimeLimit);
-            UnlockRoom();
         }
     }
     public void Solve(bool s) { solved = s; }
     public bool isSolved() { return solved; }
 
-    void OnTriggerEnter(Collider other) {
+    public void OnTriggerEnter(Collider other) {
         base.OnTriggerEnter(other);
         if(other.gameObject == Player) {
             foreach(GameObject t in turretList) {
@@ -114,7 +109,7 @@ public class PuzzleTurrets : PuzzleRoom {
         }
     }
 
-    void OnTriggerExit(Collider other) {
+    public void OnTriggerExit(Collider other) {
         base.OnTriggerExit(other);
         if(other.gameObject == Player) {
             foreach(GameObject t in turretList) {

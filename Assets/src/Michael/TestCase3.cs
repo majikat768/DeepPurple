@@ -30,9 +30,6 @@ public class TestCase3 : MonoBehaviour {
     float timeToBuild;
 
 	// Use this for initialization
-    void Awake() {
-        Application.targetFrameRate = 300;
-    }
 
 	void Start () {
         this.tag = "Player";

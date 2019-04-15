@@ -59,6 +59,9 @@ public class Turret : MonoBehaviour {
         }
         if(!audioSource.isPlaying)
             audioSource.PlayOneShot(fire,1.0f);
+        if(KillCounter > KillTime) {
+            isDead = true;
+        }
     }
 
     private void OnParticleCollision(GameObject p) {

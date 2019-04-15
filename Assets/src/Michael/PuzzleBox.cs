@@ -12,7 +12,8 @@ public class PuzzleBox : PuzzleRoom {
 
     protected void Awake() {
         base.Awake();
-        TimeLimit = 15;
+        instructions = "move the box to the target";
+        TimeLimit = 30;
         //this.GetComponent<Room>().complexity = -1;
     }
 
@@ -63,7 +64,6 @@ public class PuzzleBox : PuzzleRoom {
 	protected override void Update () {
         if (!solved) 
         {
-            CheckSolveConditions();
             foreach(Collider o in Physics.OverlapBox(box.GetComponent<Renderer>().bounds.center,box.GetComponent<Renderer>().bounds.size))
             {
                 if (o.name == "Wall")

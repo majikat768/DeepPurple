@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /*
- * 
  * RoomGenerator is more like RoomManager;
  * Keeps a reference to every object I have to instantiate (floor, walls, doors, objects, lights),
  * a List of every Room object, 
@@ -63,35 +62,6 @@ public static class RoomGenerator //: MonoBehaviour
     private static Vector3 size = new Vector3(32.0f,4.0f,32.0f);
     private static Vector3 Zero;
 
-    private static void Awake()
-    {
-        // Layer Mask for WallTransparency, to allow RayCast between camera and player to detect walls.
-        WallLayer = 8;
-        WallMask = 1 << WallLayer;
-        
-        //Wall = Resources.Load<GameObject>("Michael/Wall");
-        Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
-        //Door = Resources.Load<GameObject>("Michael/Door");
-        Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
-        Block = Resources.Load<GameObject>("Michael/Block");
-        FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
-        //FloorTile = Resources.Load<GameObject>("Michael/FloorTile");
-        Ceiling = Resources.Load<GameObject>("Michael/Plane");
-        WallLight = Resources.Load<GameObject>("Michael/Roof_Light_003");
-        Console = Resources.Load<GameObject>("Michael/Console_001");
-        Panel = Resources.Load<GameObject>("Michael/Panel_001");
-    }
-
-    private static void Start() {
-
-        /*room = Get(transform.position,rt);
-        // don't need to call setSize.  if you don't it's default 16x16
-        room.SetSize(size.x,size.y,size.z); 
-        BuildDoors();
-        BakeNavMesh();
-        */
-    }
-
     // declare's an empty gameobject as a room, and attaches specific room type as component.
     public static GameObject Get(Vector3 Zero, RoomType rt = RoomType.None)
     {
@@ -141,6 +111,7 @@ public static class RoomGenerator //: MonoBehaviour
         // then in LevelGenerator we can add in something like: 
         //  GameObject r = RoomGenerator.Get(Zero,rt);
         //  r.SetSize(vector3 dimensions);
+        //  r.complexity = x;
         //  ...other room attributes to be added later....
         //  r.Init();
         r.SetZero(Zero);
@@ -149,7 +120,6 @@ public static class RoomGenerator //: MonoBehaviour
         return newroom;
     }
 
-
     /*
     *    checks each Room's box collider for intersecting box colliders attached to other rooms.
     *    finds overlapping wall sections, finds exact center of overlap, and puts a door there.
@@ -157,6 +127,7 @@ public static class RoomGenerator //: MonoBehaviour
     *    finally it calls the BuildWall function for every room, which puts up walls between all the doors.
     *
     */
+
     public static void BuildDoors()
     {
         foreach(Room room2 in RoomList) 
@@ -227,6 +198,8 @@ public static class RoomGenerator //: MonoBehaviour
             r.GetWalls();
             r.SetLighting(Cyan,0);
         }
+        GameObject timer = new GameObject("timer");
+        timer.AddComponent<PuzzleCountdown>();
     }
 
     public static void BakeNavMesh()

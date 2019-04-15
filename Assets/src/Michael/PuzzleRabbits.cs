@@ -16,8 +16,8 @@ public class PuzzleRabbits : PuzzleRoom {
 
     protected void Awake() {
         base.Awake();
-        TimeLimit = 30;
         instructions = "catch the pink rabbit";
+        TimeLimit = 30;
     }
 
     protected override void Start()
@@ -46,9 +46,6 @@ public class PuzzleRabbits : PuzzleRoom {
         else
             foreach(GameObject rabbit in Rabbits) 
                 rabbit.GetComponent<Animator>().SetBool("moving",false);
-
-        if (!solved) 
-            CheckSolveConditions();
 
         if(solved) 
         {

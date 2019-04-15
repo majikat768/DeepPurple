@@ -18,8 +18,8 @@ public class PerspectiveChange : MonoBehaviour {
 
 	void Start () {
         cam = Camera.main.GetComponent<vThirdPersonCamera>();
-        cam.height = 2f;
-        maxZoomOut = cam.defaultDistance;
+        cam.height = 1.8f;
+        maxZoomOut = cam.defaultDistance*2;
         maxZoomIn = -1;
 		
 	}
@@ -34,14 +34,14 @@ public class PerspectiveChange : MonoBehaviour {
                 firstPerson = true;
             }
             else {
-                cam.defaultDistance = maxZoomOut;
+                cam.defaultDistance = maxZoomOut/2;
                 firstPerson = false;
             }
         }
 
         cam.defaultDistance -= Input.mouseScrollDelta.y;
-        if(cam.defaultDistance > maxZoomOut*2) {
-            cam.defaultDistance = maxZoomOut*2;
+        if(cam.defaultDistance > maxZoomOut) {
+            cam.defaultDistance = maxZoomOut;
             firstPerson = false;
         }
         if(cam.defaultDistance < maxZoomIn) {

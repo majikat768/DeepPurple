@@ -15,12 +15,13 @@ public class PuzzlePlatforms : PuzzleRoom {
     GameObject trampoline;
     private BoxCollider roomCollider;
     GameObject p8;
+    GameObject hoop;
+    ParticleSystem hoopFire;
 
     protected override void Awake()
     {
         base.Awake();
         TimeLimit = 100;
-        instructions = "leap through the ring of fire";
         MovingPlatforms = new List<MovingPlatform>();
         Platforms = new List<GameObject>();
         FOV = Camera.main.fieldOfView;
@@ -32,6 +33,7 @@ public class PuzzlePlatforms : PuzzleRoom {
     }
     protected override void Start()
     {
+        instructions = "leap through the ring of fire";
         roomCollider = this.GetComponent<BoxCollider>();
 
         Destroy(this.transform.Find("Ceiling").gameObject);
@@ -47,7 +49,6 @@ public class PuzzlePlatforms : PuzzleRoom {
 	}
 
 	protected override void Update () {
-        base.Update();
         if(PlayerInRoom) {
             foreach(MovingPlatform p in MovingPlatforms) {
                 if(!p.OnlyMoveWithPlayer)
@@ -159,10 +160,12 @@ public class PuzzlePlatforms : PuzzleRoom {
         trampoline.transform.position = new Vector3(p8.transform.position.x,Zero.y+1,p8.transform.position.z);
         trampoline.transform.parent = this.transform;
 
-        GameObject key = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Hoop"));
-        key.transform.position = trampoline.transform.position + new Vector3(0,(p8.transform.position.y+trampoline.transform.position.y)/2,0)-new Vector3(trampoline.GetComponent<Renderer>().bounds.size.x/2,0,0);
-        AddItem(key.transform,Potion);
-        key.transform.parent = this.transform;
+        hoop = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Hoop"));
+        hoop.transform.position = trampoline.transform.position + new Vector3(0,(p8.transform.position.y+trampoline.transform.position.y)/2,0)-new Vector3(trampoline.GetComponent<Renderer>().bounds.size.x/2,0,0);
+        AddItem(hoop.transform,Potion);
+        hoopFire = hoop.GetComponent<ParticleSystem>();
+        hoopFire.Stop();
+        hoop.transform.parent = this.transform;
 
         foreach(GameObject p in Platforms) {
             p.GetComponent<Renderer>().materials[0].mainTextureScale = new Vector2(p.transform.localScale.x,p.transform.localScale.z)/2;
@@ -189,23 +192,35 @@ public class PuzzlePlatforms : PuzzleRoom {
 
     public void OnTriggerEnter(Collider other)
     {
+        base.OnTriggerEnter(other);
         if(other.gameObject == Player)
         {
-            base.OnTriggerEnter(other);
+            if(!solved) {
+            if(!hoopFire.isPlaying) hoopFire.Play();
             foreach(GameObject p in Platforms) 
                 AddItem(p.transform,Coin);
+            }
             Camera.main.fieldOfView = 100;
         }
     }
 
     public new void OnTriggerExit(Collider other)
     {
+        base.OnTriggerEnter(other);
         if(other.gameObject == Player)
         {
-            base.OnTriggerEnter(other);
+            if(hoopFire.isPlaying) hoopFire.Stop();
             Camera.main.fieldOfView = FOV;
         }
     }
+    protected override void CheckSolveConditions() {
+        if(hoop.GetComponent<Hoop>().solved) {
+            solved = true;
+            PlaySolvedSound();
+            inventory.incScore((int)GetScore());
+        }
+    }
+
     public void Solve(bool s) { solved = s; }
     public bool isSolved() { return solved; }
 

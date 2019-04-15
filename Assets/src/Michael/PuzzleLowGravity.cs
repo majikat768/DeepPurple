@@ -22,8 +22,8 @@ public class PuzzleLowGravity : PuzzleRoom {
 
 	protected override void Awake () {
         base.Awake();
-        TimeLimit = 200.0f;
         instructions = "catch the fireballs";
+        TimeLimit = 200.0f;
         shapes = new GameObject("shapes");
         shapes.transform.parent = this.transform;
         SnitchList = new List<GameObject>();
@@ -99,9 +99,6 @@ public class PuzzleLowGravity : PuzzleRoom {
                 ambienceSource.PlayOneShot(echo,Random.Range(0.5f,1.0f));
             }
         }
-        if(!solved) 
-            CheckSolveConditions();
-		
 	}
 
     protected override void CheckSolveConditions() {
@@ -169,11 +166,11 @@ public class PuzzleLowGravity : PuzzleRoom {
             GameObject shapeRef = shapesList[Random.Range(0,shapesList.Length)];
             GameObject s = GameObject.Instantiate(shapeRef);
             s.transform.position = Zero+size/2;
-            s.transform.localScale = new Vector3(1,1,1);
+            s.transform.localScale *= Random.Range(1.0f,2.0f);
             s.transform.parent = shapes.transform;
 
-            GameObject Butterfly = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Butterfly (Animated)/Butterfly"),Zero+new Vector3(Random.Range(4,size.x-5),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y/4),Random.Range(4,size.z-5)),Quaternion.identity,this.transform);
         }
+        GameObject Butterfly = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Butterfly (Animated)/Butterfly"),Zero+new Vector3(Random.Range(4,size.x-5),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y/4),Random.Range(4,size.z-5)),Quaternion.identity,this.transform);
     }
 
 }

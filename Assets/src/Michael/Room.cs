@@ -19,6 +19,7 @@ using UnityEngine.AI;
 
 public class Room : MonoBehaviour
 {
+    public bool addPortal = true;
     public bool initialized = false;
     public bool PlayerInRoom = false;
     public bool testbuild = false;
@@ -67,10 +68,6 @@ public class Room : MonoBehaviour
         RoomGenerator.RoomList.Add(this);
         lightColor = RoomGenerator.Cyan;
 
-        if(testbuild) {
-            RoomGenerator.BuildDoors();
-            RoomGenerator.BakeNavMesh();
-        }
     }
 
     protected virtual void Start() 
@@ -159,7 +156,7 @@ public class Room : MonoBehaviour
     protected virtual void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
-            this.SetLighting(lightColor, 2);
+            this.SetLighting(lightColor, 3);
             PlayerInRoom = true;
         }
     }
@@ -221,11 +218,13 @@ public class Room : MonoBehaviour
             panel.transform.position += door.transform.TransformDirection(Vector3.forward)*(door.transform.position.z > Zero.z+size.z/2 || door.transform.position.x > Zero.x+size.x/2 ? -0.15f : 0.15f);
         }
 
-        portal = GameObject.Instantiate(Portal,Zero+new Vector3(size.x,0,size.z),Portal.transform.rotation,this.transform);
-        portal.transform.position -= new Vector3(portal.GetComponent<CapsuleCollider>().radius*2,0,portal.GetComponent<CapsuleCollider>().radius*2);
-        portal.GetComponent<Teleporter>().SetHeight(this.size.y);
-        portal.name = "Teleporter";
-        RoomGenerator.TeleporterList.Add(portal);
+        if(addPortal) {
+            portal = GameObject.Instantiate(Portal,Zero+new Vector3(size.x,0,size.z),Portal.transform.rotation,this.transform);
+            portal.transform.position -= new Vector3(portal.GetComponent<CapsuleCollider>().radius*2,0,portal.GetComponent<CapsuleCollider>().radius*2);
+            portal.GetComponent<Teleporter>().SetHeight(this.size.y);
+            portal.name = "Teleporter";
+            RoomGenerator.TeleporterList.Add(portal);
+        }
 
         /*
         for(int i = 3; i <= size.x-3; i += (int)(size.x-6)/2) {

@@ -7,6 +7,7 @@ public class Hoop : MonoBehaviour {
     GameObject player;
     Inventory inventory;
     PuzzleRoom R;
+    public bool solved;
 
 	// Use this for initialization
 	void Start () {
@@ -24,9 +25,8 @@ public class Hoop : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if(other.gameObject == player) {
             if(!R.solved) {
-                inventory.incScore((int)R.GetScore());
-                R.PlaySolvedSound();
-                R.solved = true;
+                this.solved = true;
+                this.GetComponent<ParticleSystem>().Stop();
             }
         }
     }
