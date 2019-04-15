@@ -40,13 +40,13 @@ public class PuzzleTurrets : PuzzleRoom {
         }
         */
 
-        GameObject t = GameObject.Instantiate(turretRef,Zero+new Vector3(size.x/4,0,size.z/4),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
+        GameObject t = GameObject.Instantiate(turretRef,Zero+new Vector3(size.x/3,0,size.z/3),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
         turretList.Add(t);
-        t = GameObject.Instantiate(turretRef,Zero+new Vector3(3*size.x/4,0,size.z/4),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
+        t = GameObject.Instantiate(turretRef,Zero+new Vector3(2*size.x/3,0,size.z/3),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
         turretList.Add(t);
-        t = GameObject.Instantiate(turretRef,Zero+new Vector3(size.x/4,0,3*size.z/4),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
+        t = GameObject.Instantiate(turretRef,Zero+new Vector3(size.x/3,0,2*size.z/3),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
         turretList.Add(t);
-        t = GameObject.Instantiate(turretRef,Zero+new Vector3(3*size.x/4,0,3*size.z/4),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
+        t = GameObject.Instantiate(turretRef,Zero+new Vector3(2*size.x/3,0,2*size.z/3),Quaternion.Euler(0,Random.Range(0,180),0),this.transform);
         turretList.Add(t);
 
         GameObject b = GameObject.Instantiate(boxRef,Zero+new Vector3(size.x/2,1,size.z/4),Quaternion.identity,this.transform);

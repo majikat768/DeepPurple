@@ -36,7 +36,7 @@ public class PuzzleRoom : Room
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
 
-        lightColor = RoomGenerator.Red;
+        lightColor = RG.Red;
     }
 
     public void PlaySolvedSound()
@@ -74,7 +74,10 @@ public class PuzzleRoom : Room
         if(PlayerInRoom && !solved) {
             countdown.Count(TimeLimit);
             if(TimeLimit > 0)   TimeLimit -= Time.deltaTime;
-            else    TimeLimit = 0;
+            else {
+                TimeLimit = 0;
+                solved = true;
+            }
             CheckSolveConditions();
             if(solved) {
                 StartCoroutine(countdown.FadeText(1f, 0f, 3f));
@@ -100,7 +103,7 @@ public class PuzzleRoom : Room
         locked = false;
         foreach (GameObject d in DoorList)
             d.GetComponent<OpenDoor>().Unlock();
-        lightColor = RoomGenerator.LightGreen;
+        lightColor = RG.LightGreen;
         SetLighting(lightColor,3);
     }
 

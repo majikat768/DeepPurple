@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1658210004783302}
+  m_IsPrefabParent: 1
+--- !u!1 &1658210004783302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4284524903125578}
+  - component: {fileID: 114390549912671418}
+  - component: {fileID: 114373486284857220}
+  m_Layer: 0
+  m_Name: Level
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4284524903125578
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1658210004783302}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27, y: -16.391304, z: 81.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114373486284857220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1658210004783302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37059ddfea3cbee4297d48e191e50890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRoom: {fileID: 0}
+  teleporterList: []
+  wallLayer: 0
+  wallMask: 0
+  roomList: []
+  Wall: {fileID: 0}
+  Door: {fileID: 0}
+  FloorTile: {fileID: 0}
+  Ceiling: {fileID: 0}
+  Console: {fileID: 0}
+  Panel: {fileID: 0}
+  Portal: {fileID: 0}
+  Column: {fileID: 0}
+  Amber: {r: 0, g: 0, b: 0, a: 0}
+  Cyan: {r: 0, g: 0, b: 0, a: 0}
+  Fuschia: {r: 0, g: 0, b: 0, a: 0}
+  Red: {r: 0, g: 0, b: 0, a: 0}
+  LightGreen: {r: 0, g: 0, b: 0, a: 0}
+  rt: 0
+  r: {fileID: 0}
+--- !u!114 &114390549912671418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1658210004783302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b541265219debd04b83226f700a2e4b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultGenerator: 1

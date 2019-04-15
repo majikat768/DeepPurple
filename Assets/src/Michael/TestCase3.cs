@@ -11,6 +11,9 @@ public class TestCase3 : MonoBehaviour {
     int complexity; 
     LineRenderer line;
     int x,z;
+    int minHeight = 4;
+    int maxHeight = 12;
+
 
     List<GameObject> endpointMarkers;
     System.String debugMessage,failMessage;
@@ -29,9 +32,12 @@ public class TestCase3 : MonoBehaviour {
 
     float timeToBuild;
 
+    private RoomGenerator RG;
+
 	// Use this for initialization
 
 	void Start () {
+        RG = RoomGenerator.instance;
         this.tag = "Player";
         endpointMarkers = new List<GameObject>();
         line = GetComponent<LineRenderer>();
@@ -55,11 +61,9 @@ public class TestCase3 : MonoBehaviour {
             if(NavMesh.CalculatePath(start,end,NavMesh.AllAreas,path)) {
                 if(path.status == NavMeshPathStatus.PathComplete) {
                     line.positionCount = path.corners.Length;
-                    /*
                     for(int i = 0; i < path.corners.Length; i++) {
                         line.SetPosition(i,path.corners[i]);
                     }
-                    */
                     /*/
                     GameObject s = GameObject.CreatePrimitive(PrimitiveType.Quad);
                     s.transform.rotation = Quaternion.Euler(90,0,0);
@@ -91,10 +95,10 @@ public class TestCase3 : MonoBehaviour {
 
         if(z >= targetRoom.GetZero().z+targetRoom.GetSize().z-1 && x >= targetRoom.GetZero().x+targetRoom.GetSize().x-1) {
             if(!fail) {
-                foreach(Room r in RoomGenerator.roomList)   DestroyImmediate(r.gameObject);
+                foreach(Room r in RG.roomList)   DestroyImmediate(r.gameObject);
                 foreach(GameObject o in endpointMarkers)    DestroyImmediate(o);
                 endpointMarkers.Clear();
-                RoomGenerator.roomList.Clear();
+                RG.roomList.Clear();
                 complexity++;
                 timeToBuild = Time.realtimeSinceStartup;
                 BuildRoom();
@@ -109,7 +113,7 @@ public class TestCase3 : MonoBehaviour {
     void BuildRoom() {
         Zero = Vector3.zero;
         for(int i = 0; i < numRooms; i++) {
-            size = new Vector3(Random.Range(minSize,maxSize),3,Random.Range(minSize,maxSize));
+            size = new Vector3(Random.Range(minSize,maxSize),Random.Range(minHeight,maxHeight),Random.Range(minSize,maxSize));
             GameObject room = RoomGenerator.Get(Zero);
             room.GetComponent<Room>().SetSize(size);
             room.GetComponent<Room>().complexity = complexity;

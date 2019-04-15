@@ -11,7 +11,7 @@ public class StartRoom : Room
         // 
         Vector3 SpawnPoint = new Vector3(Zero.x+size.x / 2, 2.0f, Zero.z+size.z / 2);
         Player = GameObject.FindWithTag("Player");
-        SetLighting(RoomGenerator.Amber,3);
+        SetLighting(RG.Amber,3);
         Collider[] playerCollisions = Physics.OverlapBox(SpawnPoint,new Vector3(1,1,1));
         for(int i = 0; i < playerCollisions.Length; i++)
         {

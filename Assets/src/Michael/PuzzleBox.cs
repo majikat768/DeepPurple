@@ -19,7 +19,7 @@ public class PuzzleBox : PuzzleRoom {
 
     protected void Start()
     {
-        FloorTile = RoomGenerator.FloorTile;
+        FloorTile = RG.FloorTile;
 
         Vector3 SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), size.y / 2, Random.Range(2, size.z-3));
         box = GameObject.Instantiate(

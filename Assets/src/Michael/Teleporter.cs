@@ -20,9 +20,11 @@ public class Teleporter : MonoBehaviour {
 
     private AudioClip bloop;
     private AudioSource audioSource;
+    private RoomGenerator RG;
 
 	// Use this for initialization
 	void Start () {
+        RG = RoomGenerator.instance;
         player = GameObject.FindWithTag("Player");
         room = this.transform.parent.gameObject.GetComponent<Room>();
         this.GetComponent<ParticleSystem>().Stop();
@@ -48,9 +50,9 @@ public class Teleporter : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if(other == player.GetComponent<Collider>() && !justArrived) {
             if(Destination == null) {
-                Destination = RoomGenerator.teleporterList[Random.Range(0,RoomGenerator.teleporterList.Count-1)];
-                while(Destination == this.gameObject && RoomGenerator.teleporterList.Count > 1)
-                    Destination = RoomGenerator.teleporterList[Random.Range(0,RoomGenerator.teleporterList.Count)];
+                Destination = RG.teleporterList[Random.Range(0,RG.teleporterList.Count-1)];
+                while(Destination == this.gameObject && RG.teleporterList.Count > 1)
+                    Destination = RG.teleporterList[Random.Range(0,RG.teleporterList.Count)];
             }
             Debug.Log("player entered Teleporter");
             Destination.GetComponent<Teleporter>().justArrived = true;

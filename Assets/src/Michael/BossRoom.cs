@@ -25,12 +25,15 @@ public class BossRoom : Room
         BossMan.AddComponent<BasicEnemy>();
         BossMan.name = "Boss";
         BasicEnemy eScript = BossMan.GetComponent<BasicEnemy>();
+        BossMan.transform.Find("Soldier").GetComponent<Renderer>().material = new Material(Shader.Find("Standard (Specular setup)"));
+        BossMan.transform.Find("Soldier").GetComponent<Renderer>().material.SetColor("_Color",Color.black);
+        BossMan.transform.Find("Soldier").GetComponent<Renderer>().material.SetColor("_Specular",Color.white);
         eScript.moveMax = 7;
         eScript.moveMin = 3;
         eScript.health = 300;
         //BossMan.transform.localScale = new Vector3(3.5f, 3.5f, 3.5f);
 
-        RoomGenerator.teleporterList.Remove(this.transform.Find("Teleporter").gameObject);
+        RG.teleporterList.Remove(this.transform.Find("Teleporter").gameObject);
         Destroy(this.transform.Find("Teleporter").gameObject);
 
         foreach(Transform w in Walls.transform) {

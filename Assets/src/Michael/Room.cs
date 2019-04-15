@@ -44,8 +44,11 @@ public class Room : MonoBehaviour
 
     protected Color lightColor;
 
+    protected RoomGenerator RG; 
     public virtual void Awake()
     {
+        RG = RoomGenerator.instance;
+        //Debug.Log(this.gameObject.name + " awake");
         Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
         Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
         FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
@@ -59,15 +62,19 @@ public class Room : MonoBehaviour
         Player = GameObject.FindWithTag("Player");
         Walls = new GameObject("Walls");
         Walls.transform.parent = this.gameObject.transform;
-        RoomGenerator.roomList.Add(this);
-        lightColor = RoomGenerator.Cyan;
+        RG.roomList.Add(this);
+        lightColor = RG.Cyan;
 
+        if(testbuild) {
+            RoomGenerator.BuildDoors();
+            RoomGenerator.BakeNavMesh();
+        }
     }
 
     public void Init() 
     {
         if(size == Vector3.zero)
-            size = RoomGenerator.GetSize();
+            size = RG.GetSize();
 
         initialized = true;
 
@@ -123,8 +130,8 @@ public class Room : MonoBehaviour
     {
         if (other.gameObject == Player)
         {
-            this.SetLighting(RoomGenerator.Cyan, 0.0f);
-            lightColor = RoomGenerator.Amber;
+            this.SetLighting(RG.Cyan, 0.0f);
+            lightColor = RG.Amber;
             PlayerInRoom = false;
         }
     }
@@ -133,11 +140,11 @@ public class Room : MonoBehaviour
     public void GetWalls()
     {
         //Wall Width
-        float ww = Wall.GetComponent<Renderer>().bounds.size.z/2;
-        BuildWall(Zero+new Vector3(0,0,ww), Zero+new Vector3(size.x, 0, ww), size.y);
-        BuildWall(Zero+new Vector3(ww,0,0), Zero+new Vector3(ww, 0, size.z), size.y);
-        BuildWall(Zero+new Vector3(size.x-ww, 0, 0), Zero+new Vector3(size.x-ww, 0, size.z), size.y);
-        BuildWall(Zero+new Vector3(0, 0, size.z-ww), Zero+new Vector3(size.x, 0, size.z-ww), size.y);
+        float ww = Wall.GetComponent<Renderer>().bounds.size.z/8;
+        BuildWall(Zero+new Vector3(0,0,ww), Zero+new Vector3(size.x, 0, ww), size.y,side:"South");
+        BuildWall(Zero+new Vector3(ww,0,0), Zero+new Vector3(ww, 0, size.z), size.y,side:"West");
+        BuildWall(Zero+new Vector3(size.x-ww, 0, 0), Zero+new Vector3(size.x-ww, 0, size.z), size.y,side:"East");
+        BuildWall(Zero+new Vector3(0, 0, size.z-ww), Zero+new Vector3(size.x, 0, size.z-ww), size.y,side:"North");
 
         // Find's a random point along outer wall, and finds point on wall directly opposite.
         // Enter recursive function GetInnerWalls with these parameters....
@@ -149,8 +156,7 @@ public class Room : MonoBehaviour
              new Vector3(0,0,Random.Range(-start.GetComponent<Renderer>().bounds.size.z/3,start.GetComponent<Renderer>().bounds.size.z/3)));
 
         RaycastHit hit;
-        //Debug.DrawRay(start.position+new Vector3(0,size.y/2,0), dir*64,Color.red,10);
-        if (Physics.Raycast(startpoint + new Vector3(0, size.y / 2, 0), dir, out hit, Mathf.Infinity, RoomGenerator.wallMask))
+        if (Physics.Raycast(startpoint + new Vector3(0, size.y / 2, 0), dir, out hit, Mathf.Infinity, RG.wallMask))
         {
             GetInnerWalls(startpoint, hit, 0);
         }
@@ -185,13 +191,13 @@ public class Room : MonoBehaviour
             portal.transform.position -= new Vector3(portal.GetComponent<CapsuleCollider>().radius*2,0,portal.GetComponent<CapsuleCollider>().radius*2);
             portal.GetComponent<Teleporter>().SetHeight(this.size.y);
             portal.name = "Teleporter";
-            RoomGenerator.teleporterList.Add(portal);
+            RG.teleporterList.Add(portal);
         }
 
     }
 
     // Build a wall between start and end of height height, if doors == true then search for doors and build walls between them.
-    public void BuildWall(Vector3 start, Vector3 end,float height,bool doors = true)
+    public void BuildWall(Vector3 start, Vector3 end,float height,bool doors = true, string side = "inner")
     {
         Vector3 wBounds;
         //start at wall's starting location; 
@@ -218,7 +224,7 @@ public class Room : MonoBehaviour
                         w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, this.gameObject.transform.rotation, Walls.transform);
                         wBounds = w.GetComponent<Renderer>().bounds.size;
                         w.transform.LookAt(end);
-                        w.transform.Rotate(0, 90*(w.transform.position.z < Zero.z+size.z/2 || w.transform.position.x > Zero.x+size.x/2 ? -1 : 1), 0);
+                        w.transform.Rotate(0,90*(side == "South" || side == "East" ? -1 : 1), 0);
                         w.transform.localScale = new Vector3(Vector3.Distance(SegmentStart, SegmentEnd) / wBounds.x, height / wBounds.y, 1);
                         w.name = "Wall";
                         w.GetComponent<NavMeshObstacle>().size = wBounds;
@@ -238,7 +244,8 @@ public class Room : MonoBehaviour
             }
         }
         SegmentEnd = end;
-        w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, Quaternion.identity,Walls.transform);
+        w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, this.gameObject.transform.rotation, Walls.transform);
+        //w = GameObject.Instantiate(Wall, (SegmentStart + SegmentEnd) / 2, Quaternion.identity,Walls.transform);
         wBounds = w.GetComponent<Renderer>().bounds.size;
         w.name = "Wall";
         w.transform.LookAt(end);
@@ -260,6 +267,7 @@ public class Room : MonoBehaviour
     {
         bool built = false;
         if (depth > complexity) return;
+        //Debug.DrawRay(start+new Vector3(0,size.y/2,0), endHit.point-start-new Vector3(0,size.y/2,0), Color.red, 10);
         Vector3 end = endHit.point - new Vector3(0, size.y / 2, 0);
         if (Vector3.Distance(start, end) < 4)   return;
         RaycastHit hit,hit2;
@@ -281,11 +289,9 @@ public class Room : MonoBehaviour
         Vector3 newStart = Vector3.Lerp(start, end, Random.Range(0.2f, 0.8f));
         dir = Vector3.Cross(start+new Vector3(0,1,0), end+new Vector3(0,1,0));
         dir = new Vector3(dir.x, 0, dir.z).normalized;
-        //Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), dir, Color.green, 10);
-        //Debug.DrawRay(newStart+new Vector3(0,size.y/2,0), -dir, Color.blue, 10);
-        if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), dir, out hit, Mathf.Infinity, RoomGenerator.wallMask))
+        if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), dir, out hit, Mathf.Infinity, RG.wallMask))
         {
-            if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RoomGenerator.wallMask))
+            if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RG.wallMask))
             {
                 if (Vector3.Distance(newStart, hit2.point) >= Vector3.Distance(newStart, hit.point))
                     GetInnerWalls(newStart, hit2, depth + 1);
@@ -295,7 +301,7 @@ public class Room : MonoBehaviour
             else 
                 GetInnerWalls(newStart, hit, depth + 1);
         }
-        else if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RoomGenerator.wallMask))
+        else if (Physics.Raycast(newStart+new Vector3(0,size.y/2,0), -dir, out hit2, Mathf.Infinity, RG.wallMask))
             GetInnerWalls(newStart, hit2, depth + 1);
 
 
