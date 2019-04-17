@@ -10,6 +10,7 @@ public class MovingPlatform : MonoBehaviour {
     public bool playerOnPlatform = false;
     public bool OnlyMoveWithPlayer = false;
     public Vector3 home,start,end,direction;
+    Bounds platformBounds;
 
 	// Use this for initialization
 	void Start () {
@@ -17,9 +18,9 @@ public class MovingPlatform : MonoBehaviour {
         start = this.transform.position;
         home = start;
         if(OnlyMoveWithPlayer)  moving = false;
+        platformBounds = this.GetComponent<Renderer>().bounds;
 	}
 	
-	// Update is called once per frame
 	void FixedUpdate () {
         if(end == Vector3.zero) {
             end = new Vector3(start.x,start.y*3,start.z);
@@ -28,8 +29,8 @@ public class MovingPlatform : MonoBehaviour {
             direction = (end - start).normalized;
         if(moving) {
             this.transform.position += direction * speed * Time.deltaTime;
-            foreach(Collider o in Physics.OverlapBox(this.GetComponent<Collider>().bounds.center,this.GetComponent<Collider>().bounds.size))
-                if(o.name == "Coin")
+            foreach(Collider o in Physics.OverlapBox(platformBounds.center,platformBounds.size/2))
+                if(o.name == "Item")
                    o.transform.position += direction * speed * Time.deltaTime;
             if(playerOnPlatform) player.transform.position += direction * speed * Time.deltaTime;
             //this.transform.position = Vector3.Lerp(this.transform.position,end,speed * Time.deltaTime);

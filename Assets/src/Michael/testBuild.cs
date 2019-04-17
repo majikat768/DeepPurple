@@ -9,7 +9,9 @@ public class testBuild : MonoBehaviour {
     void Start() {
         RG = RoomGenerator.instance;
         Room StartRoom = new GameObject("Start Room").AddComponent<StartRoom>();
-        StartRoom.SetSize(new Vector3(24,4,24));
+        StartRoom.SetSize(new Vector3(36,24,24));
+        StartRoom.SetZero(new Vector3(-12,0,0));
+        StartRoom.complexity = -1;
 
         Room BoxRoom = new GameObject("Box").AddComponent<PuzzleBox>();
         BoxRoom.SetSize(new Vector3(24,4,20));
@@ -27,9 +29,28 @@ public class testBuild : MonoBehaviour {
         FloatingRoom.SetZero(new Vector3(48,0,0));
         FloatingRoom.SetSize(new Vector3(16,4,28));
 
+        /*
         Room PlatformRoom = new GameObject("Platformer").AddComponent<PuzzlePlatforms>();
         PlatformRoom.SetZero(new Vector3(48,0,28));
         PlatformRoom.SetSize(new Vector3(40,4,24));
+        /*/
+
+        Room PlatformRoom = new GameObject("Platformer").AddComponent<PuzzleSuperPlatforms>();
+        PlatformRoom.SetZero(new Vector3(48,0,28));
+        PlatformRoom.SetSize(new Vector3(24,4,24));
+
+        Room PlatformRoom2 = new GameObject("Platformer").AddComponent<PuzzleSuperPlatforms>();
+        PlatformRoom2.SetZero(new Vector3(72,0,28));
+        PlatformRoom2.SetSize(new Vector3(24,4,24));
+
+        Room PlatformRoom3 = new GameObject("Platformer").AddComponent<PuzzleSuperPlatforms>();
+        PlatformRoom3.SetZero(new Vector3(96,0,28));
+        PlatformRoom3.SetSize(new Vector3(24,4,24));
+
+        Room PlatformRoom4 = new GameObject("Platformer").AddComponent<PuzzleSuperPlatforms>();
+        PlatformRoom4.SetZero(new Vector3(120,0,28));
+        PlatformRoom4.SetSize(new Vector3(24,4,24));
+        /**/
 
         Room CombatRoom = new GameObject("Fight").AddComponent<CombatRoom>();
         CombatRoom.SetZero(new Vector3(8,0,48));
@@ -38,7 +59,7 @@ public class testBuild : MonoBehaviour {
         Room TreasureRoom = new GameObject("Treasure").AddComponent<TreasureRoom>();
         TreasureRoom.SetZero(new Vector3(64,0,20));
         TreasureRoom.SetSize(new Vector3(24,4,8));
-        TreasureRoom.complexity = 0;
+        TreasureRoom.complexity = -1;
 
         Room Hallway1 = new GameObject("Hallway").AddComponent<Room>();
         Hallway1.SetZero(new Vector3(0,0,-4));

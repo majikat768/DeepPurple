@@ -13,10 +13,17 @@ public class PuzzleRabbits : PuzzleRoom {
     private int numRabbits;
     private GameObject rabbitReference;
     private List<GameObject> Rabbits;
+    Color Red;
+    Color Green;
+    Color Blue;
 
     protected void Awake() {
+        Red = new Color(1,0,0);
+        Green = new Color(0,1,0);
+        Blue = new Color(0,0,1);
+
         base.Awake();
-        instructions = "catch the pink rabbit";
+        instructions = "catch the green rabbit";
         TimeLimit = 30;
     }
 
@@ -29,8 +36,14 @@ public class PuzzleRabbits : PuzzleRoom {
         for(int i = 0; i < numRabbits; i++) {
             GameObject r = GameObject.Instantiate(rabbitReference, Zero + new Vector3(Random.Range(1,size.x-1),0,Random.Range(1,size.z-1)),Quaternion.identity,this.transform);
             if(i == 0) {
-                r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = new Color(1,0,0.5f);
-                r.AddComponent<Light>().color = new Color(1.0f,0,0.5f);
+                r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = new Color(0,1,0.25f);
+            }
+            else {
+                float rand = Random.value;
+                if(rand < 0.33f)
+                    r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = Red;
+                else if(rand < 0.66f)
+                    r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = Blue;
             }
             Rabbits.Add(r);
         }

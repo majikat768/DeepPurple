@@ -50,7 +50,6 @@ public class PuzzleRoom : Room
         {
             PlayerInRoom = true;
             if(!solved) {
-                Debug.Log(countdown);
                 countdown.SetInstructions(instructions);
                 StartCoroutine(countdown.FadeText(0f, 1f, 3f));
                 locked = true;

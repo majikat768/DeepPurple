@@ -2441,7 +2441,7 @@ Prefab:
     - target: {fileID: 114390549912671418, guid: bb58af57fc4ee46b7a50ec8244684c93,
         type: 2}
       propertyPath: defaultGenerator
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb58af57fc4ee46b7a50ec8244684c93, type: 2}

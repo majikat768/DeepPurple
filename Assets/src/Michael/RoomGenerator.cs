@@ -65,7 +65,7 @@ public class RoomGenerator : MonoBehaviour
         roomList = new List<Room>();
         teleporterList = new List<GameObject>();
         Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
-        Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
+        Door = Resources.Load<GameObject>("Michael/Door");
         FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
         Ceiling = Resources.Load<GameObject>("Michael/Plane");
         Console = Resources.Load<GameObject>("Michael/Console_001");
@@ -77,8 +77,8 @@ public class RoomGenerator : MonoBehaviour
         Amber = new Color(1.0f, 0.82f, 0.39f);
         Cyan = new Color(0.47f, 1, 1);
         Fuschia = new Color(0.87f, 0.39f, 1);
-        Red = new Color(0.97f, 0.19f, 0.19f);
-        LightGreen = new Color(0.2f, 1, 0.2f);
+        Red = new Color(0.97f, 0.29f, 0.29f);
+        LightGreen = new Color(0.3f, 1, 0.3f);
         
         wallLayer = 8;
         wallMask = 1 << wallLayer; 
@@ -111,14 +111,16 @@ public class RoomGenerator : MonoBehaviour
                 break;
             case RoomType.Puzzle:
                 float rand = Random.value;
-                if(rand < 0.2f)
+                if(rand < 0.15f)
                     r = newroom.AddComponent<PuzzleRabbits>();
-                else if(rand < 0.4f)
+                else if(rand < 0.3f)
                     r = newroom.AddComponent<PuzzleBox>();
-                else if(rand < 0.6f)
+                else if(rand < 0.45f)
                     r = newroom.AddComponent<PuzzlePlatforms>();
-                else if(rand < 0.8f)
+                else if(rand < 0.6f)
                     r = newroom.AddComponent<PuzzleTurrets>();
+                else if(rand < 0.85f)
+                    r = newroom.AddComponent<PuzzleSuperPlatforms>();
                 else
                     r = newroom.AddComponent<PuzzleLowGravity>();
                 newroom.name = "Puzzle Room";
