@@ -28,8 +28,7 @@ public class LevelGeneratorTest {
     /// </summary>
 	[Test]
 	public void LevelGeneratorTFractalHasStart() {
-        LevelGenerator lg = LevelGenerator.Instance;
-        var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
+        var rooms = GeneratorType.TFRACTAL.GetGenerator().GetRooms();
         bool foundStart = false;
         foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
         {
@@ -51,8 +50,7 @@ public class LevelGeneratorTest {
     [Test]
     public void LevelGeneratorTFractalHasBoss()
     {
-        LevelGenerator lg = LevelGenerator.Instance;
-        var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
+        var rooms = GeneratorType.TFRACTAL.GetGenerator().GetRooms();
         bool foundBoss = false;
         foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
         {
@@ -78,8 +76,7 @@ public class LevelGeneratorTest {
     [Test]
     public void LevelGeneratorTFractalHasWinnablePath()
     {
-        LevelGenerator lg = LevelGenerator.Instance;
-        var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
+        var rooms = GeneratorType.TFRACTAL.GetGenerator().GetRooms();
 
         var visited = new List<Vector2Int>();
         var stack = new Stack<Vector2Int>();
@@ -132,8 +129,7 @@ public class LevelGeneratorTest {
     [Test]
     public void LevelGeneratorTFractalBossRoomAtEndOfCorridor()
     {
-        LevelGenerator lg = LevelGenerator.Instance;
-        var rooms = lg.GetRooms(LevelGenerator.Generator.TFRACTAL);
+        var rooms = GeneratorType.TFRACTAL.GetGenerator().GetRooms();
         var vertex = new Vector2Int(0, 0);
         foreach (KeyValuePair<Vector2Int, RoomGenerator.RoomType> room in rooms)
         {
