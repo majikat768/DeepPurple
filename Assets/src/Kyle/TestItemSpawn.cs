@@ -13,6 +13,6 @@ public class TestItemSpawn : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		GameObject.Instantiate (ItemDatabase.InvulnPotRef);
+		GameObject.Instantiate (ItemDatabase.instance.InvulnPotRef);
 	}
 }

@@ -23,7 +23,7 @@ public class ChestScript : MonoBehaviour {
 			for (int j = 0; j < 4; j++) 
 			{
 				GameObject Item;
-				Item = ItemDatabase.RandomItemGrabber ();
+				Item = ItemDatabase.instance.RandomItemGrabber ();
 				GameObject.Instantiate(Item, this.transform.position +new Vector3(0,1,0), Quaternion.identity);
 			}
 		}
