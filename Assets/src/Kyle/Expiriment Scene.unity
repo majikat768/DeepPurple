@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2644,6 +2644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46dc5a8c84eff4004a96a1fe4a42659a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hud: {fileID: 0}
   UI: {fileID: 0}
 --- !u!4 &1025716219
 Transform:
@@ -2783,46 +2784,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1228877874
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1228877875}
-  - component: {fileID: 1228877876}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1228877875
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1228877874}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5061665, y: 13.01059, z: -5.7193527}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1459030202}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1228877876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1228877874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83d6c4543ecc343b4a947a2722ad7a70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1459030200
 GameObject:
   m_ObjectHideFlags: 0
@@ -2847,20 +2808,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1459030200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cd5899186c364344ac8b6d9d78ff4fa, type: 3}
+  m_Script: {fileID: 11500000, guid: ef1fe0c7164be4973883812b3a3ef4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addPortal: 1
-  initialized: 0
-  PlayerInRoom: 0
-  testbuild: 1
-  complexity: 3
-  DoorList: []
+  size: {x: 32, y: 4, z: 32}
   Zero: {x: 0, y: 0, z: 0}
-  size: {x: 0, y: 0, z: 0}
-  Walls: {fileID: 0}
-  Floor: {fileID: 0}
-  Ceiling: {fileID: 0}
 --- !u!4 &1459030202
 Transform:
   m_ObjectHideFlags: 0
@@ -2868,10 +2820,9 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1459030200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.913755, y: 0.45034754, z: 0.81114984}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1228877875}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

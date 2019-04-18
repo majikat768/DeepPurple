@@ -77,8 +77,8 @@ public class RoomGenerator : MonoBehaviour
         Amber = new Color(1.0f, 0.82f, 0.39f);
         Cyan = new Color(0.47f, 1, 1);
         Fuschia = new Color(0.87f, 0.39f, 1);
-        Red = new Color(0.97f, 0.29f, 0.29f);
-        LightGreen = new Color(0.3f, 1, 0.3f);
+        Red = new Color(0.97f, 0.20f, 0.20f);
+        LightGreen = new Color(0.25f, 1, 0.25f);
         
         wallLayer = 8;
         wallMask = 1 << wallLayer; 

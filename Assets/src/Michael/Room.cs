@@ -48,7 +48,7 @@ public class Room : MonoBehaviour
     public virtual void Awake()
     {
         RG = RoomGenerator.instance;
-        //Debug.Log(this.gameObject.name + " awake");
+        Debug.Log(this.gameObject.name + " awake");
         Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
         Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
         FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
@@ -66,6 +66,7 @@ public class Room : MonoBehaviour
         lightColor = RG.Cyan;
 
         if(testbuild) {
+            Debug.Log("test");
             RoomGenerator.BuildDoors();
             RoomGenerator.BakeNavMesh();
         }
@@ -121,7 +122,7 @@ public class Room : MonoBehaviour
     protected virtual void OnTriggerEnter(Collider other) {
         if (other.gameObject == Player)
         {
-            this.SetLighting(lightColor, 3);
+            this.SetLighting(lightColor);
             PlayerInRoom = true;
         }
     }
@@ -131,7 +132,7 @@ public class Room : MonoBehaviour
         if (other.gameObject == Player)
         {
             this.SetLighting(RG.Cyan, 0.0f);
-            lightColor = RG.Amber;
+            lightColor = RG.Fuschia;
             PlayerInRoom = false;
         }
     }
@@ -161,6 +162,10 @@ public class Room : MonoBehaviour
             GetInnerWalls(startpoint, hit, 0);
         }
             
+        foreach(Transform w in Walls.transform) {
+            Light l = w.transform.Find("Roof_Light_003").GetComponent<Light>();
+            l.range = Mathf.Min(size.x,size.z)*2;
+        }
         Decorate();
     }
 

@@ -51,7 +51,7 @@ public class PerspectiveChange : MonoBehaviour {
             firstPerson = true;
         }
         else
-            Camera.main.fieldOfView += Input.mouseScrollDelta.y*3;
+            Camera.main.fieldOfView += Input.mouseScrollDelta.y;
 
 		
 	}

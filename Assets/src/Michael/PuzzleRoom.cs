@@ -56,7 +56,7 @@ public class PuzzleRoom : Room
                 foreach(GameObject d in DoorList)
                     d.GetComponent<OpenDoor>().Lock();
             }
-            SetLighting(lightColor,3);
+            SetLighting(lightColor,4);
         }
     }
     

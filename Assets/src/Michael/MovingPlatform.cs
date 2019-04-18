@@ -30,8 +30,9 @@ public class MovingPlatform : MonoBehaviour {
         if(moving) {
             this.transform.position += direction * speed * Time.deltaTime;
             foreach(Collider o in Physics.OverlapBox(platformBounds.center,platformBounds.size/2))
-                if(o.name == "Item")
-                   o.transform.position += direction * speed * Time.deltaTime;
+                if(o.name == "Item") {
+                   o.transform.position = this.transform.position + new Vector3(0,platformBounds.size.y,0)*2;
+                }
             if(playerOnPlatform) player.transform.position += direction * speed * Time.deltaTime;
             //this.transform.position = Vector3.Lerp(this.transform.position,end,speed * Time.deltaTime);
             if(Vector3.Distance(this.transform.position,end) < 0.2f) {
@@ -45,7 +46,7 @@ public class MovingPlatform : MonoBehaviour {
             this.transform.position += (home-this.transform.position).normalized*speed*Time.deltaTime;
 	}
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnCollisionEnter(Collision other) {
         if(other.gameObject == player) {
             if(OnlyMoveWithPlayer)
                 moving = true;
@@ -53,7 +54,7 @@ public class MovingPlatform : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit(Collider other) {
+    private void OnCollisionExit(Collision other) {
         if(other.gameObject == player) {
             if(OnlyMoveWithPlayer)
                 moving = false;

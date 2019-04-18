@@ -37,7 +37,7 @@ public class BossRoom : Room
         Destroy(this.transform.Find("Teleporter").gameObject);
 
         foreach(Transform w in Walls.transform) {
-            w.GetComponent<Renderer>().materials[0].SetColor("_Color",new Color(0.28f,0,0));
+            w.GetComponent<Renderer>().materials[0].SetColor("_Color",new Color(0.08f,0,0));
         }
     }
 

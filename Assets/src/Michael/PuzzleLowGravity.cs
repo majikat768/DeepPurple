@@ -19,6 +19,7 @@ public class PuzzleLowGravity : PuzzleRoom {
     public List<GameObject> SnitchList;
     AudioSource ambienceSource;
     AudioClip echo;
+    public float roomHeight;
 
 	public override void Awake () {
         base.Awake();
@@ -39,10 +40,11 @@ public class PuzzleLowGravity : PuzzleRoom {
 	}
 
     protected void Start() {
+        roomHeight = size.y*7;
         roomCollider = this.GetComponent<BoxCollider>();
 
-        Floor.transform.position = Zero+new Vector3(size.x/2,-size.y*6,size.z/2);
-        Ceiling.transform.position = Zero+new Vector3(size.x/2,size.y*7,size.z/2);
+        Floor.transform.position = Zero+new Vector3(size.x/2,-roomHeight/2,size.z/2);
+        Ceiling.transform.position = Zero+new Vector3(size.x/2,roomHeight/2+size.y,size.z/2);
 
         bubble = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Bubble"));
         bubble.transform.position = Vector3.zero;
@@ -59,17 +61,17 @@ public class PuzzleLowGravity : PuzzleRoom {
             SnitchList.Add(snitch);
         }
 
-    	BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),size.y*6,false);
-	    BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),size.y*6,false);
-	    BuildWall(Zero + new Vector3(size.x,size.y,0),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
-        BuildWall(Zero + new Vector3(0,size.y,size.z),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
+    	BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),roomHeight/2,false);
+	    BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),roomHeight/2,false);
+	    BuildWall(Zero + new Vector3(size.x,size.y,0),Zero + new Vector3(size.x,size.y,size.z),roomHeight/2,false);
+        BuildWall(Zero + new Vector3(0,size.y,size.z),Zero + new Vector3(size.x,size.y,size.z),roomHeight/2,false);
 
-    	BuildWall(Zero + new Vector3(0,-size.y*6,0),Zero + new Vector3(size.x,-size.y*6,0),size.y*6,false);
-	    BuildWall(Zero + new Vector3(0,-size.y*6,0),Zero + new Vector3(0,-size.y*6,size.z),size.y*6,false);
-	    BuildWall(Zero + new Vector3(size.x,-size.y*6,0),Zero + new Vector3(size.x,-size.y*6,size.z),size.y*6,false);
-        BuildWall(Zero + new Vector3(0,-size.y*6,size.z),Zero + new Vector3(size.x,-size.y*6,size.z),size.y*6,false);
+    	BuildWall(Zero + new Vector3(0,-roomHeight/2,0),Zero + new Vector3(size.x,-roomHeight/2,0),roomHeight/2,false);
+	    BuildWall(Zero + new Vector3(0,-roomHeight/2,0),Zero + new Vector3(0,-roomHeight/2,size.z),roomHeight/2,false);
+	    BuildWall(Zero + new Vector3(size.x,-roomHeight/2,0),Zero + new Vector3(size.x,-roomHeight/2,size.z),roomHeight/2,false);
+        BuildWall(Zero + new Vector3(0,-roomHeight/2,size.z),Zero + new Vector3(size.x,-roomHeight/2,size.z),roomHeight/2,false);
 
-        roomCollider.size = new Vector3(roomCollider.size.x,Vector3.Distance(Ceiling.transform.position,Floor.transform.position),roomCollider.size.z);
+        roomCollider.size = new Vector3(roomCollider.size.x,Vector3.Distance(Ceiling.transform.position,Floor.transform.position)+size.y,roomCollider.size.z);
         foreach(Transform w in Walls.transform) {
             w.GetComponent<Collider>().material.dynamicFriction = 0.3f;
             w.GetComponent<Collider>().material.staticFriction = 0.3f;
