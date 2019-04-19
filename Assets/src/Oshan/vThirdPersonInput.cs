@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/*  OK_vThirdPersonInput.cs
+ *  Name: Oshan Karki
+ *  Description: Handles player input using Input.GetAxis(), everything else was pre programmed
+ */
+
+using UnityEngine;
 #if UNITY_5_3_OR_NEWER
 using UnityEngine.SceneManagement;
 #endif

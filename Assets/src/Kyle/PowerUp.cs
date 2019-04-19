@@ -18,13 +18,10 @@ public class PowerUp : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		Debug.Log ("Making Item");
 		hud = GameObject.FindWithTag ("Player");
 		if (hud != null) {
-			Debug.Log ("I AM NOT NULL");
 			UI = hud.GetComponent<Invector.CharacterController.vThirdPersonController>();
 		} else {
-			Debug.Log ("HUD ID NULL");
 		}	
 		int PowerUpDecider = Random.Range (0, 4);
 		PowerUpComponent Powerup = new PowerUpConcreteComponent();
@@ -49,15 +46,11 @@ public class PowerUp : MonoBehaviour
 		RunSpeed = Powerup.GetFreeRunSpeed ();
 		JumpHeight = Powerup.GetJumpHeight();
 		Sprint = Powerup.GetSprintSpeed();
-
-
-		Debug.Log("Item Made");
 	}
 		
 
 	IEnumerator Effect()
 	{
-		Debug.Log ("Is this being Called?");
 		float timer = 10;
 		OriginalHeight = 4;
 		OriginalRunningSpeed = 3;
@@ -88,6 +81,5 @@ public class PowerUp : MonoBehaviour
 			StartCoroutine (Effect ());
 			transform.position = new Vector3 (0, 50, 0);
 		}
-		Debug.Log ("After OnTriggerEffect This being Called?");
 	}
 }
