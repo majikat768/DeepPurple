@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AddRunSpeed : PowerUpDecoractor {
 
-	private float m_FreeRunningSpeed = 10.0f;
+	private float m_FreeRunningSpeed = 3f;
 
 	public AddRunSpeed(PowerUpComponent BaseComponent) : base(BaseComponent) {}
 
@@ -16,7 +16,7 @@ public class AddRunSpeed : PowerUpDecoractor {
 
 public class AddJumpHeight : PowerUpDecoractor {
 
-	private float m_JumpHeight = 40.0f;
+	private float m_JumpHeight = 2.0f;
 
 	public AddJumpHeight(PowerUpComponent BaseComponent) : base(BaseComponent) {}
 
@@ -28,7 +28,7 @@ public class AddJumpHeight : PowerUpDecoractor {
 	
 public class AddSprintSpeed : PowerUpDecoractor {
 
-	private float m_SprintSpeed = 10.0f;
+	private float m_SprintSpeed = 3f;
 
 	public AddSprintSpeed(PowerUpComponent BaseComponent) : base(BaseComponent) {}
 
