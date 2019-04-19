@@ -5,7 +5,7 @@ public class PuzzleSuperPlatforms : PuzzleRoom
 {
     GameObject Platform;
     int step = 10;  // units between each level 
-    int numLayers = 4;
+    int numLayers = 3;
     int numPlatformsPerLayer = 2;
     BoxCollider roomCollider;
     int ceilingHeight;
@@ -32,7 +32,6 @@ public class PuzzleSuperPlatforms : PuzzleRoom
 
     }
 
-
     protected void Start()
     {
         roomCollider = this.GetComponent<BoxCollider>();
@@ -45,7 +44,6 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         roomCollider.size = new Vector3(roomCollider.size.x,ceilingHeight,roomCollider.size.z);
         BuildPlatforms();
         if(goal != null)    goal.transform.Rotate(0,45,0);
-        //BuildSlide();
     }
 
     protected override void Update() {
@@ -89,7 +87,7 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         lastPlatform.name = "Platform";
         for(int i = step; i <= numLayers*step; i += step) 
         {
-            numPlatformsPerLayer = Random.Range(1,5);
+            numPlatformsPerLayer = Random.Range(1,4);
             List<GameObject> platformsInLayer = new List<GameObject>();
             for(int j = 0; j < numPlatformsPerLayer; j++) 
             {
@@ -159,15 +157,16 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         //p1.AddComponent<MovingPlatform>().Init(p1.transform.position,p2.transform.position-new Vector3(deltaX,platformSize.y,0),Random.Range(1.0f,2.0f),true);
     }
 
-    void BuildRamp(Vector3 start, Vector3 end) {
+    GameObject BuildRamp(Vector3 start, Vector3 end) {
         Vector3 midpoint = (start+end)/2;
         GameObject ramp = GameObject.Instantiate(Platform,midpoint,Quaternion.identity,this.transform);
         Platforms.Add(ramp);
         ramp.transform.LookAt(end);
         ramp.transform.Rotate(0,90,0);
-        ramp.transform.localScale = new Vector3(Vector3.Distance(start,end),2.0f,1);
+        ramp.transform.localScale = new Vector3(Vector3.Distance(start,end),2.0f,2);
         ramp.name = "ramp";
         ramp.GetComponent<Renderer>().materials[0].mainTextureScale = new Vector2(ramp.transform.localScale.x,ramp.transform.localScale.z);
+        return ramp;
     }
 
     protected override void CheckSolveConditions() {
@@ -181,23 +180,6 @@ public class PuzzleSuperPlatforms : PuzzleRoom
             }
     }
 
-    void BuildSlide() {
-        float angle = 30*Mathf.Deg2Rad;
-        Debug.Log(Mathf.Sin(angle));
-        float w = platformSize.x;
-        Vector3 start = Zero+new Vector3(0,0,0);
-        float i = size.x*Mathf.Sin(angle); 
-            BuildRamp(start+new Vector3(w,0,0),start+new Vector3(size.x-w,i,0));
-            start += new Vector3(size.x,i,0);
-            GameObject.Instantiate(Platform,start,Quaternion.identity,this.transform);
-            BuildRamp(start+new Vector3(0,0,w),start+new Vector3(0,i,size.z-w));
-            start+=new Vector3(0,i,size.z);
-            BuildRamp(start+new Vector3(w,0,0),start+new Vector3(-size.x+w,i,0));
-            start += new Vector3(-size.x,i,0);
-            BuildRamp(start+new Vector3(0,0,w),start+new Vector3(0,i,-size.z+w));
-            start+=new Vector3(0,i,-size.z);
-
-    }
 
     void AddItem(Transform platform, GameObject itemRef) {
         GameObject c = GameObject.Instantiate(itemRef);

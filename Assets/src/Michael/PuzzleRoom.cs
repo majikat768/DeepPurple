@@ -21,6 +21,7 @@ using TMPro;
 public class PuzzleRoom : Room
 {
     protected Inventory inventory = Inventory.instance;
+    protected ItemDatabase itemDatabase; 
     protected PuzzleCountdown countdown = PuzzleCountdown.instance;
     protected String instructions;
     public bool solved = false;
@@ -28,13 +29,16 @@ public class PuzzleRoom : Room
     private AudioClip solvedSound;
     private AudioSource audioSource;
     protected float TimeLimit;
+    GameObject Powerup;
     
     public override void Awake() {
         addPortal = false;
         base.Awake();
+        itemDatabase = ItemDatabase.instance;
         solvedSound = (AudioClip)Resources.Load("Michael/Audio/Bubble_1");
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
+        Powerup = itemDatabase.RandomPowerupGrabber();
 
         lightColor = RG.Red;
     }
@@ -79,6 +83,7 @@ public class PuzzleRoom : Room
             }
             CheckSolveConditions();
             if(solved) {
+                GameObject p = GameObject.Instantiate(Powerup,Zero+new Vector3(size.x,2,size.z)/2,Quaternion.identity,this.transform);
                 StartCoroutine(countdown.FadeText(1f, 0f, 3f));
                 Debug.Log("solved");
                 UnlockRoom();

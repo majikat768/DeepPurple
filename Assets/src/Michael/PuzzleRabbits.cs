@@ -16,7 +16,6 @@ public class PuzzleRabbits : PuzzleRoom {
     Color goalColor;
 
     protected void Awake() {
-
         base.Awake();
         TimeLimit = 30;
         goalColor = RandomColor();
@@ -27,23 +26,29 @@ public class PuzzleRabbits : PuzzleRoom {
         return new Color(Random.Range(0,2),Random.Range(0,2),Random.Range(0,2));
     }
 
-    protected void Start()
-    {
-        rabbitReference = Resources.Load("Michael/Rabbits/Prefabs/Rabbit 1") as GameObject;
-        Rabbits = new List<GameObject>();
-        numRabbits = (int)size.magnitude/2;
+    protected void Start() {
+            rabbitReference = Resources.Load("Michael/Rabbits/Prefabs/Rabbit 1") as GameObject;
+            Rabbits = new List<GameObject>();
+            numRabbits = (int)size.magnitude;
+    }
 
-        for(int i = 0; i < numRabbits; i++) {
-            GameObject r = GameObject.Instantiate(rabbitReference, Zero + new Vector3(Random.Range(1,size.x-1),0,Random.Range(1,size.z-1)),Quaternion.identity,this.transform);
-            if(i == 0) {
-                r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = goalColor;
+    public void OnTriggerEnter(Collider other)
+    {
+        base.OnTriggerEnter(other);
+        if(other.gameObject == Player && Rabbits.Count == 0) {
+
+            for(int i = 0; i < numRabbits; i++) {
+                GameObject r = GameObject.Instantiate(rabbitReference, Zero + new Vector3(Random.Range(1,size.x-1),0,Random.Range(1,size.z-1)),Quaternion.identity,this.transform);
+                if(i == 0) {
+                    r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = goalColor;
+                }
+                else {
+                    Color RabbitColor = RandomColor();
+                    while(RabbitColor == goalColor) RabbitColor = RandomColor();
+                    r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = RabbitColor;
+                }
+                Rabbits.Add(r);
             }
-            else {
-                Color RabbitColor = RandomColor();
-                while(RabbitColor == goalColor) RabbitColor = RandomColor();
-                r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = RabbitColor;
-            }
-            Rabbits.Add(r);
         }
 	}
 

@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class StartRoom : Room
 {
+    GameObject hat;
     protected void Start()
     {
-
+        hat = Resources.Load<GameObject>("Michael/Hat");
         // the Start Room will have the player character spawn in it.
         // Player player = new Player();
         // Here, player represented by purple block
         // 
+        GameObject.Instantiate(hat,Zero+size/4,Quaternion.identity,this.transform);
         Vector3 SpawnPoint = new Vector3(Zero.x+size.x / 2, 2.0f, Zero.z+size.z / 2);
         Player = GameObject.FindWithTag("Player");
         SetLighting(RG.Cyan);

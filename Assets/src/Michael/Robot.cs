@@ -30,15 +30,13 @@ public class Robot : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(pet) { 
-            if(agent.hasPath && agent.remainingDistance < 1.5f) {
-                agent.ResetPath();
-                animator.SetBool("moving",false);
+            if(Vector3.Distance(transform.position,player.transform.position) > 2 ) {
+                agent.SetDestination(player.transform.position);
+                animator.SetBool("moving",true);
             }
             else {
-                if(Vector3.Distance(this.transform.position,player.transform.position) > 2) {
-                    agent.SetDestination(player.transform.position);
-                    animator.SetBool("moving",true);
-                }
+                agent.ResetPath();
+                animator.SetBool("moving",false);
             }
         }
         else {
@@ -47,8 +45,9 @@ public class Robot : MonoBehaviour {
                     agent.SetDestination(RoomZero + new Vector3(Random.Range(2,RoomSize.x-2),0,Random.Range(2,RoomSize.z-2)));
                 }
             }
-            else
+            else {
                 agent.ResetPath();
+            }
         }
 		
 	}
