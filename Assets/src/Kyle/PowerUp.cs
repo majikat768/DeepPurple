@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-	public float RunSpeed;
-	public float JumpHeight;
-	public float Sprint;
-	public GameObject hud;
-	public Invector.CharacterController.vThirdPersonController UI; 
+	private float RunSpeed;
+	private float JumpHeight;
+	private float Sprint;
+	private float OriginalHeight;
+	private float OriginalRunningSpeed;
+	private float OriginalSprint;
+	private GameObject hud;
+	private Invector.CharacterController.vThirdPersonController UI; 
 
 
 
@@ -56,18 +59,21 @@ public class PowerUp : MonoBehaviour
 	{
 		Debug.Log ("Is this being Called?");
 		float timer = 10;
-		float OriginalHeight = 4;
-		float OriginalRunningSpeed = 3;
-		float OriginalSprint = 4;
+		OriginalHeight = 4;
+		OriginalRunningSpeed = 3;
+		OriginalSprint = 4;
 
-		UI.jumpHeight = UI.jumpHeight + JumpHeight;
-		UI.freeRunningSpeed = UI.freeRunningSpeed + RunSpeed;
-		UI.freeSprintSpeed = UI.freeSprintSpeed + Sprint;
-		yield return new WaitForSeconds (10);
+		if (UI.jumpHeight == OriginalHeight && UI.freeRunningSpeed == OriginalRunningSpeed && UI.freeSprintSpeed == OriginalSprint) 
+		{
 
-		UI.jumpHeight = OriginalHeight;
-		UI.freeRunningSpeed = OriginalRunningSpeed;
-		UI.freeSprintSpeed = OriginalSprint;
+			UI.jumpHeight = UI.jumpHeight + JumpHeight;
+			UI.freeRunningSpeed = UI.freeRunningSpeed + RunSpeed;
+			UI.freeSprintSpeed = UI.freeSprintSpeed + Sprint;
+			yield return new WaitForSeconds (10);
+			UI.jumpHeight = OriginalHeight;
+			UI.freeRunningSpeed = OriginalRunningSpeed;
+			UI.freeSprintSpeed = OriginalSprint;
+		}
 		Destroy (gameObject);
 	}
 	
