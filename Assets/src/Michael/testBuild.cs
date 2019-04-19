@@ -55,6 +55,7 @@ public class testBuild : MonoBehaviour {
         Room CombatRoom = new GameObject("Fight").AddComponent<CombatRoom>();
         CombatRoom.SetZero(new Vector3(8,0,48));
         CombatRoom.SetSize(new Vector3(24,4,32));
+        CombatRoom.addPortal = false;
 
         Room TreasureRoom = new GameObject("Treasure").AddComponent<TreasureRoom>();
         TreasureRoom.SetZero(new Vector3(64,0,20));

@@ -5,7 +5,7 @@ public class PuzzleSuperPlatforms : PuzzleRoom
 {
     GameObject Platform;
     int step = 10;  // units between each level 
-    int numLayers = 3;
+    int numLayers = 6;
     int numPlatformsPerLayer = 2;
     BoxCollider roomCollider;
     int ceilingHeight;
@@ -15,6 +15,7 @@ public class PuzzleSuperPlatforms : PuzzleRoom
     GameObject goal;
     GameObject Coin;
     GameObject Potion;
+    GameObject bottom;
 
     public override void Awake()
     {
@@ -46,31 +47,40 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         if(goal != null)    goal.transform.Rotate(0,45,0);
     }
 
-    protected override void Update() {
+    protected void FixedUpdate() {
         if(PlayerInRoom) {
             foreach(MovingPlatform p in MovingPlatforms) {
-                if(!p.OnlyMoveWithPlayer)
+                if(!p.OnlyMoveWithPlayer) {
                     p.moving = true;
-                if(p.transform.position.y < Player.transform.position.y)    p.GetComponent<MeshCollider>().enabled = true;
-                else    p.GetComponent<MeshCollider>().enabled = false;
-                Debug.Log(p.GetComponent<MeshCollider>().enabled);
+                }
             }
             goal.transform.Rotate(0,2,0);
         }
-        else
+        else {
             foreach(MovingPlatform p in MovingPlatforms) {
                 if(!p.OnlyMoveWithPlayer)
                     p.moving = false;
             }
+        }
+        foreach(GameObject p in Platforms) {
+                if(p.transform.position.y - platformSize.y <= Player.transform.position.y) {    
+                    p.GetComponent<MeshCollider>().enabled = true;
+                }
+                else {
+                    p.GetComponent<MeshCollider>().enabled = false;
+                } 
+        }
     }
 
     public void OnTriggerEnter(Collider other) {
         base.OnTriggerEnter(other);
         if(other.gameObject == Player) {
             if(!solved) {
-                foreach(GameObject p in Platforms)
+                foreach(GameObject p in Platforms) {
                     AddItem(p.transform,(Random.value < 0.9f ? Coin : Potion));
+                }
             }
+            Debug.Log(Platforms.Count);
         }
     }
                             
@@ -85,6 +95,8 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         GameObject lastPlatform = GameObject.Instantiate(Platform,Zero+new Vector3(size.x,0,size.z)/2,Quaternion.identity,this.transform);
         Platforms.Add(lastPlatform);
         lastPlatform.name = "Platform";
+        Debug.Log(lastPlatform.transform.position);
+        bottom = lastPlatform;
         for(int i = step; i <= numLayers*step; i += step) 
         {
             numPlatformsPerLayer = Random.Range(1,4);
@@ -185,8 +197,8 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         GameObject c = GameObject.Instantiate(itemRef);
         c.transform.position = platform.position + new Vector3(0,platformSize.y,0)*2;
         c.name = "Item";
-        c.transform.parent = this.transform;
-        c.transform.Rotate(90,0,0);
+        c.transform.parent = platform;
+        c.transform.rotation = platform.rotation;
         c.GetComponent<Rigidbody>().isKinematic = true;
         c.GetComponent<Rigidbody>().useGravity = false;
     }

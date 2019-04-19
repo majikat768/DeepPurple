@@ -29,10 +29,12 @@ public class MovingPlatform : MonoBehaviour {
             direction = (end - start).normalized;
         if(moving) {
             this.transform.position += direction * speed * Time.deltaTime;
-            foreach(Collider o in Physics.OverlapBox(platformBounds.center,platformBounds.size/2))
+            foreach(Collider o in Physics.OverlapBox(platformBounds.center,platformBounds.size/2)) {
+                Debug.Log(o.name);
                 if(o.name == "Item") {
                    o.transform.position = this.transform.position + new Vector3(0,platformBounds.size.y,0)*2;
                 }
+            }
             if(playerOnPlatform) player.transform.position += direction * speed * Time.deltaTime;
             //this.transform.position = Vector3.Lerp(this.transform.position,end,speed * Time.deltaTime);
             if(Vector3.Distance(this.transform.position,end) < 0.2f) {

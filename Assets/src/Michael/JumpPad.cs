@@ -26,7 +26,7 @@ public class JumpPad : MonoBehaviour {
             playerRB.velocity = Vector3.zero;
             Vector3 dir = (target.position-this.transform.position);
             float dist = Vector3.Distance(this.transform.position,target.GetComponent<Collider>().ClosestPoint(Player.transform.position));
-            playerRB.AddForce(dir*0.75f-4*g/3,ForceMode.VelocityChange);
+            playerRB.AddForce(dir*0.5f-2*g,ForceMode.VelocityChange);
             Debug.Log("bounce " + (dir-g).ToString());
         } 
     } 

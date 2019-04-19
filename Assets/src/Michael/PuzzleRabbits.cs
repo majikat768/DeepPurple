@@ -29,7 +29,7 @@ public class PuzzleRabbits : PuzzleRoom {
     protected void Start() {
             rabbitReference = Resources.Load("Michael/Rabbits/Prefabs/Rabbit 1") as GameObject;
             Rabbits = new List<GameObject>();
-            numRabbits = (int)size.magnitude;
+            numRabbits = (int)size.magnitude/2;
     }
 
     public void OnTriggerEnter(Collider other)
