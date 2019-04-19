@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class pointer : MonoBehaviour {
-    GameObject bossRoom;
+    Room bossRoom;
     KeyCode toggle;
     GameObject player;
     GameObject arrow,arrowCanvas;
@@ -29,21 +29,26 @@ public class pointer : MonoBehaviour {
         distance.alignment = TextAlignmentOptions.TopRight;
         distance.fontSize = 12;
         distance.margin = new Vector4(0,arrowRT.sizeDelta.y*2,arrowRT.sizeDelta.x/2,0);
-        bossRoom = GameObject.Find("Boss Room");
+        bossRoom = GameObject.Find("Boss Room").GetComponent<Room>();
     }
 
     void Update() 
     {
+        if(bossRoom == null)    bossRoom = GameObject.Find("Boss Room").GetComponent<Room>();
         if(arrowCanvas.activeInHierarchy)
         {
-            if(bossRoom == null)    bossRoom = GameObject.Find("Boss Room");
-            distance.text = Vector3.Distance(player.transform.position,bossRoom.transform.position+bossRoom.GetComponent<Room>().GetSize()/2).ToString("#0.00m");
-            Vector3 dir = (bossRoom.transform.position-player.transform.position).normalized;
+            Vector3 target = bossRoom.GetZero()+bossRoom.GetSize()/2;
+            distance.text = Vector3.Distance(player.transform.position,target).ToString("#0.00m");
+            Vector3 dir = (target-player.transform.position).normalized;
             Vector3 camXZ = new Vector3(cam.transform.forward.x,0,cam.transform.forward.z).normalized;
             float angle = Vector3.Angle(dir,camXZ);
             float heading = Vector3.Cross(dir,camXZ).y;
             arrowRT.rotation = Quaternion.Euler(0,0,angle*(heading > 0 ? 1 : -1));
         }
+        if(bossRoom.PlayerInRoom)
+            arrowCanvas.SetActive(false);
+        else
+            arrowCanvas.SetActive(true);
 
         if(Input.GetKeyDown(toggle)) {
             arrowCanvas.SetActive(!arrowCanvas.activeInHierarchy);

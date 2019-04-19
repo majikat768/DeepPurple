@@ -67,9 +67,9 @@ public class testBuild : MonoBehaviour {
         Hallway1.addPortal = false;
         Hallway1.complexity = -1;
 
-        Room Hallway2 = new GameObject("Hallway").AddComponent<Room>();
+        Room Hallway2 = new GameObject("Hallway2").AddComponent<Room>();
         Hallway2.SetZero(new Vector3(88,0,-4));
-        Hallway2.SetSize(new Vector3(4,4,52));
+        Hallway2.SetSize(new Vector3(4,4,32));
         Hallway2.addPortal = false;
         Hallway2.complexity = -1;
 

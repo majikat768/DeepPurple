@@ -13,18 +13,18 @@ public class PuzzleRabbits : PuzzleRoom {
     private int numRabbits;
     private GameObject rabbitReference;
     private List<GameObject> Rabbits;
-    Color Red;
-    Color Green;
-    Color Blue;
+    Color goalColor;
 
     protected void Awake() {
-        Red = new Color(1,0,0);
-        Green = new Color(0,1,0);
-        Blue = new Color(0,0,1);
 
         base.Awake();
-        instructions = "catch the green rabbit";
         TimeLimit = 30;
+        goalColor = RandomColor();
+        instructions = "catch the " + ColorName(goalColor) + " rabbit";
+    }
+
+    Color RandomColor() {
+        return new Color(Random.Range(0,2),Random.Range(0,2),Random.Range(0,2));
     }
 
     protected void Start()
@@ -36,14 +36,12 @@ public class PuzzleRabbits : PuzzleRoom {
         for(int i = 0; i < numRabbits; i++) {
             GameObject r = GameObject.Instantiate(rabbitReference, Zero + new Vector3(Random.Range(1,size.x-1),0,Random.Range(1,size.z-1)),Quaternion.identity,this.transform);
             if(i == 0) {
-                r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = new Color(0,1,0.25f);
+                r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = goalColor;
             }
             else {
-                float rand = Random.value;
-                if(rand < 0.33f)
-                    r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = Red;
-                else if(rand < 0.66f)
-                    r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = Blue;
+                Color RabbitColor = RandomColor();
+                while(RabbitColor == goalColor) RabbitColor = RandomColor();
+                r.transform.Find("Rabbit").gameObject.GetComponent<Renderer>().material.color = RabbitColor;
             }
             Rabbits.Add(r);
         }
@@ -67,12 +65,37 @@ public class PuzzleRabbits : PuzzleRoom {
 	}
     protected override void CheckSolveConditions() {
         if(Vector3.Distance(Rabbits[0].transform.position,Player.transform.position) < 1) {
-            Rabbits[0].GetComponent<Animator>().SetBool("moving",false);
+                Rabbits[0].GetComponent<Animator>().SetBool("moving",true);
+            Rabbits[0].GetComponent<Robot>().pet = true;
             Rabbits.Remove(Rabbits[0]);
             solved = true;
             PlaySolvedSound();
             UnlockRoom();
         }
+    }
+
+    string ColorName(Color c) { 
+        if(c.r == 1)
+            if(c.g == 1)
+                if(c.b == 1)
+                    return "white";
+                else
+                    return "yellow";
+            else if(c.b == 1)
+                return "pink";
+            else
+                return "red";
+        else
+            if(c.g == 1)
+                if(c.b == 1)
+                    return "cyan";
+                else
+                    return "green";
+            else
+                if(c.b == 1)
+                    return "blue";
+                else
+                    return "black";
     }
 
     public void Solve(bool s) { solved = s; }

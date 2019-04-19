@@ -5,7 +5,7 @@ public class PuzzleSuperPlatforms : PuzzleRoom
 {
     GameObject Platform;
     int step = 10;  // units between each level 
-    int numLayers = 3;
+    int numLayers = 4;
     int numPlatformsPerLayer = 2;
     BoxCollider roomCollider;
     int ceilingHeight;
@@ -45,6 +45,7 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         roomCollider.size = new Vector3(roomCollider.size.x,ceilingHeight,roomCollider.size.z);
         BuildPlatforms();
         if(goal != null)    goal.transform.Rotate(0,45,0);
+        //BuildSlide();
     }
 
     protected override void Update() {
@@ -52,7 +53,11 @@ public class PuzzleSuperPlatforms : PuzzleRoom
             foreach(MovingPlatform p in MovingPlatforms) {
                 if(!p.OnlyMoveWithPlayer)
                     p.moving = true;
+                if(p.transform.position.y < Player.transform.position.y)    p.GetComponent<MeshCollider>().enabled = true;
+                else    p.GetComponent<MeshCollider>().enabled = false;
+                Debug.Log(p.GetComponent<MeshCollider>().enabled);
             }
+            goal.transform.Rotate(0,2,0);
         }
         else
             foreach(MovingPlatform p in MovingPlatforms) {
@@ -90,13 +95,13 @@ public class PuzzleSuperPlatforms : PuzzleRoom
             {
                 Vector3 loc = new Vector3(
                         Random.Range(platformSize.magnitude/2,size.x-platformSize.magnitude/2), 
-                        i+j*(step/numPlatformsPerLayer),
+                        i+j*(step/numPlatformsPerLayer)/2,
                         Random.Range(j*size.z/numPlatformsPerLayer+platformSize.magnitude/2,(j+1)*size.z/numPlatformsPerLayer-platformSize.magnitude/2));
                 if(j > 0) {
                     while(Vector3.Distance(loc,platformsInLayer[j-1].transform.position) < platformSize.magnitude)
                         loc = new Vector3(
                                 Random.Range(platformSize.magnitude/2,size.x-platformSize.magnitude/2), 
-                                i+j*(step/numPlatformsPerLayer), 
+                                i+j*(step/numPlatformsPerLayer)/2, 
                                 Random.Range(j*size.z/numPlatformsPerLayer+platformSize.magnitude/2,(j+1)*size.z/numPlatformsPerLayer-platformSize.magnitude/2));
                 }
 
@@ -114,8 +119,7 @@ public class PuzzleSuperPlatforms : PuzzleRoom
             for(int j = 0; j < platformsInLayer.Count-1; j += 1) {
                 GameObject p1 = platformsInLayer[j];
                 GameObject p2 = platformsInLayer[j+1];
-                AddMovingPlatform(p1,p2);
-                /*
+                //AddMovingPlatform(p1,p2);
                 if(j % 2 == 0) {
                     AddMovingPlatform(p1,p2);
                 }
@@ -124,11 +128,10 @@ public class PuzzleSuperPlatforms : PuzzleRoom
                         //GameObject p3 = GameObject.Instantiate(Platform,new Vector3(p1.transform.position.x,i,p2.transform.position.z),Quaternion.identity,this.transform);
                         //p1.transform.LookAt(p2.transform);
                         //p2.transform.LookAt(p1.transform);
-                        BuildRamp(Vector3.MoveTowards(p1.transform.position,p2.transform.position,platformSize.x*2),Vector3.MoveTowards(p2.transform.position,p1.transform.position,platformSize.x*2));
+                        BuildRamp(Vector3.MoveTowards(p1.transform.position,p2.transform.position,platformSize.x),Vector3.MoveTowards(p2.transform.position,p1.transform.position,platformSize.x));
                         //BuildRamp(p2.transform.position,p3.transform.position);
                     }
                 }
-                */
             }
             float deltaZ = (platformsInLayer[0].transform.position.z > lastPlatform.transform.position.z ? -platformSize.z : platformSize.z);
             lastPlatform.AddComponent<JumpPad>().target = platformsInLayer[0].transform;
@@ -143,10 +146,14 @@ public class PuzzleSuperPlatforms : PuzzleRoom
     }
 
     void AddMovingPlatform(GameObject p1, GameObject p2) {
-        float deltaX = (p1.transform.position.x > p2.transform.position.x ? -platformSize.x : platformSize.x);
-        GameObject m = GameObject.Instantiate(Platform,p1.transform.position+new Vector3(deltaX,-platformSize.y,0),Quaternion.identity,this.transform);
+        float deltaX = (p1.transform.position.x > p2.transform.position.x ? -platformSize.x : platformSize.x)*2f;
+        Vector3 start = Vector3.MoveTowards(p1.transform.position,p2.transform.position,platformSize.magnitude); 
+        Vector3 end = Vector3.MoveTowards(p2.transform.position,p1.transform.position,platformSize.magnitude); 
+        //GameObject m = GameObject.Instantiate(Platform,p1.transform.position+new Vector3(deltaX,-platformSize.y,0),Quaternion.identity,this.transform);
+        GameObject m = GameObject.Instantiate(Platform,new Vector3(start.x,p1.transform.position.y-platformSize.y,start.z),Quaternion.identity,this.transform);
         Platforms.Add(m);
-        m.AddComponent<MovingPlatform>().Init(m.transform.position,p2.transform.position-new Vector3(deltaX,platformSize.y,0),Random.Range(1.5f,2.5f));
+        //m.AddComponent<MovingPlatform>().Init(m.transform.position,p2.transform.position+new Vector3(-deltaX,platformSize.y,0),Random.Range(1.5f,2.5f));
+        m.AddComponent<MovingPlatform>().Init(m.transform.position,new Vector3(end.x,p2.transform.position.y+platformSize.y,end.z),Random.Range(1.25f,2.25f));
         MovingPlatforms.Add(m.GetComponent<MovingPlatform>());
         m.name = "Moving Platform";
         //p1.AddComponent<MovingPlatform>().Init(p1.transform.position,p2.transform.position-new Vector3(deltaX,platformSize.y,0),Random.Range(1.0f,2.0f),true);
@@ -158,7 +165,7 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         Platforms.Add(ramp);
         ramp.transform.LookAt(end);
         ramp.transform.Rotate(0,90,0);
-        ramp.transform.localScale = new Vector3(Vector3.Distance(start,end),2.0f,2);
+        ramp.transform.localScale = new Vector3(Vector3.Distance(start,end),2.0f,1);
         ramp.name = "ramp";
         ramp.GetComponent<Renderer>().materials[0].mainTextureScale = new Vector2(ramp.transform.localScale.x,ramp.transform.localScale.z);
     }
@@ -174,11 +181,29 @@ public class PuzzleSuperPlatforms : PuzzleRoom
             }
     }
 
+    void BuildSlide() {
+        float angle = 30*Mathf.Deg2Rad;
+        Debug.Log(Mathf.Sin(angle));
+        float w = platformSize.x;
+        Vector3 start = Zero+new Vector3(0,0,0);
+        float i = size.x*Mathf.Sin(angle); 
+            BuildRamp(start+new Vector3(w,0,0),start+new Vector3(size.x-w,i,0));
+            start += new Vector3(size.x,i,0);
+            GameObject.Instantiate(Platform,start,Quaternion.identity,this.transform);
+            BuildRamp(start+new Vector3(0,0,w),start+new Vector3(0,i,size.z-w));
+            start+=new Vector3(0,i,size.z);
+            BuildRamp(start+new Vector3(w,0,0),start+new Vector3(-size.x+w,i,0));
+            start += new Vector3(-size.x,i,0);
+            BuildRamp(start+new Vector3(0,0,w),start+new Vector3(0,i,-size.z+w));
+            start+=new Vector3(0,i,-size.z);
+
+    }
+
     void AddItem(Transform platform, GameObject itemRef) {
         GameObject c = GameObject.Instantiate(itemRef);
         c.transform.position = platform.position + new Vector3(0,platformSize.y,0)*2;
         c.name = "Item";
-        c.transform.parent = platform.transform;
+        c.transform.parent = this.transform;
         c.transform.Rotate(90,0,0);
         c.GetComponent<Rigidbody>().isKinematic = true;
         c.GetComponent<Rigidbody>().useGravity = false;
