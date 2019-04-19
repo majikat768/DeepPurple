@@ -48,7 +48,6 @@ public class Room : MonoBehaviour
     public virtual void Awake()
     {
         RG = RoomGenerator.instance;
-        Debug.Log(this.gameObject.name + " awake");
         Wall = Resources.Load<GameObject>("Michael/Wall_2_X4");
         Door = Resources.Load<GameObject>("Michael/WindowGlass_001");
         FloorTile = Resources.Load<GameObject>("Michael/Floor_003");
