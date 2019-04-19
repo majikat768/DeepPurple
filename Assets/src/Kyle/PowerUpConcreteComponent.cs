@@ -1,8 +1,14 @@
-﻿using System.Collections;
+﻿/*	PowerUpConcreteComponent.cs
+ *	Name: Kyle Hild
+ *	Description: This is the Concrete Component Base Add for the decorator pattern
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpConcreteComponent : PowerUpComponent {
+public class PowerUpConcreteComponent : PowerUpComponent 
+{
 
 	private float FreeSprintSpeed = 0;
 	private float FreeRunningSpeed = 0;

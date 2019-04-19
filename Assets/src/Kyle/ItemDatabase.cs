@@ -1,8 +1,14 @@
-﻿using System.Collections;
+﻿/*	ItemDatabase.cs
+ *	Name: Kyle Hild
+ *	Description: This uses a Singleton to create a single instance of the Item Database. The Database is stored in arrays
+ *	has two item/powerup grabbers that grab a random item and return it.
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDatabase {
+public class ItemDatabase 
+{
 	public static ItemDatabase instance = new ItemDatabase();
 	//Using Singleton pattern to create one instance of this database
 	void Awake()

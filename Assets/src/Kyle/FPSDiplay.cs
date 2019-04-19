@@ -1,4 +1,7 @@
-﻿/*This Code Was Reused by https://wiki.unity3d.com/index.php/FramesPerSecond Author: Dave Hampson
+﻿/*	FPSDisplay.cs
+ *	Name: Kyle Hild
+ *	Description: This Code Was Reused by https://wiki.unity3d.com/index.php/FramesPerSecond Author: Dave Hampson
+ *	This displays the current FPS in the topleft corner
  */
 
 using UnityEngine;
@@ -6,6 +9,7 @@ using System.Collections;
 
 public class FPSDiplay:MonoBehaviour
 {
+	//No Changes were made to be able to implement into the game this is exact
 	float deltaTime = 0.0f;
 
 	void Update()

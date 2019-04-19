@@ -1,14 +1,19 @@
-﻿using System.Collections;
+﻿/*	ItemManager.cs
+ *	Name: Kyle Hild
+ *	Description: The Item Manager is implemented to pass items too to essentially use the items
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour 
 {
+	//Variable Declarations
 	public static ItemManager instance = new ItemManager();
 	public GameObject hud;
 	public Invector.CharacterController.vThirdPersonController UI;
 
-
+	//Awake to find the Player 
 	void Awake()
 	{
 		hud = GameObject.FindWithTag ("Player");
@@ -19,13 +24,7 @@ public class ItemManager : MonoBehaviour
 			Debug.Log ("HUD ID NULL");
 		}	
 	}
-
-	// Use this for initialization
-	void Start () 
-	{
-		
-	}
-
+	//Start a CoRoutine to start a timer on the Potion
 	IEnumerator Effect(float OriginalHeight)
 	{
 		float timer = 10;
@@ -34,21 +33,11 @@ public class ItemManager : MonoBehaviour
 		UI.jumpHeight = OriginalHeight;
 	}
 
-
+	//Function to start the coroutine to use the potion
 	public void UsePotion (Potion Pot)
 	{
 		float OriginalHeight = UI.jumpHeight;
 		StartCoroutine (Effect (OriginalHeight));
-/*		Debug.Log (" I MADE IT HERE ");
-		UI.jumpHeight = 20;
-		yield return new WaitForSeconds (10);
-		//Debug.Log ("Seconds: " + time);
-		UI.jumpHeight = OriginalHeight;
-		*/
 	}
-	
-	// Update is called once per fr	ame
-	void Update () {
-		
-	}
+
 }

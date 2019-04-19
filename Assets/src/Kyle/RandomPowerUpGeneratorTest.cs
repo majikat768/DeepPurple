@@ -1,15 +1,22 @@
-﻿using System.Collections;
+﻿/*	RandomPowerUpGeneratorTest.cs
+ *	Name: Kyle Hild
+ *	Description: Tests the FPS test fails is falls below 30 also test to make sure all the items in the random generator
+ *	spawn. Passes if all items spaws atleast once
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomPowerUpGeneratorTest : MonoBehaviour 
 {
+	//Variable Declaration
 	GameObject Item;
 	private bool item1 = false;
 	private bool item2 = false;
 	private bool item3 = false;
 	private bool fps = true;
-
+	//Fuction to test FPS
 	private IEnumerator FPSTest()
 	{
 		yield return new WaitForSeconds (1);
@@ -24,7 +31,7 @@ public class RandomPowerUpGeneratorTest : MonoBehaviour
 	{
 		Item = ItemDatabase.instance.RandomPowerupGrabber ();
 		GameObject.Instantiate(Item, this.transform.position +new Vector3(0,1,0), Quaternion.identity);
-
+		//If we find an Instantiated object then set the item variables to true
 		if (GameObject.Find ("PowerUp2(Clone)")) 
 		{
 			item1 = true;
@@ -37,6 +44,7 @@ public class RandomPowerUpGeneratorTest : MonoBehaviour
 		{
 			item3 = true;
 		}
+		//If user hits b start the FPS test and check varibles give test results
 		if(Input.GetKeyDown("b"))
 			StartCoroutine (FPSTest ());
 		{
