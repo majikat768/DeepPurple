@@ -30,7 +30,7 @@ public class ChestOpening : Interactable
 		Debug.Log("Spawning");
 		//Example for how spawning will work
 		//DONT ACTUALLY DO THIS JUST SPAWN LIKE ONE ITEM 
-		/*
+		/* 
 		Vector3 currentPosition = gameObject.transform.position;
 		currentPosition.y = currentPosition.y + 1.5f;
 		currentPosition.z = currentPosition.z + Random.Range(-1.0f,1.0f);
