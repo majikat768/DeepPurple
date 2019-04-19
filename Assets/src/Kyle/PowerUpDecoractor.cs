@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*	PowerUpDecoractor.cs
+ *	Name: Kyle Hild
+ *	Description: This is the main Decorator Class that decorates the powerup.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,9 +16,8 @@ abstract public class PowerUpDecoractor : PowerUpComponent
 	{
 		n_BaseComponent = BaseComponent;
 	}
-
-	#region PowerUpComponent Members
-
+		
+	//Dynamic overridable functions to decorate
     public virtual float GetSprintSpeed()
 	{
 		return n_BaseComponent.GetSprintSpeed();
@@ -26,7 +30,4 @@ abstract public class PowerUpDecoractor : PowerUpComponent
 	{
 		return n_BaseComponent.GetJumpHeight ();
 	}
-
-	#endregion
-
 }

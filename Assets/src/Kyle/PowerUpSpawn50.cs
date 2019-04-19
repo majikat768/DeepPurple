@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿/*	PowerUpSpawn50.cs
+ *	Name: Kyle Hild
+ *	Description: This Class tests the the Effects to make sure that no more then one powerup can be active at a time.
+ *	by spawning 50 items and able to use debug log to check for errors
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUpSpawn50 : MonoBehaviour 
 {
+	//Variable Declarations
 	GameObject Item;
 	private bool TestEffects;
 	private float RunSpeed;
@@ -14,7 +20,7 @@ public class PowerUpSpawn50 : MonoBehaviour
 	private float OriginalSprint;
 	private GameObject hud;
 	private Invector.CharacterController.vThirdPersonController UI;
-
+	//Initialize the variables
 	void Start ()
 	{
 		TestEffects = true;
@@ -45,10 +51,6 @@ public class PowerUpSpawn50 : MonoBehaviour
 				TestEffects = false;
 			}
 			if (UI.jumpHeight > OriginalHeight && UI.freeRunningSpeed > OriginalRunningSpeed) 
-			{
-				TestEffects = false;
-			}
-			if (UI.jumpHeight > OriginalHeight && UI.freeSprintSpeed > OriginalSprint) 
 			{
 				TestEffects = false;
 			}
