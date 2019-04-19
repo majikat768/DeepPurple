@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*  OK_vThirdPersonController.cs
+ *  Name: Oshan Karki
+ *  Description: Takes care of player behavior such as jump sprint and rotation.
+                 Locomotion was already present in the animator.
+ */
+
+using UnityEngine;
 using System.Collections;
 
 namespace Invector.CharacterController

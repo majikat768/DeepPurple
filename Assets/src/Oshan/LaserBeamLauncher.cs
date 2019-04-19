@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*	OK_LaserBeamLauncher.cs
+ *	Name: Oshan Karki
+ *	Description: Handles the mechanism and behavior of laser particle.
+ 				 Takes input and calculates hit score.
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
