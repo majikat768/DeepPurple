@@ -38,7 +38,7 @@ public abstract class DecorativeHealth : MonoBehaviour
 public class UsePotion: DecorativeHealth
 {
 	public int potionHp = 30;
-
+/*
 	public override void addHealth()
 	{
 		if(playerHealth != 100)
@@ -46,12 +46,13 @@ public class UsePotion: DecorativeHealth
 			playerHealth += potionHp;
 		}
 	}
+	*/
 
 	void OnCollisionEnter(Collision _collision)
 	{
 		if(_collision.gameObject.tag == "HealthPotion")
 		{
-			addHealth();
+			addHealth(potionHp);
 		}
 	}
 
