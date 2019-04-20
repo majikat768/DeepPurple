@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class StartRoom : Room
 {
-    public new void Start()
+    GameObject hat;
+    protected void Start()
     {
-
+        hat = Resources.Load<GameObject>("Michael/Hat");
         // the Start Room will have the player character spawn in it.
         // Player player = new Player();
         // Here, player represented by purple block
         // 
+        GameObject.Instantiate(hat,Zero+size/4,Quaternion.identity,this.transform);
         Vector3 SpawnPoint = new Vector3(Zero.x+size.x / 2, 2.0f, Zero.z+size.z / 2);
         Player = GameObject.FindWithTag("Player");
-        //SetLighting(RoomGenerator.Amber,2);
+        SetLighting(RG.Cyan);
         Collider[] playerCollisions = Physics.OverlapBox(SpawnPoint,new Vector3(1,1,1));
         for(int i = 0; i < playerCollisions.Length; i++)
         {

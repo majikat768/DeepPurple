@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/*  OK_CameraController.cs
+ *  Name: Oshan Karki
+ *  Description: Basic controller for Camera
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

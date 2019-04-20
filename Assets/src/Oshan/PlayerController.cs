@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*  OK_PlayerController.cs
+ *  Name: Oshan Karki
+ *  Description: Attacks enemy and makes use of Dr.BC mode
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

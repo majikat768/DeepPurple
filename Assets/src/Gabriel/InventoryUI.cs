@@ -1,7 +1,17 @@
-﻿using UnityEngine;
+﻿/*
+*  InventoryUI.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: This is used to update the UI for the inventory.  Whenever
+*  a new item gets picked up this script is called to update accordingly.
+* 
+*  Holds the main array for the slots of the inventory.
+*/
+
+using UnityEngine;
 using TMPro;
 
-public class InventoryUI : MonoBehaviour {
+public class InventoryUI : MonoBehaviour 
+{
 
 
 	public Transform itemsParent;
@@ -18,7 +28,8 @@ public class InventoryUI : MonoBehaviour {
 	InventorySlot[] slots;
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		inventory = Inventory.instance;
 		//listening for the delegate to get triggered
 		//and saying UpdateUI function is listening
@@ -32,7 +43,8 @@ public class InventoryUI : MonoBehaviour {
 		HP = GetComponent<PlayerHealth>();
 	}
 	
-	void Update () {
+	void Update () 
+	{
 		//Toggles inventory
 		if(Input.GetKeyDown(KeyCode.I))
 		{

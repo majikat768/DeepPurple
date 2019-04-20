@@ -10,15 +10,16 @@ public class PuzzleBox : PuzzleRoom {
     private GameObject TargetTile;
     private GameObject FloorTile;
 
-    public void Awake() {
+    protected void Awake() {
         base.Awake();
+        instructions = "move the box to the target";
+        TimeLimit = 30;
         //this.GetComponent<Room>().complexity = -1;
     }
 
-    public void Start()
+    protected void Start()
     {
-        base.Start();
-        FloorTile = RoomGenerator.FloorTile;
+        FloorTile = RG.FloorTile;
 
         Vector3 SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), size.y / 2, Random.Range(2, size.z-3));
         box = GameObject.Instantiate(
@@ -39,14 +40,6 @@ public class PuzzleBox : PuzzleRoom {
 
         SpawnPoint = Zero + new Vector3(Random.Range(2, size.x-3), FloorTile.GetComponent<Renderer>().bounds.size.y/2, Random.Range(2, size.z-3));
         TargetTile = GameObject.Instantiate(FloorTile, SpawnPoint, Quaternion.identity, this.gameObject.transform);
-        /*
-        TargetTile = R.FloorTiles[Random.Range(0,R.FloorTiles.Count)];
-        while(Mathf.Abs(TargetTile.transform.position.x-Zero.x) < 3.0f || 
-                Mathf.Abs(TargetTile.transform.position.x-(Zero.x+size.x)) < 3.0f ||
-                Mathf.Abs(TargetTile.transform.position.z-Zero.z) < 3.0f || 
-                Mathf.Abs(TargetTile.transform.position.z-(Zero.z+size.z)) < 3.0f)
-        TargetTile = R.FloorTiles[Random.Range(0,R.FloorTiles.Count)];
-        */
 
         TargetTile.GetComponent<Renderer>().materials[0].color = new Color(0.31f, 0.98f, 0.16f);
         Destroy(TargetTile.GetComponent<Collider>());
@@ -59,16 +52,9 @@ public class PuzzleBox : PuzzleRoom {
     // and after it's solved, the box turns green
     // and  always moves towards the target, giving it a magnetic like effect.
 
-	void FixedUpdate () {
-        if (!R.solved) 
+	protected override void Update () {
+        if (!solved) 
         {
-            if (Vector3.Distance(box.transform.position, TargetTile.transform.position) < 1.0f)
-            {
-                R.solved = true;
-                R.PlaySolvedSound();
-                box.GetComponent<Renderer>().materials[0].color = new Color(0.6f, 0.8f, 0.2f);
-            }
-
             foreach(Collider o in Physics.OverlapBox(box.GetComponent<Renderer>().bounds.center,box.GetComponent<Renderer>().bounds.size))
             {
                 if (o.name == "Wall")
@@ -78,23 +64,32 @@ public class PuzzleBox : PuzzleRoom {
                 }
             }
 
-            if (Mathf.Abs(box.transform.position.x - R.GetZero().x) < 2.0f || 
-                Mathf.Abs(box.transform.position.x - (R.GetZero().x+R.GetSize().x)) < 2.0f ||
-                Mathf.Abs(box.transform.position.z - R.GetZero().z) < 2.0f ||
-                Mathf.Abs(box.transform.position.z - (R.GetZero().z+R.GetSize().z)) < 2.0f)
+            if (Mathf.Abs(box.transform.position.x - GetZero().x) < 2.0f || 
+                Mathf.Abs(box.transform.position.x - (GetZero().x+GetSize().x)) < 2.0f ||
+                Mathf.Abs(box.transform.position.z - GetZero().z) < 2.0f ||
+                Mathf.Abs(box.transform.position.z - (GetZero().z+GetSize().z)) < 2.0f)
             {
-                Vector3 dir = (R.GetZero() + R.GetSize() / 2 - box.transform.position).normalized;
+                Vector3 dir = (GetZero() + GetSize() / 2 - box.transform.position).normalized;
                 box.GetComponent<Rigidbody>().MovePosition(box.transform.position + (dir * Time.deltaTime));
             }
         }
 
-        if(R.solved && Vector3.Distance(box.transform.position,TargetTile.transform.position) > 0.1f)
+        if(solved && Vector3.Distance(box.transform.position,TargetTile.transform.position) > 0.1f)
         {
-            Vector3 dir = (TargetTile.transform.position-box.transform.position).normalized/2.0f;
+            Vector3 dir = (TargetTile.transform.position-box.transform.position).normalized;
             box.GetComponent<Rigidbody>().MovePosition(box.transform.position+(dir*Time.deltaTime));
         }
 
 	}
+
+    protected override void CheckSolveConditions() {
+        if (Vector3.Distance(box.transform.position, TargetTile.transform.position) < 1.0f)
+        {
+            solved = true;
+            PlaySolvedSound();
+            box.GetComponent<Renderer>().materials[0].color = new Color(0.6f, 0.8f, 0.2f);
+        }
+    }
     public void Solve(bool s) { solved = s; }
     public bool isSolved() { return solved; }
 

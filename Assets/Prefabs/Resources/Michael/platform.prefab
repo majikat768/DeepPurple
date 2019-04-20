@@ -22,8 +22,7 @@ GameObject:
   - component: {fileID: 33492433582284090}
   - component: {fileID: 23360075482186448}
   - component: {fileID: 64389998482707652}
-  - component: {fileID: 65415270621735992}
-  - component: {fileID: 54653364457017428}
+  - component: {fileID: 65123468136597492}
   m_Layer: 0
   m_Name: platform
   m_TagString: Untagged
@@ -38,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1346253294500714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 65.23731, y: 10.27854, z: 34.34533}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -58,8 +57,8 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 346b04726b9e6e94387ee3b9a0e0ce37, type: 2}
-  - {fileID: 2100000, guid: 7971c9a68c8c8594c8632bd2fa8b8cd7, type: 2}
+  - {fileID: 2100000, guid: 59afa507dc12d954f93c64d2ab8ba137, type: 2}
+  - {fileID: 2100000, guid: 59afa507dc12d954f93c64d2ab8ba137, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,21 +85,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1346253294500714}
   m_Mesh: {fileID: 4300000, guid: 2b1f2f57bad7ffb4c8f2ee007c3c568f, type: 2}
---- !u!54 &54653364457017428
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1346253294500714}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!64 &64389998482707652
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -115,7 +99,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 2b1f2f57bad7ffb4c8f2ee007c3c568f, type: 2}
---- !u!65 &65415270621735992
+--- !u!65 &65123468136597492
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -125,5 +109,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000031, y: 1, z: 1.0000114}
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0.0000015199184, y: 0.14841461, z: 0.000005722046}

@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+*  ChestOpening.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: This is the updated Menu script.  It provides all interactions
+*  with the main menu of the game.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;

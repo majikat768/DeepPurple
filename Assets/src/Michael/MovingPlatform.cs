@@ -10,6 +10,7 @@ public class MovingPlatform : MonoBehaviour {
     public bool playerOnPlatform = false;
     public bool OnlyMoveWithPlayer = false;
     public Vector3 home,start,end,direction;
+    Bounds platformBounds;
 
 	// Use this for initialization
 	void Start () {
@@ -17,9 +18,9 @@ public class MovingPlatform : MonoBehaviour {
         start = this.transform.position;
         home = start;
         if(OnlyMoveWithPlayer)  moving = false;
+        platformBounds = this.GetComponent<Renderer>().bounds;
 	}
 	
-	// Update is called once per frame
 	void FixedUpdate () {
         if(end == Vector3.zero) {
             end = new Vector3(start.x,start.y*3,start.z);
@@ -28,9 +29,12 @@ public class MovingPlatform : MonoBehaviour {
             direction = (end - start).normalized;
         if(moving) {
             this.transform.position += direction * speed * Time.deltaTime;
-            foreach(Collider o in Physics.OverlapBox(this.GetComponent<Collider>().bounds.center,this.GetComponent<Collider>().bounds.size))
-                if(o.name == "Coin")
-                   o.transform.position += direction * speed * Time.deltaTime;
+            foreach(Collider o in Physics.OverlapBox(platformBounds.center,platformBounds.size/2)) {
+                Debug.Log(o.name);
+                if(o.name == "Item") {
+                   o.transform.position = this.transform.position + new Vector3(0,platformBounds.size.y,0)*2;
+                }
+            }
             if(playerOnPlatform) player.transform.position += direction * speed * Time.deltaTime;
             //this.transform.position = Vector3.Lerp(this.transform.position,end,speed * Time.deltaTime);
             if(Vector3.Distance(this.transform.position,end) < 0.2f) {
@@ -44,7 +48,7 @@ public class MovingPlatform : MonoBehaviour {
             this.transform.position += (home-this.transform.position).normalized*speed*Time.deltaTime;
 	}
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnCollisionEnter(Collision other) {
         if(other.gameObject == player) {
             if(OnlyMoveWithPlayer)
                 moving = true;
@@ -52,7 +56,7 @@ public class MovingPlatform : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit(Collider other) {
+    private void OnCollisionExit(Collision other) {
         if(other.gameObject == player) {
             if(OnlyMoveWithPlayer)
                 moving = false;

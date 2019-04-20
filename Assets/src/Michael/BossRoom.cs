@@ -9,9 +9,8 @@ public class BossRoom : Room
     Vector3 SpawnPoint;
     bool bossDead;
 
-    public new void Start()
+    protected void Start()
     {
-        base.Start();
         exit = Resources.Load<GameObject>("Michael/Exit");
         Exit = GameObject.Instantiate(exit);
         Exit.transform.parent = this.transform;
@@ -24,14 +23,24 @@ public class BossRoom : Room
 
         BossMan = GameObject.Instantiate(boss, SpawnPoint, Quaternion.identity, this.transform);
         BossMan.AddComponent<BasicEnemy>();
+        BossMan.name = "Boss";
         BasicEnemy eScript = BossMan.GetComponent<BasicEnemy>();
+        BossMan.transform.Find("Soldier").GetComponent<Renderer>().material = new Material(Shader.Find("Standard (Specular setup)"));
+        BossMan.transform.Find("Soldier").GetComponent<Renderer>().material.SetColor("_Color",Color.black);
+        BossMan.transform.Find("Soldier").GetComponent<Renderer>().material.SetColor("_Specular",Color.white);
         eScript.moveMax = 7;
         eScript.moveMin = 3;
         eScript.health = 300;
         //BossMan.transform.localScale = new Vector3(3.5f, 3.5f, 3.5f);
 
+        RG.teleporterList.Remove(this.transform.Find("Teleporter").gameObject);
         Destroy(this.transform.Find("Teleporter").gameObject);
+
+        foreach(Transform w in Walls.transform) {
+            w.GetComponent<Renderer>().materials[0].SetColor("_Color",new Color(0.08f,0,0));
+        }
     }
+
     void Update() {
         if(BossMan == null && !bossDead) {
             bossDead = true;

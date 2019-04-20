@@ -10,7 +10,7 @@ public class TreasureRoom : Room
     private GameObject Currency; 
     private GameObject Chest;
 
-    public void Start()
+    protected void Start()
     {
         Interactable = Resources.Load<GameObject>("Gabriel/Items/GameObjects/Interactable");
         Currency = Resources.Load<GameObject>("Gabriel/Items/GameObjects/CurrencyItem");

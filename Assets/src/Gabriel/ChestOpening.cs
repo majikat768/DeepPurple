@@ -1,8 +1,16 @@
-﻿using System.Collections;
+﻿/*
+*  ChestOpening.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: This is the basics for opening a chest and should be
+*  used by Kyle to import the correct item into the chest.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestOpening : Interactable {
+public class ChestOpening : Interactable 
+{
 
 	public Vector3 scale;
 	public float durationTime;
@@ -22,7 +30,7 @@ public class ChestOpening : Interactable {
 		Debug.Log("Spawning");
 		//Example for how spawning will work
 		//DONT ACTUALLY DO THIS JUST SPAWN LIKE ONE ITEM 
-		/*
+		/* 
 		Vector3 currentPosition = gameObject.transform.position;
 		currentPosition.y = currentPosition.y + 1.5f;
 		currentPosition.z = currentPosition.z + Random.Range(-1.0f,1.0f);

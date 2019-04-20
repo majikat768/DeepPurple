@@ -1,12 +1,12 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleLowGravity : PuzzleRoom {
-
     private bool gravityOff;
     BoxCollider roomCollider;
-    public float speed = 2;
+    public float speed = 1;
     Vector3 defaultGravity;
     float PlayerExtraGravity;
     ParticleSystem ps;
@@ -17,9 +17,14 @@ public class PuzzleLowGravity : PuzzleRoom {
     int numShapes = 11;
     GameObject shapes;
     public List<GameObject> SnitchList;
+    AudioSource ambienceSource;
+    AudioClip echo;
+    public float roomHeight;
 
-	new void Awake () {
+	public override void Awake () {
         base.Awake();
+        instructions = "catch the fireballs";
+        TimeLimit = 200.0f;
         shapes = new GameObject("shapes");
         shapes.transform.parent = this.transform;
         SnitchList = new List<GameObject>();
@@ -29,19 +34,21 @@ public class PuzzleLowGravity : PuzzleRoom {
         defFOV = Camera.main.fieldOfView;
         FOV = 100;
         Snitch = Resources.Load<GameObject>("Michael/GoldenSnitch");
+        ambienceSource = this.gameObject.AddComponent<AudioSource>();
+        echo = Resources.Load<AudioClip>("Michael/Audio/FloatingAmbience");
 		
 	}
 
-    new void Start() {
-        base.Start();
+    protected void Start() {
+        roomHeight = size.y*7;
         roomCollider = this.GetComponent<BoxCollider>();
 
-        Floor.transform.position = Zero+new Vector3(size.x/2,-size.y*6,size.z/2);
-        Ceiling.transform.position = Zero+new Vector3(size.x/2,size.y*7,size.z/2);
+        Floor.transform.position = Zero+new Vector3(size.x/2,-roomHeight/2,size.z/2);
+        Ceiling.transform.position = Zero+new Vector3(size.x/2,roomHeight/2+size.y,size.z/2);
 
         bubble = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Bubble"));
         bubble.transform.position = Vector3.zero;
-        bubble.transform.parent = R.transform;
+        bubble.transform.parent = transform;
         bubble.transform.localScale = new Vector3(
             Player.GetComponent<CapsuleCollider>().height,
             Player.GetComponent<CapsuleCollider>().height,
@@ -50,22 +57,22 @@ public class PuzzleLowGravity : PuzzleRoom {
         bubble.SetActive(false);
         
         for(int i = 0; i < numTargets; i++) {
-            GameObject snitch = GameObject.Instantiate(Snitch,Zero+new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y),Random.Range(1,size.z-2)),Quaternion.identity,R.transform);
+            GameObject snitch = GameObject.Instantiate(Snitch,Zero+new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y+2,Ceiling.transform.position.y-2),Random.Range(1,size.z-2)),Quaternion.identity,transform);
             SnitchList.Add(snitch);
         }
 
-    	R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),size.y*6,false);
-	    R.BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),size.y*6,false);
-	    R.BuildWall(Zero + new Vector3(size.x,size.y,0),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
-        R.BuildWall(Zero + new Vector3(0,size.y,size.z),Zero + new Vector3(size.x,size.y,size.z),size.y*6,false);
+    	BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(size.x,size.y,0),roomHeight/2,false);
+	    BuildWall(Zero + new Vector3(0,size.y,0),Zero + new Vector3(0,size.y,size.z),roomHeight/2,false);
+	    BuildWall(Zero + new Vector3(size.x,size.y,0),Zero + new Vector3(size.x,size.y,size.z),roomHeight/2,false);
+        BuildWall(Zero + new Vector3(0,size.y,size.z),Zero + new Vector3(size.x,size.y,size.z),roomHeight/2,false);
 
-    	R.BuildWall(Zero + new Vector3(0,-size.y*6,0),Zero + new Vector3(size.x,-size.y*6,0),size.y*6,false);
-	    R.BuildWall(Zero + new Vector3(0,-size.y*6,0),Zero + new Vector3(0,-size.y*6,size.z),size.y*6,false);
-	    R.BuildWall(Zero + new Vector3(size.x,-size.y*6,0),Zero + new Vector3(size.x,-size.y*6,size.z),size.y*6,false);
-        R.BuildWall(Zero + new Vector3(0,-size.y*6,size.z),Zero + new Vector3(size.x,-size.y*6,size.z),size.y*6,false);
+    	BuildWall(Zero + new Vector3(0,-roomHeight/2,0),Zero + new Vector3(size.x,-roomHeight/2,0),roomHeight/2,false);
+	    BuildWall(Zero + new Vector3(0,-roomHeight/2,0),Zero + new Vector3(0,-roomHeight/2,size.z),roomHeight/2,false);
+	    BuildWall(Zero + new Vector3(size.x,-roomHeight/2,0),Zero + new Vector3(size.x,-roomHeight/2,size.z),roomHeight/2,false);
+        BuildWall(Zero + new Vector3(0,-roomHeight/2,size.z),Zero + new Vector3(size.x,-roomHeight/2,size.z),roomHeight/2,false);
 
-        roomCollider.size = new Vector3(roomCollider.size.x,Vector3.Distance(Ceiling.transform.position,Floor.transform.position),roomCollider.size.z);
-        foreach(Transform w in R.Walls.transform) {
+        roomCollider.size = new Vector3(roomCollider.size.x,Vector3.Distance(Ceiling.transform.position,Floor.transform.position)+size.y,roomCollider.size.z);
+        foreach(Transform w in Walls.transform) {
             w.GetComponent<Collider>().material.dynamicFriction = 0.3f;
             w.GetComponent<Collider>().material.staticFriction = 0.3f;
             w.GetComponent<Collider>().material.bounciness = 1f;
@@ -77,24 +84,31 @@ public class PuzzleLowGravity : PuzzleRoom {
         GenerateSparkles();
         GenerateShapes();
 
-        GameObject Butterfly = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Butterfly (Animated)/Butterfly"),Zero+new Vector3(Random.Range(4,size.x-5),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y/4),Random.Range(4,size.z-5)),Quaternion.identity,this.transform);
     }
 	
 	// Update is called once per frame
-	new void Update () {
-        base.Update();
+	protected override void Update () {
+        if(inventory == null)   inventory = Inventory.instance;
         if(gravityOff) {
             float fwd = Input.GetAxis("Vertical");
             float h = Input.GetAxis("Horizontal");
             bubble.transform.position = Player.transform.position+new Vector3(0,Player.GetComponent<CapsuleCollider>().height/2,0);
             Player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward.normalized*fwd*speed,ForceMode.Impulse);
             Player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.right.normalized*h*speed,ForceMode.Impulse);
+            if(!ambienceSource.isPlaying) {
+                ambienceSource.pitch = Random.Range(0.5f,2.0f);
+                ambienceSource.PlayOneShot(echo,Random.Range(0.5f,0.75f));
+            }
         }
-        if(SnitchList.Count == 0)   solved = true;
-		
 	}
 
-    new void OnTriggerEnter(Collider other) {
+    protected override void CheckSolveConditions() {
+        if(SnitchList.Count == 0) {
+            solved = true;
+        }
+    }
+
+    protected override void OnTriggerEnter(Collider other) {
         if(other.gameObject == Player) {
             ps.Play();
             Camera.main.fieldOfView = FOV;
@@ -107,15 +121,15 @@ public class PuzzleLowGravity : PuzzleRoom {
             bubble.SetActive(true);
 
             foreach(Transform o in shapes.transform) {
-                o.position = Zero + new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y),Random.Range(1,size.z-2));
-                o.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized,ForceMode.Impulse);
-                o.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized,ForceMode.Impulse);
+                o.position = Zero + new Vector3(Random.Range(1,size.x-2),Random.Range(Floor.transform.position.y+2,Ceiling.transform.position.y-2),Random.Range(1,size.z-2));
+                o.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized*2,ForceMode.Impulse);
+                o.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1,1),Random.Range(-1,1),Random.Range(-1,1)).normalized*2,ForceMode.Impulse);
             }
         }
     }
-    new void OnTriggerExit(Collider other) {
+
+    protected override void OnTriggerExit(Collider other) {
         if(other.gameObject == Player) {
-            //Destroy(bubble);
             bubble.transform.position = Vector3.zero;
             ps.Stop();
             base.OnTriggerExit(other);
@@ -146,13 +160,16 @@ public class PuzzleLowGravity : PuzzleRoom {
     }
 
     void GenerateShapes() {
-        GameObject[] shapesList = Resources.LoadAll<GameObject>("Michael/Shapes/");
+        GameObject[] shapesList = Resources.LoadAll<GameObject>("Michael/Shapes/").Concat(Resources.LoadAll<GameObject>("Kyle/Items/Invulnerability")).ToArray();
         for(int i = 0; i < numShapes; i++) {
             GameObject shapeRef = shapesList[Random.Range(0,shapesList.Length)];
             GameObject s = GameObject.Instantiate(shapeRef);
             s.transform.position = Zero+size/2;
+            s.transform.localScale *= Random.Range(1.0f,2.0f);
             s.transform.parent = shapes.transform;
+
         }
+        GameObject Butterfly = GameObject.Instantiate(Resources.Load<GameObject>("Michael/Butterfly (Animated)/Butterfly"),Zero+new Vector3(Random.Range(4,size.x-5),Random.Range(Floor.transform.position.y,Ceiling.transform.position.y/4),Random.Range(4,size.z-5)),Quaternion.identity,this.transform);
     }
 
 }

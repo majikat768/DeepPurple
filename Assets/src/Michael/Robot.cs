@@ -12,6 +12,7 @@ public class Robot : MonoBehaviour {
     Room room;
     public bool moving = false;
     Vector3 RoomZero,RoomSize;
+    public bool pet = false;
 
 
 	// Use this for initialization
@@ -28,13 +29,26 @@ public class Robot : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(animator.GetBool("moving")) {
-            if(!agent.hasPath || agent.remainingDistance < 2) {
-                agent.SetDestination(RoomZero + new Vector3(Random.Range(0,RoomSize.x),0,Random.Range(0,RoomSize.z)));
+        if(pet) { 
+            if(Vector3.Distance(transform.position,player.transform.position) > 2 ) {
+                agent.SetDestination(player.transform.position);
+                animator.SetBool("moving",true);
+            }
+            else {
+                agent.ResetPath();
+                animator.SetBool("moving",false);
             }
         }
-        else
-            agent.ResetPath();
+        else {
+            if(animator.GetBool("moving")) {
+                if(!agent.hasPath || agent.remainingDistance < 1) {
+                    agent.SetDestination(RoomZero + new Vector3(Random.Range(2,RoomSize.x-2),0,Random.Range(2,RoomSize.z-2)));
+                }
+            }
+            else {
+                agent.ResetPath();
+            }
+        }
 		
 	}
 }

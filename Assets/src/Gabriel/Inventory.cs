@@ -1,10 +1,18 @@
-﻿using System.Collections;
+﻿/*
+*  Inventory.cs
+*  Programmer: Gabriel Hasenoehrl
+*  Description: This is the main script that manages the inventory.
+*  Uses the singleton patter as there should never be more than one
+*  inventory.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Inventory is the main script that manages the Inventory
 
-public class Inventory : MonoBehaviour {
+public class Inventory : MonoBehaviour 
+{
 
 	//Singleton Pattern
 	//Will be able to access this with Inventory.instance

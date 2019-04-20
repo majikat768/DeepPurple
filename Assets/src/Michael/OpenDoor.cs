@@ -15,8 +15,10 @@ public class OpenDoor : MonoBehaviour {
     private AudioSource audioSource;
     public float volume = 0.5f;
     private GameObject Player;
+    ParticleSystem sparks;
 
 	void Start () {
+        sparks = this.GetComponent<ParticleSystem>();
         motionSensor = new Bounds(new Vector3(transform.position.x,0,transform.position.z),new Vector3(4,4,4)*2);
         Player = GameObject.FindWithTag("Player");
         OpenPosition = this.transform.position + new Vector3(0.0f,this.GetComponent<Collider>().bounds.size.y,0.0f);
@@ -73,6 +75,7 @@ public class OpenDoor : MonoBehaviour {
         if(this.transform.position.y < OpenPosition.y) {
             Debug.Log("opening");
             this.transform.position += new Vector3(0,moveSpeed*Time.deltaTime,0);
+            if(!sparks.isPlaying)   sparks.Play();
         }
         else
             audioSource.Stop();

@@ -60,7 +60,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         float distPlayer = Vector3.Distance(transform.position, playerPos);
         agent.destination = player.transform.position;
 
-        Debug.Log("enemy:" + id+ " agent.speed:"+ agent.speed);
+        //Debug.Log("enemy:" + id+ " agent.speed:"+ agent.speed);
         /*
         if (distPlayer <= moveMax && distPlayer >= moveMin)
         {

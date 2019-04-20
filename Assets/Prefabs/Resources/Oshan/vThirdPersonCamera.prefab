@@ -23,6 +23,9 @@ GameObject:
   - component: {fileID: 124225950670716498}
   - component: {fileID: 81717866193854552}
   - component: {fileID: 114274219667832920}
+  - component: {fileID: 114514107928058940}
+  - component: {fileID: 114235216185018982}
+  - component: {fileID: 114577656113445700}
   m_Layer: 0
   m_Name: vThirdPersonCamera
   m_TagString: MainCamera
@@ -86,6 +89,17 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1543670132810786}
   m_Enabled: 1
+--- !u!114 &114235216185018982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543670132810786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cf39dab445143bbaa667829db99b1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114274219667832920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,14 +115,14 @@ MonoBehaviour:
   smoothCameraRotation: 12
   cullingLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   lockCamera: 0
   rightOffset: 0
   defaultDistance: 5
   height: 1.4
   smoothFollow: 10
-  xMouseSensitivity: 3
-  yMouseSensitivity: 3
+  xMouseSensitivity: 1
+  yMouseSensitivity: 1
   yMinLimit: -80
   yMaxLimit: 80
   indexList: 0
@@ -119,6 +133,30 @@ MonoBehaviour:
   movementSpeed: {x: 0, y: 0}
   mouseY: 0
   mouseX: 0
+--- !u!114 &114514107928058940
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543670132810786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b344e7de433b42cca878f68f92fc5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  songs: []
+  volume: 1
+--- !u!114 &114577656113445700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543670132810786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c90fc9e1d97442f89b3dd1b6d13f09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &124225950670716498
 Behaviour:
   m_ObjectHideFlags: 1

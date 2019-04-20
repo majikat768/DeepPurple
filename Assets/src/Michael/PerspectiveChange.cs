@@ -14,11 +14,14 @@ public class PerspectiveChange : MonoBehaviour {
     KeyCode toggle = KeyCode.Z;
     float maxZoomOut;
     float maxZoomIn;
+    float maxFOV;
+    float minFOV;
     bool firstPerson = false;
 
 	void Start () {
         cam = Camera.main.GetComponent<vThirdPersonCamera>();
-        maxZoomOut = cam.defaultDistance;
+        cam.height = 1.8f;
+        maxZoomOut = cam.defaultDistance*2;
         maxZoomIn = -1;
 		
 	}
@@ -26,27 +29,30 @@ public class PerspectiveChange : MonoBehaviour {
     // When player hits toggle button (Z), 
     // change the vThirdPersonCamera component's follow distance to -1.
     // this puts the camera slightly in front of the player character. 
-	void Update () {
+	void FixedUpdate () {
         if(Input.GetKeyDown(toggle)) {
             if(!firstPerson) {
                 cam.defaultDistance = maxZoomIn;
                 firstPerson = true;
             }
             else {
-                cam.defaultDistance = maxZoomOut;
+                cam.defaultDistance = maxZoomOut/2;
                 firstPerson = false;
             }
         }
 
         cam.defaultDistance -= Input.mouseScrollDelta.y;
-        if(cam.defaultDistance > maxZoomOut*2) {
-            cam.defaultDistance = maxZoomOut*2;
+        if(cam.defaultDistance > maxZoomOut) {
+            cam.defaultDistance = maxZoomOut;
             firstPerson = false;
         }
-        if(cam.defaultDistance < maxZoomIn) {
+        else if(cam.defaultDistance < maxZoomIn) {
             cam.defaultDistance = maxZoomIn;
             firstPerson = true;
         }
+        else
+            Camera.main.fieldOfView += Input.mouseScrollDelta.y;
+
 		
 	}
 }
