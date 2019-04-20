@@ -22,6 +22,7 @@ public class MovingPlatform : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
+        if(GetComponent<MeshCollider>().ClosestPoint(player.transform.position).y > player.transform.position.y)    playerOnPlatform = false;
         if(end == Vector3.zero) {
             end = new Vector3(start.x,start.y*3,start.z);
         }
@@ -30,7 +31,6 @@ public class MovingPlatform : MonoBehaviour {
         if(moving) {
             this.transform.position += direction * speed * Time.deltaTime;
             foreach(Collider o in Physics.OverlapBox(platformBounds.center,platformBounds.size/2)) {
-                Debug.Log(o.name);
                 if(o.name == "Item") {
                    o.transform.position = this.transform.position + new Vector3(0,platformBounds.size.y,0)*2;
                 }

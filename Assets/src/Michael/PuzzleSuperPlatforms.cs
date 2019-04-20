@@ -63,12 +63,12 @@ public class PuzzleSuperPlatforms : PuzzleRoom
             }
         }
         foreach(GameObject p in Platforms) {
-                if(p.transform.position.y - platformSize.y <= Player.transform.position.y) {    
-                    p.GetComponent<MeshCollider>().enabled = true;
-                }
-                else {
-                    p.GetComponent<MeshCollider>().enabled = false;
-                } 
+            if(p.GetComponent<Renderer>().bounds.ClosestPoint(Player.transform.position).y <= Player.transform.position.y) {
+                p.GetComponent<MeshCollider>().enabled = true;
+            }
+            else {
+                p.GetComponent<MeshCollider>().enabled = false;
+            } 
         }
     }
 
@@ -80,7 +80,6 @@ public class PuzzleSuperPlatforms : PuzzleRoom
                     AddItem(p.transform,(Random.value < 0.9f ? Coin : Potion));
                 }
             }
-            Debug.Log(Platforms.Count);
         }
     }
                             
@@ -95,7 +94,6 @@ public class PuzzleSuperPlatforms : PuzzleRoom
         GameObject lastPlatform = GameObject.Instantiate(Platform,Zero+new Vector3(size.x,0,size.z)/2,Quaternion.identity,this.transform);
         Platforms.Add(lastPlatform);
         lastPlatform.name = "Platform";
-        Debug.Log(lastPlatform.transform.position);
         bottom = lastPlatform;
         for(int i = step; i <= numLayers*step; i += step) 
         {
