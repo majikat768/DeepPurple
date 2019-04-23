@@ -65,7 +65,6 @@ public class Room : MonoBehaviour
         lightColor = RG.Cyan;
 
         if(testbuild) {
-            Debug.Log("test");
             RoomGenerator.BuildDoors();
             RoomGenerator.BakeNavMesh();
         }
@@ -123,6 +122,7 @@ public class Room : MonoBehaviour
         {
             this.SetLighting(lightColor);
             PlayerInRoom = true;
+            RG.playerRoom = this;
         }
     }
 
@@ -163,7 +163,7 @@ public class Room : MonoBehaviour
             
         foreach(Transform w in Walls.transform) {
             Light l = w.transform.Find("Roof_Light_003").GetComponent<Light>();
-            l.range = Mathf.Min(size.x,size.z)*2;
+            l.range = Mathf.Min(size.x,size.z);
         }
         Decorate();
     }

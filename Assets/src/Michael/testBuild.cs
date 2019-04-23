@@ -9,7 +9,7 @@ public class testBuild : MonoBehaviour {
     void Start() {
         RG = RoomGenerator.instance;
         Room StartRoom = new GameObject("Start Room").AddComponent<StartRoom>();
-        StartRoom.SetSize(new Vector3(36,24,24));
+        StartRoom.SetSize(new Vector3(36,4,24));
         StartRoom.SetZero(new Vector3(-12,0,0));
         StartRoom.complexity = -1;
 
@@ -56,6 +56,10 @@ public class testBuild : MonoBehaviour {
         CombatRoom.SetZero(new Vector3(8,0,48));
         CombatRoom.SetSize(new Vector3(24,4,32));
         CombatRoom.addPortal = false;
+
+        Room WavyRoom = new GameObject("Wavy").AddComponent<PuzzleWavy>();
+        WavyRoom.SetZero(new Vector3(8,0,80));
+        WavyRoom.SetSize(new Vector3(32,4,32));
 
         Room TreasureRoom = new GameObject("Treasure").AddComponent<TreasureRoom>();
         TreasureRoom.SetZero(new Vector3(64,0,20));
