@@ -5,8 +5,9 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Actions))]
-public class BasicEnemy : MonoBehaviour, IDamageable
+public class BasicEnemy : MonoBehaviour, IDamageable ,ICallback
 {
+  
     private static int count = 0;
     private int id;
     private GameObject player = null;
@@ -16,6 +17,9 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     public Transform rightGunBone;
     public Transform leftGunBone;
     public GameObject weapon;
+
+    //add observer
+    public EnemyStats target;
 
 
 
@@ -38,6 +42,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     }
     void Start()
     {
+        target.AddObserver(this);
         //store the amount of enmies on the map
         id = count++;
 
@@ -61,7 +66,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         agent.destination = player.transform.position;
 
         //Debug.Log("enemy:" + id+ " agent.speed:"+ agent.speed);
-        /*
+        
         if (distPlayer <= moveMax && distPlayer >= moveMin)
         {
             action.Aiming();
@@ -81,7 +86,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         {
             action.Stay();
         }
-        */
+        
     }
 
     public void takeDamage(DamageSource damageSource)
@@ -101,5 +106,15 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         rifle_1.transform.parent = rightGunBone;
         rifle_1.transform.localPosition = Vector3.zero;
         rifle_1.transform.localRotation = Quaternion.Euler(90, 0, 0);
+    }
+
+    public void Invoke()
+    {
+        this.gameObject.SetActive(true);
+    }
+
+    public void GetGameobject(out GameObject Observer)
+    {
+        Observer = this.gameObject;
     }
 }

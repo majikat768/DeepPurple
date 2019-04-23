@@ -1484,7 +1484,6 @@ MonoBehaviour:
   rightGunBone: {fileID: 4302047026783404}
   leftGunBone: {fileID: 4582401643981050}
   weapon: {fileID: 100000, guid: d992a232642f7574b80a75c2ca4b4cb8, type: 2}
-  target: {fileID: 0}
   health: 100
   moveMax: 7
   moveMin: 3

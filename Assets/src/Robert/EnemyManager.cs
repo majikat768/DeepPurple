@@ -1,10 +1,15 @@
-﻿using System.Collections;
+﻿/* EnemyManager.cs
+ * Programmer: Robert Goes
+ * Description: Manages spawning enemys in each compat room.
+ */
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour {
     //refrence to the player
-    private GameObject player;
     private GameObject enemy;
     private GameObject room;
 
