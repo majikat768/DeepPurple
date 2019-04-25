@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Actions))]
-public class BasicEnemy : MonoBehaviour, IDamageable ,ICallback
+public class BasicEnemy : MonoBehaviour, IDamageable
 {
   
     private static int count = 0;
@@ -34,12 +35,11 @@ public class BasicEnemy : MonoBehaviour, IDamageable ,ICallback
     //stores the actions class for animations
     private Actions action;
 
-    private Vector3 playerPos;
 
     void Awake()
     {
-        stats = GameObject.FindWithTag("EnemyStats").GetComponent<EnemyStats>();
-        stats.AddObserver(this);
+        //stats = GameObject.FindWithTag("EnemyStats").GetComponent<EnemyStats>();
+       // stats.AddObserver(this);
         player = GameObject.FindWithTag("Player");
         if (player == null)
         {
@@ -67,14 +67,12 @@ public class BasicEnemy : MonoBehaviour, IDamageable ,ICallback
     // Update is called once per frame
     void Update()
     {
+        //find the players gameobject, if not found, raise assertion.
         player = GameObject.FindWithTag("Player");
-        if (player == null)
-        {
-            //debug.log("ERROR:Enemy:" + id + " Cannot find Player");
-        }
-       //Vector3 playerPos = player.transform.position;
+        Debug.Assert(player != null, "No player was found in scene");
+        
+        Vector3 playerPos = player.transform.position;
         //debug.log("enemy:" + id + " Player position:" + playerPos);
-
         float distPlayer = Vector3.Distance(transform.position, playerPos);
         if(attackRange >= distPlayer)
         {
@@ -118,8 +116,4 @@ public class BasicEnemy : MonoBehaviour, IDamageable ,ICallback
         rifle_1.transform.localRotation = Quaternion.Euler(90, 0, 0);
     }
 
-    public void UpdatePos()
-    {
-        playerPos = stats.newPlayerPos;
-    }
 }
