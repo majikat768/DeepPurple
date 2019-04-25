@@ -7,7 +7,5 @@ using UnityEngine;
 
 public interface ICallback
 {
-    void GetGameobject(out GameObject Observer);
-    void Invoke();
-
+    void UpdatePos();
 }

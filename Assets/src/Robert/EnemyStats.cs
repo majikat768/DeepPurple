@@ -11,36 +11,25 @@ using UnityEngine;
 
 public class EnemyStats : SingletonEnemy<EnemyStats>
 {
-
-    public float awakeRange = 10;
     private HashSet<ICallback> callbacks = new HashSet<ICallback>();
-
+    public Vector3 newPlayerPos = new Vector3(0,0,0);
     private GameObject player;
-
-    private List<float> distances = new List<float>();
-
     public void Start()
     {
-        player = GameObject.FindWithTag("Player");
-    
+        player = GameObject.Find("vThirdPersonPlayer");
     }
     public void FixedUpdate()
     {
-        Vector3 playerPos = player.transform.position;
-        float distPlayer;
-        var en = callbacks.GetEnumerator();
-
-        while (en.MoveNext())
+       player = GameObject.Find("vThirdPersonPlayer");
+        Vector3 oldPlayerPos = player.transform.position;
+       newPlayerPos = player.transform.position;
+        Debug.Log("EnemyStats::updatedPlayerPos" + newPlayerPos);
+        if (oldPlayerPos != newPlayerPos)
         {
-            GameObject Observer;
-            en.Current.GetGameobject(out Observer);
-            distPlayer = Vector3.Distance(Observer.transform.position, playerPos);
-            if (distPlayer <= awakeRange)
-            {
-                en.Current.Invoke();
-            }
-
+            SignalCallback();
+            Debug.Log("EnemyStats::updatedPlayerPos" + newPlayerPos);
         }
+
     }
 
     public void AddObserver(ICallback callback)
@@ -58,8 +47,8 @@ public class EnemyStats : SingletonEnemy<EnemyStats>
         var en = callbacks.GetEnumerator();
         while (en.MoveNext())
         {
-            en.Current.Invoke();
-        }
+            en.Current.UpdatePos();
+        } 
     }
 
 }

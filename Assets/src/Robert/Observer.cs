@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class Observer : MonoBehaviour, ICallback
 {
-    public void GetGameobject(out GameObject Observer)
+    public void UpdatePos()
     {
         throw new System.NotImplementedException();
     }
-
-    void ICallback.Invoke()
-    {
-        //do stuff
-    }
-
 }
