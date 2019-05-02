@@ -19,9 +19,13 @@ public class BasicEnemy : MonoBehaviour
     public Transform rightGunBone;
     public Transform leftGunBone;
     public GameObject weapon;
-    public HealthHolder healthHolder;
 
- 
+    private HealthHolder healthCont;
+    private HealthHolder playerHealth;
+    private ParticleSystem laser;
+
+    private GameObject gun;
+
     public int health = 100;
 
     //Max distance an enemy will begin moving torward player
@@ -35,12 +39,18 @@ public class BasicEnemy : MonoBehaviour
     public float attackRange = 1;
     //stores the actions class for animations
     private Actions action;
+    private int lastHealth;
 
-    private int maxHealth;
 
+    private Vector3 playerPos;
+
+
+
+    private CombatRoom currentRoom;
     void Awake()
     {
-        maxHealth = health;
+        currentRoom = GetComponentInParent<CombatRoom>();
+        Debug.Log(currentRoom);
         //stats = GameObject.FindWithTag("EnemyStats").GetComponent<EnemyStats>();
        // stats.AddObserver(this);
         player = GameObject.FindWithTag("Player");
@@ -54,30 +64,31 @@ public class BasicEnemy : MonoBehaviour
        // target.AddObserver(this);
         //store the amount of enmies on the map
         id = count++;
-
+        healthCont = GetComponent<HealthHolder>();
         agent = GetComponent<NavMeshAgent>();
         action = this.gameObject.GetComponent<Actions>();
         attachWeapon();
+        laser = GetComponentInChildren<ParticleSystem>();
+        lastHealth = healthCont.health;
         player = GameObject.FindWithTag("Player");
         if (player == null)
         {
             //debug.log("ERROR:Enemy:" + id + " Cannot find Player");
         }
-
+        playerHealth = player.GetComponent<HealthHolder>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //find the players gameobject, if not found, raise assertion.
-        player = GameObject.FindWithTag("Player");
-        Debug.Assert(player != null, "No player was found in scene");
+        //find the players gameobject, if not found, raise assertion
         
-        Vector3 playerPos = player.transform.position;
+        
         //debug.log("enemy:" + id + " Player position:" + playerPos);
         float distPlayer = Vector3.Distance(transform.position, playerPos);
-        if(attackRange >= distPlayer)
+
+        if(attackRange >= distPlayer && currentRoom.PlayerInRoom)
         {
             //debug.log( id + "enemy" +  " Moving torward player");
             //debug.log(id + "enemy" + " agent.speed:" + agent.speed);
@@ -92,22 +103,36 @@ public class BasicEnemy : MonoBehaviour
                 action.Walk();
             }
         }
-        else if(attackRange < distPlayer)
+        else if(attackRange < distPlayer && currentRoom.PlayerInRoom)
         {
             //debug.log("enemy:" + id + " In attack range");
             transform.LookAt(playerPos);
             action.Aiming();
+            Debug.Log("Attacking player.." + id);
+            InvokeRepeating("AttackPlayer", 2.0f, 1f);
         }
     }
-
-    public void takeDamage(DamageSource damageSource)
+    public void FixedUpdate()
     {
-        health -= damageSource.baseDamage;
+        playerPos = player.transform.position; 
+        //damage was taken
+        if (healthCont.health != lastHealth)
+        {
+            takeDamage();
+            lastHealth = healthCont.health;
+        }
+
+    }
+
+    public void takeDamage()
+    {
         action.Damage();
-        if (health <= 0)
+        if (healthCont.health <= 0)
         {
             action.Death();
+            Destroy(gameObject, 3);
         }
+        
     }
 
     //Attaches a gun to each enemy when it is created
@@ -117,5 +142,36 @@ public class BasicEnemy : MonoBehaviour
         rifle_1.transform.parent = rightGunBone;
         rifle_1.transform.localPosition = Vector3.zero;
         rifle_1.transform.localRotation = Quaternion.Euler(90, 0, 0);
+        gun = rifle_1;
     }
+    public void AttackPlayer()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(gun.transform.forward, playerPos, out hit, Mathf.Infinity))
+        {
+            if (hit.transform.gameObject == player)
+            {
+                playerHealth.health -= 2;
+                Fire(hit);
+                action.Attack();
+            }
+        }
+    }
+    public void Fire(RaycastHit hit)
+    {
+
+        var main = laser.main;
+        var shape = laser.shape; 
+        main.startLifetime = 1;
+        main.startSpeed = 50;
+        shape.shapeType = ParticleSystemShapeType.Cone;
+        shape.length = Vector3.Distance(hit.point, gun.transform.position);
+        main.startColor = new Color(1, 0, 0);
+    }
+    public void OnHit()
+    {
+
+    }
+ 
 }
+
