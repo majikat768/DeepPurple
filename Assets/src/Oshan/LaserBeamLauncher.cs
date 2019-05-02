@@ -32,7 +32,8 @@ public class LaserBeamLauncher : MonoBehaviour
             {
                 if(hit.transform.tag == "Enemy")
                 {
-                    Destroy(hit.transform.gameObject);
+                    hit.transform.gameObject.SendMessage("IDamageable.modifyHealth", 10);
+                   // Destroy(hit.transform.gameObject);
                     hitScore += 10;
                 }
             }

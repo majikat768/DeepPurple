@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Actions))]
-public class BasicEnemy : MonoBehaviour, IDamageable
+public class BasicEnemy : MonoBehaviour
 {
   
     private static int count = 0;
@@ -19,6 +19,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     public Transform rightGunBone;
     public Transform leftGunBone;
     public GameObject weapon;
+    public HealthHolder healthHolder;
 
  
     public int health = 100;
@@ -35,9 +36,11 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     //stores the actions class for animations
     private Actions action;
 
+    private int maxHealth;
 
     void Awake()
     {
+        maxHealth = health;
         //stats = GameObject.FindWithTag("EnemyStats").GetComponent<EnemyStats>();
        // stats.AddObserver(this);
         player = GameObject.FindWithTag("Player");
@@ -115,5 +118,4 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         rifle_1.transform.localPosition = Vector3.zero;
         rifle_1.transform.localRotation = Quaternion.Euler(90, 0, 0);
     }
-
 }
