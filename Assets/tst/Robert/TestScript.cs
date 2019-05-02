@@ -48,7 +48,11 @@ public class TestScript : MonoBehaviour {
         bool in_view = playerInView(FOV);
         //Debug.Log("Player in view:" + in_view);
     }
-
+    void FixedUpdate()
+    {
+        playerInView(FOV);
+        drawFOV(FOV, 10);
+    }
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {
         Vector3 randDirection = Random.insideUnitSphere * dist;
@@ -78,7 +82,7 @@ public class TestScript : MonoBehaviour {
     protected bool playerInView(float FOV)
     {
         bool inSight = false; //stores if player in sight
-        Debug.Log("dstToTarget:" + Vector3.Distance(transform.position, player.transform.position));
+        //Debug.Log("dstToTarget:" + Vector3.Distance(transform.position, player.transform.position));
         Vector3 direction = (player.transform.position - transform.position).normalized;
 
         float angle = Vector3.Angle(transform.forward, direction);
@@ -86,10 +90,13 @@ public class TestScript : MonoBehaviour {
         {
             float dstToTarget = Vector3.Distance(transform.position, player.transform.position);
 
-            bool temp = Physics.Raycast(transform.position, direction, dstToTarget, -1);
-            Debug.Log(temp);
-            if (temp)
+            Ray ray = new Ray(transform.position, direction);
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit, dstToTarget);
+            if(hit.collider.CompareTag("Player"))
             {
+                Debug.DrawLine(ray.origin, hit.point);
+                Debug.Log("Saw object at distance:"+dstToTarget);
                 inSight = true;
             }
         }
