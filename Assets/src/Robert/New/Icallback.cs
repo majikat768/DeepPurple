@@ -7,5 +7,6 @@ using UnityEngine;
 
 public interface ICallback
 {
-    void UpdatePos();
+    //function that is required on a class that uses this interface
+     void UpdatePos(Vector3 PlayerPos);
 }

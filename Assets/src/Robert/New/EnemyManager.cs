@@ -1,7 +1,7 @@
 ﻿/* EnemyManager.cs
  * Programmer: Robert Goes
  * Description: 
- * Manages spawning enemys in each combat room.
+ * Manages spawning enemys in each combat room. spawning a random enemy
  */
 
 
@@ -33,12 +33,11 @@ public class EnemyManager : MonoBehaviour {
         Spawn();
 	}
 	
-    /** Spawn
-     * -------
-     * Handles the spawning of enemies.
-     * Sequentially goes through the list of spawn points
-     * to spawn the enemys
-     **/
+    
+      // Handles the spawning of enemies.
+     //Sequentially goes through the list of spawn points
+     // to spawn the enemys
+     
     void Spawn()
     {
         foreach (Vector3 spawnPoint in SpawnPoints)
@@ -48,8 +47,5 @@ public class EnemyManager : MonoBehaviour {
             //e.AddComponent<BasicEnemy>();
         }
     }
-	void Update ()
-    {
-		
-	}
+	
 }

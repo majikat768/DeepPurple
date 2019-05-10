@@ -3,6 +3,9 @@
  * Description: This servers as the subject in an observer pattern, where it gets reports on enemy locations, and stores it's
  * own refrence to the player gameobject, and reports back to the enemys the players stats. 
  * It is a Singleton also since it should be only be used once per level.
+ * It is also an example of a many to one has a relationship, since it has many observers that it "pushes info to.
+ * Also, since the type of the obsever is not known and compile time, and the method for update pos is overidable,
+ * it is an examplle of dynamic binding being used
  */
 
 
@@ -27,7 +30,7 @@ public class EnemyStats : SingletonEnemy<EnemyStats>
         Debug.Log("EnemyStats::updatedPlayerPos" + newPlayerPos);
         if (oldPlayerPos != newPlayerPos)
         {
-            SignalCallback();
+            SignalCallback(newPlayerPos);
             Debug.Log("EnemyStats::updatedPlayerPos" + newPlayerPos);
         }
 
@@ -45,12 +48,13 @@ public class EnemyStats : SingletonEnemy<EnemyStats>
         callbacks.Remove(callback);
     }
 
-    public void SignalCallback()
+    public void SignalCallback(Vector3 PlayerPos)
     {   
         var en = callbacks.GetEnumerator();
         while (en.MoveNext())
         {
-            en.Current.UpdatePos();
+            //updates all enemies with player pos
+            en.Current.UpdatePos(PlayerPos);
         } 
     }
 

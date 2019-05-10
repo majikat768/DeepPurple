@@ -1,6 +1,6 @@
 ﻿/* CameraFacing.cs
  * Programmer: RobertGoes
- * This is a script that I specficaly made and did not copy directly from a book that
+ * Description:This is a script that I specficaly made and did not copy directly from a book that
  * said not to copy the code from since it was copywrited but could be argued as fair use
  * because of the nature of work by not meeting the threshold to be copywritable
  * that makes an object face the main camera.

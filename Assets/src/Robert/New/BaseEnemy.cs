@@ -12,7 +12,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class BaseEnemy : MonoBehaviour
+public class BaseEnemy : MonoBehaviour , ICallback
 {
     //protected variables, initialized by start
 
@@ -279,11 +279,23 @@ public class BaseEnemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         action = this.gameObject.GetComponent<Actions>();
 
+        
+        stats = GameObject.FindWithTag("EnemyStats").GetComponent<EnemyStats>(); ;
+        //find singleton target that we will be observing
+
+        //stats.AddObserver(UpdatePos);
+        //register as an observar with the target
+
+
         player = GameObject.FindWithTag("Player");
         Debug.Assert(player != null, "No player was found in scene");
 
-        playerPos = player.transform.position;  //store the players position
-        playerDist = Vector3.Distance(transform.position, playerPos); //stores distance to player
+        playerPos = player.transform.position; 
+        //store the players position
+
+        playerDist = Vector3.Distance(transform.position, playerPos);
+        //stores distance to player
+
         attachWeapon();
 
         StartCoroutine(FSM());
@@ -377,5 +389,13 @@ public class BaseEnemy : MonoBehaviour
         Debug.DrawRay(transform.position, leftRayDirection * rayRange, Color.red);
         Debug.DrawRay(transform.position, rightRayDirection * rayRange, Color.red);
         // Debug.DrawRay(transform.position, direction, Color.green);
+    }
+
+
+    //Get's callback from target of the the observer(this classs)
+    void ICallback.UpdatePos(Vector3 PlayerPos)
+    {
+        //gets updated when the target of the observer has an updated position
+        playerPos = PlayerPos;
     }
 }
