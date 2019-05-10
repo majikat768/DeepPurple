@@ -1,6 +1,7 @@
 ﻿/* EnemyManager.cs
  * Programmer: Robert Goes
- * Description: Manages spawning enemys in each compat room.
+ * Description: 
+ * Manages spawning enemys in each combat room.
  */
 
 
@@ -13,19 +14,22 @@ public class EnemyManager : MonoBehaviour {
     private GameObject enemy;
     private GameObject room;
 
-    public string enemy_t;
-    //game objects representing the spawn points.
-    //TODO: just pass a ist of vector 3d's
+    //type of enemy requested
+    public string enemy_t; 
+    //game objects representing the spawn points.s
     public List<Vector3> SpawnPoints;
     // Use this for initialization
 
-    void Start () {
-        room = this.transform.parent.gameObject;
-       //if( enemy_t == "basic")
-       if(SpawnPoints == null) {
+    void Start ()
+    {
+       room = this.transform.parent.gameObject;
+       //stores which random enemy will be in the room
+       int randType = Random.Range(0, 2);
+       if(SpawnPoints == null)
+       {
             Debug.LogError("No spawn points were passed to enemy manager");
        }
-        enemy = Resources.Load<GameObject>("Robert/Soldier");
+        enemy = Resources.Load<GameObject>("Robert/Soldier_type" + randType);
         Spawn();
 	}
 	
@@ -44,7 +48,8 @@ public class EnemyManager : MonoBehaviour {
             //e.AddComponent<BasicEnemy>();
         }
     }
-	void Update () {
+	void Update ()
+    {
 		
 	}
 }

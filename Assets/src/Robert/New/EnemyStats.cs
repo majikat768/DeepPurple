@@ -1,7 +1,8 @@
 ﻿/* EnemyStats.cs
  * Programmer: Robert Goes
  * Description: This servers as the subject in an observer pattern, where it gets reports on enemy locations, and stores it's
- * own refrence to the player gameobject, and reports back to the enemys the players stats. It is a Singleton also since it should be only be used once per level.
+ * own refrence to the player gameobject, and reports back to the enemys the players stats. 
+ * It is a Singleton also since it should be only be used once per level.
  */
 
 
@@ -34,16 +35,18 @@ public class EnemyStats : SingletonEnemy<EnemyStats>
 
     public void AddObserver(ICallback callback)
     {
+        //adds an observer to callback to with a value once it has changed
         callbacks.Add(callback);
     }
 
     public void RemoveObserver(ICallback callback)
     {
+        //removes an observer from it's list of objects observering it
         callbacks.Remove(callback);
     }
 
     public void SignalCallback()
-    {
+    {   
         var en = callbacks.GetEnumerator();
         while (en.MoveNext())
         {

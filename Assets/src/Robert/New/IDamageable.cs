@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/* BaseEnemy.cs
+ * Programmer: RobertGoes
+ * Serves as an interface between the objects that have health
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

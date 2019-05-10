@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour, IAttackable
     void attack()
     {
         Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, transform.position, transform.rotation);
-        bulletClone.GetComponent<BasicBullet>().launcher = gameObject;
         bulletClone.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         bulletClone.velocity = Camera.main.transform.forward * 25;
     }
@@ -38,7 +37,7 @@ public class PlayerController : MonoBehaviour, IAttackable
     {
         if (!Registry.GetOrDefault<bool>("bcmode", false))
         {
-            health -= damageSource.baseDamage;
+
         }
     }
 

@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/* BaseEnemy.cs
+ * Programmer: RobertGoes
+ * Drives the animation of the player avatar.
+ * This an example of code reuse, under unity terms of service, it can be used in private/comericial use
+ * as long as it is not modified, which this code has not.
+ */
+
+
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof (Animator))]

@@ -46,11 +46,9 @@ public class BasicEnemy : MonoBehaviour
 
 
 
-    private CombatRoom currentRoom;
     void Awake()
     {
-        currentRoom = GetComponentInParent<CombatRoom>();
-        Debug.Log(currentRoom);
+
         //stats = GameObject.FindWithTag("EnemyStats").GetComponent<EnemyStats>();
        // stats.AddObserver(this);
         player = GameObject.FindWithTag("Player");
@@ -88,11 +86,11 @@ public class BasicEnemy : MonoBehaviour
         //debug.log("enemy:" + id + " Player position:" + playerPos);
         float distPlayer = Vector3.Distance(transform.position, playerPos);
 
-        if(attackRange >= distPlayer && currentRoom.PlayerInRoom)
+        if(distPlayer >= attackRange)
         {
             //debug.log( id + "enemy" +  " Moving torward player");
             //debug.log(id + "enemy" + " agent.speed:" + agent.speed);
-            agent.destination = playerPos;
+            agent.SetDestination(playerPos);
 
             if (agent.speed > 4)
             {
@@ -103,7 +101,7 @@ public class BasicEnemy : MonoBehaviour
                 action.Walk();
             }
         }
-        else if(attackRange < distPlayer && currentRoom.PlayerInRoom)
+        else
         {
             //debug.log("enemy:" + id + " In attack range");
             transform.LookAt(playerPos);
@@ -114,7 +112,7 @@ public class BasicEnemy : MonoBehaviour
     }
     public void FixedUpdate()
     {
-        playerPos = player.transform.position; 
+        playerPos = player.transform.position;
         //damage was taken
         if (healthCont.health != lastHealth)
         {

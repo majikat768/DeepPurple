@@ -2,7 +2,8 @@
  * Programmer: RobertGoes
  * This is the base class for all diffrent types of enemies.
  * There will be enemy subclasses that inhert from this and overide behavior.
- * 
+ * This is an example of dynamic binding that gets bound in the sub.
+ * along with with being the observer of a target along with implementing a FSM
  */
 
 using System.Collections;
@@ -14,16 +15,26 @@ using UnityEngine.AI;
 public class BaseEnemy : MonoBehaviour
 {
     //protected variables, initialized by start
-    protected GameObject rifle_1; //rifle the enemy has
-    protected NavMeshAgent agent; //the navmesh agent of the enemy
-    protected EnemyStats stats;   //an observer link to the target stats.
-    protected Actions action;     //set of actions for animator controller
-    protected GameObject player; //stores refrence to player gameobject
-    protected Animator animator; //animator for avatar
+
+    //rifle the enemy has
+    protected GameObject rifle_1;
+    //the navmesh agent of the enemy
+    protected NavMeshAgent agent; 
+    //an observer link to the target stats.
+    protected EnemyStats stats;   
+    //set of actions for animator controller
+    protected Actions action;
+    //stores refrence to player gameobject
+    protected GameObject player;
+    //animator for avatar
+    protected Animator animator;
 
     //updated by fixed updated
-    protected Vector3 playerPos; //stores player position
-    protected float playerDist; //stores player distance
+
+    //stores player position
+    protected Vector3 playerPos;
+    //stores player distance
+    protected float playerDist; 
 
     [SerializeField]
     public Transform rightGunBone;

@@ -1,4 +1,9 @@
-﻿//attaches health to things
+﻿/* HealthHolder.cs
+ * Programmer: RobertGoes
+ * This script serves to hold the health of the object it is attached to.
+ * This serves as a common interface between the enemies and the player
+ * 
+ */
 
 using System.Collections;
 using System.Collections.Generic;
@@ -45,6 +50,8 @@ public class HealthHolder : MonoBehaviour, IDamageable
     //updates the health above object
     private void UpdateHealthText()
     {
+        //player health text color
+
         if( health > goodHealth)
         {
             healthText.text = "<color=#00FF00>" + health + "</color>";
